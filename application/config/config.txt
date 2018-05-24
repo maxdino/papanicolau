@@ -3,5 +3,5 @@ host =localhost
 driver =mysqli
 usuario =root
 password =
-basedatos =excel
+basedatos =papa
 gestor =MYSQL

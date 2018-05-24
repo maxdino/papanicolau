@@ -42,30 +42,29 @@
                   <th>ID</th>
                   <th>NOMBRE IPRESS</th>
                   <th>CODIGO</th>
-                  <th>PROVINCIA</th>
+                  <th>MICRORED</th>
                   <th>DISTRITO</th>
-                  <th>RESOLUCION</th>
                   <th>FECHA</th>
                   <th style="width:60px;"></th>
+                  
                 </tr>
                 </thead>
                 <tbody>
-                  <?php  foreach($ipress as $value){ ?>
-                <tr id="<?php echo $value->id_ipress; ?>">
-                  <td><?php echo $value->id_ipress; ?></td>
+                  <?php $i=1; foreach($ipress as $value){ ?>
+                <tr id="<?php echo $value->codigo; ?>">
+                  <td><?php echo $i; ?></td>
                   <td><?php echo $value->ipress; ?></td>
                   <td><?php echo $value->codigo; ?></td>
-                  <td><?php echo $value->provincias; ?></td>
+                  <td><?php echo $value->microred; ?></td>
                   <td><?php echo $value->distritos; ?></td>
-                  <td><?php echo $value->resolucion; ?></td>
                   <td><?php echo $value->fecha; ?></td>
                   
                   <td ><div class="btn-group">
-                      <a class="btn btn-info" href="<?php echo base_url().'Ipress_c/editar/'.$value->id_ipress;?>" ><i class="fa fa-pencil"></i></a> 
-                       <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_ipress; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-user-times"></i></a>
+                      <a class="btn btn-info" href="<?php echo base_url().'Ipress_c/editar/'.$value->codigo;?>" ><i class="fa fa-pencil"></i></a> 
+                       <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->codigo; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-user-times"></i></a>
                     </div></td>
                 </tr>
-                <?php  } ?>
+                <?php  $i++; } ?>
                 </tbody>
               </table>
             </div>
@@ -85,7 +84,7 @@
               </div>
               <div class="modal-body" >
                 <p style="color: red ;font-size: 18px;">¿Estas seguro que desea eliminar este Ipress?</p>
-                <input type="hidden" id="id_ipress">
+                <input type="hidden" id="codigo">
               </div>
               <div class="modal-footer" >
                 <button type="submit" class="btn btn-primary" data-dismiss="modal">Salir</button>
@@ -119,12 +118,12 @@
 });
 
 function mostrar_eliminar(id) {
-      $("#id_ipress").val(id);
+      $("#codigo").val(id);
     }
 
  $( "#eliminar" ).click(function() {
       var t = $('#ipress_tabla').dataTable();
-      var id = $("#id_ipress").val();
+      var id = $("#codigo").val();
       var nRow = $ ('#ipress_tabla tr#'+ id)[0]; 
       t.fnDeleteRow(nRow); 
       $.ajax({

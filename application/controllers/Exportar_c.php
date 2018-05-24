@@ -89,13 +89,15 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('A17', 'LAMAS');
 		$objPHPExcel->getActiveSheet()->setCellValue('A18', 'ESSALUD');
 		$objPHPExcel->getActiveSheet()->setCellValue('A19', 'TOTAL');
-
-		$r = $this->db->query("select ipress.codigo FROM  ipress INNER JOIN microred ON microred.id_microred = ipress.microred INNER JOIN red_salud ON red_salud.id_red = microred.red where microred.red=1")->result();
+		$reds = $this->db->query("select id_red FROM  red_salud where id_red > 0")->result();
+		$pos=8;
+		foreach ($reds as  $val) {
+		$r = $this->db->query("select ipress.codigo FROM  ipress INNER JOIN microred ON microred.id_microred = ipress.microred INNER JOIN red_salud ON red_salud.id_red = microred.red where microred.red=".$val->id_red)->result();
 		$i=0;$i1=0;$i2=0;$agus_c1=0;$agus_c2=0;$agus_c3=0;$ascus_c1=0;$ascus_c2=0;$ascus_c3=0;$leibg_c1=0;$leibg_c2=0;$leibg_c3=0;$leiag_c1=0;$leiag_c2=0;$leiag_c3=0;$rechazo_c1=0;$rechazo_c2=0;$rechazo_c3=0;
 		foreach ($r as  $value) {
 			$ipress= (int)($value->codigo);
 			
-			$nega1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress )->result();
+			$nega1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general like 'Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress )->result();
 			foreach ($nega1 as  $values) {	
 			  $i=	$values->cantidad +$i;
 			}
@@ -169,24 +171,51 @@ class Exportar_c extends CI_Controller {
 			}
 
 			}
-			$objPHPExcel->getActiveSheet()->setCellValue('I8', $i);
-			$objPHPExcel->getActiveSheet()->setCellValue('J8', $i1);
-			$objPHPExcel->getActiveSheet()->setCellValue('K8', $i2);
-			$objPHPExcel->getActiveSheet()->setCellValue('L8', $agus_c1);
-			$objPHPExcel->getActiveSheet()->setCellValue('M8', $agus_c2);
-			$objPHPExcel->getActiveSheet()->setCellValue('N8', $agus_c3);
-			$objPHPExcel->getActiveSheet()->setCellValue('O8', $ascus_c1);
-			$objPHPExcel->getActiveSheet()->setCellValue('P8', $ascus_c2);
-			$objPHPExcel->getActiveSheet()->setCellValue('Q8', $ascus_c3);
-			$objPHPExcel->getActiveSheet()->setCellValue('R8', $leibg_c1);
-			$objPHPExcel->getActiveSheet()->setCellValue('S8', $leibg_c2);
-			$objPHPExcel->getActiveSheet()->setCellValue('T8', $leibg_c3);
-			$objPHPExcel->getActiveSheet()->setCellValue('U8', $leiag_c1);
-			$objPHPExcel->getActiveSheet()->setCellValue('V8', $leiag_c2);
-			$objPHPExcel->getActiveSheet()->setCellValue('W8', $leiag_c3);
-			$objPHPExcel->getActiveSheet()->setCellValue('AA8', $rechazo_c1);
-			$objPHPExcel->getActiveSheet()->setCellValue('AB8', $rechazo_c2);
-			$objPHPExcel->getActiveSheet()->setCellValue('AC8', $rechazo_c3);
+			$res = array('8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
+	 		foreach ($res as $key => $value_val) {
+	 			if($pos==$key){
+	 			$sitio=	$value_val;
+	 			}
+	 		}
+		
+			$objPHPExcel->getActiveSheet()->setCellValue('I'.$sitio, $i);
+			$objPHPExcel->getActiveSheet()->setCellValue('J'.$sitio, $i1);
+			$objPHPExcel->getActiveSheet()->setCellValue('K'.$sitio, $i2);
+			$objPHPExcel->getActiveSheet()->setCellValue('L'.$sitio, $agus_c1);
+			$objPHPExcel->getActiveSheet()->setCellValue('M'.$sitio, $agus_c2);
+			$objPHPExcel->getActiveSheet()->setCellValue('N'.$sitio, $agus_c3);
+			$objPHPExcel->getActiveSheet()->setCellValue('O'.$sitio, $ascus_c1);
+			$objPHPExcel->getActiveSheet()->setCellValue('P'.$sitio, $ascus_c2);
+			$objPHPExcel->getActiveSheet()->setCellValue('Q'.$sitio, $ascus_c3);
+			$objPHPExcel->getActiveSheet()->setCellValue('R'.$sitio, $leibg_c1);
+			$objPHPExcel->getActiveSheet()->setCellValue('S'.$sitio, $leibg_c2);
+			$objPHPExcel->getActiveSheet()->setCellValue('T'.$sitio, $leibg_c3);
+			$objPHPExcel->getActiveSheet()->setCellValue('U'.$sitio, $leiag_c1);
+			$objPHPExcel->getActiveSheet()->setCellValue('V'.$sitio, $leiag_c2);
+			$objPHPExcel->getActiveSheet()->setCellValue('W'.$sitio, $leiag_c3);
+			$objPHPExcel->getActiveSheet()->setCellValue('AA'.$sitio, $rechazo_c1);
+			$objPHPExcel->getActiveSheet()->setCellValue('AB'.$sitio, $rechazo_c2);
+			$objPHPExcel->getActiveSheet()->setCellValue('AC'.$sitio, $rechazo_c3);
+			$pos++;
+		}
+		$objPHPExcel->getActiveSheet()->setCellValue('I19', '=SUMA(I8:I'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('J19', '=SUMA(J8:J'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('K19', '=SUMA(K8:K'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('L19', '=SUMA(L8:L'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('M19', '=SUMA(M8:M'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('N19', '=SUMA(N8:N'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('O19', '=SUMA(O8:O'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('P19', '=SUMA(P8:P'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('Q19', '=SUMA(Q8:Q'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('R19', '=SUMA(R8:R'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('S19', '=SUMA(S8:S'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('T19', '=SUMA(T8:T'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('U19', '=SUMA(U8:U'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('V19', '=SUMA(V8:V'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('W19', '=SUMA(W8:W'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AA19', '=SUMA(AA8:AA'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AB19', '=SUMA(AB8:AB'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AC19', '=SUMA(AC8:AC'.$pos.')');
 
 		$objPHPExcel->getActiveSheet()->mergeCells('A1:AC1');
 		$objPHPExcel->getActiveSheet()->mergeCells('A2:AC2');
