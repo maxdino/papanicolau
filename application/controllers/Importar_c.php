@@ -234,15 +234,11 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->setActiveSheetIndex(0);
 	//Obtengo el numero de filas del archivo
 		$numRows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
-
-
+		$max_mes = $this->db->query("select max(id_mes) as maximo from datos ")->row();
+		$maximo= $max_mes->maximo+1;
 		for ($i = 3; $i <= $numRows; $i++) {
 			$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
-			$nombrerenipres = $objPHPExcel->getActiveSheet()->getCell('C'.$i)->getCalculatedValue();
-			$establecimiento = $objPHPExcel->getActiveSheet()->getCell('D'.$i)->getCalculatedValue();
-			$numero_documento = $objPHPExcel->getActiveSheet()->getCell('E'.$i)->getCalculatedValue();
-			$paciente = $objPHPExcel->getActiveSheet()->getCell('F'.$i)->getCalculatedValue();
 			$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
 			$fecha_nacimiento = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
 			$timestamp1 = PHPExcel_Shared_Date::ExcelToPHP($fecha_nacimiento);
@@ -250,84 +246,21 @@ class Importar_c extends CI_Controller {
 			if ($fecha_nacimiento==0) {
 			$fecha_nacimiento='1900-01-01 00:00:00';
 			}
-			$distrito_paciente = $objPHPExcel->getActiveSheet()->getCell('I'.$i)->getCalculatedValue();
-			$provincia_paciente = $objPHPExcel->getActiveSheet()->getCell('J'.$i)->getCalculatedValue();
-			$departamento_paciente = $objPHPExcel->getActiveSheet()->getCell('K'.$i)->getCalculatedValue();
-			$medico = $objPHPExcel->getActiveSheet()->getCell('L'.$i)->getCalculatedValue();	
 			$muestra = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();	
 			$fecha_muestra = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
 			if ($fecha_muestra!='') {
 			$timestamp2 = PHPExcel_Shared_Date::ExcelToPHP($fecha_muestra);
 			$fecha_muestra = gmdate("Y-m-d H:i:s",$timestamp2);
 			}	
-			$fecha_recepcionlab = $objPHPExcel->getActiveSheet()->getCell('O'.$i)->getCalculatedValue();	
-			if ($fecha_recepcionlab!='') {
-				$timestamp3 = PHPExcel_Shared_Date::ExcelToPHP($fecha_recepcionlab);
-				$timestamp3 = $timestamp3 ;
-				$fecha_recepcionlab = gmdate("Y-m-d H:i:s",$timestamp3);
-			}	
-			$fecha_recepcionins = $objPHPExcel->getActiveSheet()->getCell('P'.$i)->getCalculatedValue();	
-			if ($fecha_recepcionins!='') {
-			$timestamp4 = PHPExcel_Shared_Date::ExcelToPHP($fecha_recepcionins);
-			$timestamp4 = $timestamp4+(5*60 *60);
-			$fecha_recepcionins = date("Y-m-d H:i:s",$timestamp4);
-			}
-			$enfermedad = $objPHPExcel->getActiveSheet()->getCell('Q'.$i)->getCalculatedValue();	
-			$prueba = $objPHPExcel->getActiveSheet()->getCell('R'.$i)->getCalculatedValue();
-			$fecha_horaregistro = $objPHPExcel->getActiveSheet()->getCell('S'.$i)->getCalculatedValue();
-			if ($fecha_horaregistro!='') {
-			$timestamp5 = PHPExcel_Shared_Date::ExcelToPHP($fecha_horaregistro);
-			$timestamp5 = $timestamp5+(5*60 *60);
-			$fecha_horaregistro = date("Y-m-d H:i:s",$timestamp5);	
-			}
-			$diasutilesemitirresultados = $objPHPExcel->getActiveSheet()->getCell('T'.$i)->getCalculatedValue();	
-			$fecha_recepcionlaboratorio = $objPHPExcel->getActiveSheet()->getCell('U'.$i)->getCalculatedValue();
-			if ($fecha_recepcionlaboratorio!='') {
-			$timestamp6 = PHPExcel_Shared_Date::ExcelToPHP($fecha_recepcionlaboratorio);
-			$timestamp6 = $timestamp6+(5*60 *60);
-			$fecha_recepcionlaboratorio = date("Y-m-d H:i:s",$timestamp6);	
-			}
-			$sexo = $objPHPExcel->getActiveSheet()->getCell('V'.$i)->getCalculatedValue();	
-			$departamento_establecimiento = $objPHPExcel->getActiveSheet()->getCell('W'.$i)->getCalculatedValue();
-			$disa = $objPHPExcel->getActiveSheet()->getCell('X'.$i)->getCalculatedValue();	
-			$motivo_muestra = $objPHPExcel->getActiveSheet()->getCell('Y'.$i)->getCalculatedValue();	
 			$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
 			if ($fecha_rechazo!='') {
 				$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
 				$timestamp7 = $timestamp7+(5*60 *60);
 				$fecha_rechazo = date("Y-m-d H:i:s",$timestamp7);
 			}
-			$tipo_muestra = $objPHPExcel->getActiveSheet()->getCell('AA'.$i)->getCalculatedValue();	
-			$gestante = $objPHPExcel->getActiveSheet()->getCell('AB'.$i)->getCalculatedValue();	
-			$latitud = $objPHPExcel->getActiveSheet()->getCell('AC'.$i)->getCalculatedValue();	
-			$longitud = $objPHPExcel->getActiveSheet()->getCell('AD'.$i)->getCalculatedValue();
-			$clasificacion = $objPHPExcel->getActiveSheet()->getCell('AE'.$i)->getCalculatedValue();	
-			$categoria = $objPHPExcel->getActiveSheet()->getCell('AF'.$i)->getCalculatedValue();	
-			$numero_proceso = $objPHPExcel->getActiveSheet()->getCell('AG'.$i)->getCalculatedValue();	
-			$fecha_ingresomuestra = $objPHPExcel->getActiveSheet()->getCell('AH'.$i)->getCalculatedValue();
-			if ($fecha_ingresomuestra!='') {
-			$timestamp8 = PHPExcel_Shared_Date::ExcelToPHP($fecha_ingresomuestra);
-			$timestamp8 = $timestamp8+(5*60 *60);
-			$fecha_ingresomuestra = date("Y-m-d H:i:s",$timestamp8);	
-			}
-			$fecha_ingresoprueba = $objPHPExcel->getActiveSheet()->getCell('AI'.$i)->getCalculatedValue();
-			if ($fecha_ingresoprueba!='') {
-			$timestamp9 = PHPExcel_Shared_Date::ExcelToPHP($fecha_ingresoprueba);
-			$timestamp9 = $timestamp9+(5*60 *60);
-			$fecha_ingresoprueba = date("Y-m-d H:i:s",$timestamp9);	
-			}
-			$adenocarcinoma_endovervical = $objPHPExcel->getActiveSheet()->getCell('AJ'.$i)->getCalculatedValue();	
-			$adenocarcinoma = $objPHPExcel->getActiveSheet()->getCell('AK'.$i)->getCalculatedValue();	
-			$calidad_especimen = $objPHPExcel->getActiveSheet()->getCell('AL'.$i)->getCalculatedValue();	
-			$cambios_reac_asociados_atrofia_con_infla = $objPHPExcel->getActiveSheet()->getCell('AM'.$i)->getCalculatedValue();	
-			$cambios_reac_asociados_atrofia_sin_infla = $objPHPExcel->getActiveSheet()->getCell('AN'.$i)->getCalculatedValue();	
-			$cambios_reac_asociados_diu = $objPHPExcel->getActiveSheet()->getCell('AO'.$i)->getCalculatedValue();	
-			$cambios_reac_asociados_infla = $objPHPExcel->getActiveSheet()->getCell('AP'.$i)->getCalculatedValue();	
-			$cambios_reac_asociados_radiacion = $objPHPExcel->getActiveSheet()->getCell('AQ'.$i)->getCalculatedValue();	
-			$cambios_celulas_escamosas = $objPHPExcel->getActiveSheet()->getCell('AR'.$i)->getCalculatedValue();	
 			$celulas_escamosas_atipicas = $objPHPExcel->getActiveSheet()->getCell('AS'.$i)->getCalculatedValue();	
 			$celulas_glandulares_atipicas = $objPHPExcel->getActiveSheet()->getCell('AT'.$i)->getCalculatedValue();	
-			$celulas_glandulares_atipicas_neoplasia = $objPHPExcel->getActiveSheet()->getCell('AU'.$i)->getCalculatedValue();	
+			 
 			$clasificacion_general = $objPHPExcel->getActiveSheet()->getCell('AV'.$i)->getCalculatedValue();
 			$fecha_resultado = $objPHPExcel->getActiveSheet()->getCell('AW'.$i)->getCalculatedValue();
 			if ($fecha_resultado!='') {
@@ -337,17 +270,9 @@ class Importar_c extends CI_Controller {
 			}
 			$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
 			$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
-			$micro = $objPHPExcel->getActiveSheet()->getCell('AZ'.$i)->getCalculatedValue();
-			$negativo_lesion = $objPHPExcel->getActiveSheet()->getCell('BA'.$i)->getCalculatedValue();	
-			$observacion = $objPHPExcel->getActiveSheet()->getCell('BB'.$i)->getCalculatedValue();	
-			$nueva_muestra = $objPHPExcel->getActiveSheet()->getCell('BC'.$i)->getCalculatedValue();	
-			$otra_neoplasias = $objPHPExcel->getActiveSheet()->getCell('BD'.$i)->getCalculatedValue();	
-			$patron_horm_compatible = $objPHPExcel->getActiveSheet()->getCell('BE'.$i)->getCalculatedValue();	
-			$patron_horm_discrepancia = $objPHPExcel->getActiveSheet()->getCell('BF'.$i)->getCalculatedValue();	
-			$valoracion_hormonal = $objPHPExcel->getActiveSheet()->getCell('BG'.$i)->getCalculatedValue();	
 			
 			
-			$import_excel = $this->Importar_m->agregar($cantidad,$codigorenipres,$nombrerenipres,$establecimiento, $numero_documento, $paciente ,$dni , $fecha_nacimiento, $distrito_paciente, $provincia_paciente, $departamento_paciente, $medico,$muestra,$fecha_muestra,$fecha_recepcionlab,$fecha_recepcionins,$enfermedad,$prueba,$fecha_horaregistro,$diasutilesemitirresultados,$fecha_recepcionlaboratorio,$sexo,$departamento_establecimiento,$disa,$motivo_muestra,$fecha_rechazo,$tipo_muestra,$gestante,$latitud,$longitud,$clasificacion,$categoria,$numero_proceso,$fecha_ingresomuestra,$fecha_ingresoprueba,$adenocarcinoma_endovervical,$adenocarcinoma,$calidad_especimen,$cambios_reac_asociados_atrofia_con_infla,$cambios_reac_asociados_atrofia_sin_infla,$cambios_reac_asociados_diu,$cambios_reac_asociados_infla,$cambios_reac_asociados_radiacion,$cambios_celulas_escamosas,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$celulas_glandulares_atipicas_neoplasia,$clasificacion_general,$fecha_resultado ,$leibg,$leiag,$micro,$negativo_lesion,$observacion,$nueva_muestra,$otra_neoplasias,$patron_horm_compatible,$patron_horm_discrepancia,$valoracion_hormonal);
+			$import_excel = $this->Importar_m->agregar($maximo,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
 		}
 
 

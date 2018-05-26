@@ -14,7 +14,8 @@ class Exportar_c extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('exportar/Exportar_v');
+		$data['mes']= $this->Exportar_m->mostrar();
+		$this->load->view('exportar/Exportar_v',$data);
 	}
 
 	public function exportar()
@@ -35,7 +36,6 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setTitle('Hoja 1');
 		// Se combinan campos de A1:G1
 		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'RESULTADOS DE PAP DEL LABORATORIO REFERENCIAL SAN MARTIN');
-		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'MES DE ');
 		$objPHPExcel->getActiveSheet()->setCellValue('A4', 'ESTABLECIMIENTO');
 		$objPHPExcel->getActiveSheet()->setCellValue('B4', 'CASOS EXAMINADOS');
 		$objPHPExcel->getActiveSheet()->setCellValue('L4', 'AGUS');
@@ -48,7 +48,7 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('I5', 'NEGATIVOS');
 		$objPHPExcel->getActiveSheet()->setCellValue('R5', 'L.I.E.B.G');
 		$objPHPExcel->getActiveSheet()->setCellValue('U5', 'L.I.E.A.G');
-		$objPHPExcel->getActiveSheet()->setCellValue('X5', 'CANCER INVASOR');
+		$objPHPExcel->getActiveSheet()->setCellValue('X5', 'CANCER');
 		$objPHPExcel->getActiveSheet()->setCellValue('C6', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('D6', '30-49');
 		$objPHPExcel->getActiveSheet()->setCellValue('E6', '+50');
@@ -89,95 +89,101 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('A17', 'LAMAS');
 		$objPHPExcel->getActiveSheet()->setCellValue('A18', 'ESSALUD');
 		$objPHPExcel->getActiveSheet()->setCellValue('A19', 'TOTAL');
+
 		$reds = $this->db->query("select id_red FROM  red_salud where id_red > 0")->result();
-		$pos=8;
+		$pos=8; 
+		$fecha="";
 		foreach ($reds as  $val) {
-		$r = $this->db->query("select ipress.codigo FROM  ipress INNER JOIN microred ON microred.id_microred = ipress.microred INNER JOIN red_salud ON red_salud.id_red = microred.red where microred.red=".$val->id_red)->result();
-		$i=0;$i1=0;$i2=0;$agus_c1=0;$agus_c2=0;$agus_c3=0;$ascus_c1=0;$ascus_c2=0;$ascus_c3=0;$leibg_c1=0;$leibg_c2=0;$leibg_c3=0;$leiag_c1=0;$leiag_c2=0;$leiag_c3=0;$rechazo_c1=0;$rechazo_c2=0;$rechazo_c3=0;
-		foreach ($r as  $value) {
-			$ipress= (int)($value->codigo);
-			
-			$nega1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general like 'Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress )->result();
-			foreach ($nega1 as  $values) {	
-			  $i=	$values->cantidad +$i;
-			}
-			$nega2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30  and codigo_renipres=".$ipress )->result();
-			foreach ($nega2 as  $values) {	
-			  $i1=	$values->cantidad +$i1;
-			}
-			$nega3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress )->result();
-			foreach ($nega3 as  $values) {	
-			  $i2=	$values->cantidad +$i2;
-			}
-			$agus1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
-			foreach ($agus1 as  $values) {	
-			  $agus_c1=	$values->cantidad +$agus_c1;
-			}
-			$agus2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
-			foreach ($agus2 as  $values) {	
-			  $agus_c2=	$values->cantidad +$agus_c2;
-			}
-			$agus3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
-			foreach ($agus3 as  $values) {	
-			  $agus_c3=	$values->cantidad +$agus_c3;
-			}
-			$ascus1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
-			foreach ($ascus1 as  $values) {	
-			  $ascus_c1=	$values->cantidad +$ascus_c1;
-			}
-			$ascus2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
-			foreach ($ascus2 as  $values) {	
-			  $ascus_c2=	$values->cantidad +$ascus_c2;
-			}
-			$ascus3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
-			foreach ($ascus3 as  $values) {	
-			  $ascus_c3=	$values->cantidad +$ascus_c3;
-			}
-			$leigb1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
-			foreach ($leigb1 as  $values) {	
-			  $leibg_c1=	$values->cantidad +$leibg_c1;
-			}
-			$leigb2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
-			foreach ($leigb2 as  $values) {	
-			  $leibg_c2=	$values->cantidad +$leibg_c2;
-			}
-			$leigb3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
-			foreach ($leigb3 as  $values) {	
-			  $leibg_c3=	$values->cantidad +$leibg_c3;
-			}
-			$leiga1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
-			foreach ($leiga1 as  $values) {	
-			  $leiag_c1=	$values->cantidad +$leiag_c1;
-			}
-			$leiga2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
-			foreach ($leiga2 as  $values) {	
-			  $leiag_c2=	$values->cantidad +$leiag_c2;
-			}
-			$leiga3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
-			foreach ($leiga3 as  $values) {	
-			  $leiag_c3=	$values->cantidad +$leiag_c3;
-			}
-			$rechazo1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and fecha_rechazo!=  '' " )->result();
-			foreach ($rechazo1 as  $values) {	
-			  $rechazo_c1=	$values->cantidad +$rechazo_c1;
-			}
-			$rechazo2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and codigo_renipres=".$ipress." and fecha_rechazo!= '' " )->result();
-			foreach ($rechazo2 as  $values) {	
-			  $rechazo_c2=	$values->cantidad +$rechazo_c2;
-			}
-			$rechazo3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50  and codigo_renipres=".$ipress." and fecha_rechazo!='' " )->result();
-			foreach ($rechazo3 as  $values) {	
-			  $rechazo_c3=	$values->cantidad +$rechazo_c3;
-			}
+
+			$r = $this->db->query("select ipress.codigo FROM  ipress INNER JOIN microred ON microred.id_microred = ipress.microred INNER JOIN red_salud ON red_salud.id_red = microred.red where microred.red=".$val->id_red)->result();
+			$i=0;$i1=0;$i2=0;$agus_c1=0;$agus_c2=0;$agus_c3=0;$ascus_c1=0;$ascus_c2=0;$ascus_c3=0;$leibg_c1=0;$leibg_c2=0;$leibg_c3=0;$leiag_c1=0;$leiag_c2=0;$leiag_c3=0;$rechazo_c1=0;$rechazo_c2=0;$rechazo_c3=0;
+			foreach ($r as  $value) {
+				$ipress= (int)($value->codigo);
+				
+				$nega1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad , fecha_muestra FROM  datos where  clasificacion_general like 'Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and id_mes=".$this->input->post("mes_seleccion")." and  codigo_renipres=".$ipress )->result();
+				foreach ($nega1 as  $values) {	
+					$i=	$values->cantidad +$i;
+					if($fecha==""){
+					$fecha= $values->fecha_muestra;
+				}
+				}
+				$nega2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30  and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress )->result();
+				foreach ($nega2 as  $values) {	
+					$i1=	$values->cantidad +$i1;
+				}
+				$nega3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress )->result();
+				foreach ($nega3 as  $values) {	
+					$i2=	$values->cantidad +$i2;
+				}
+				$agus1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and id_mes=".$this->input->post("mes_seleccion")." and  codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
+				foreach ($agus1 as  $values) {	
+					$agus_c1=	$values->cantidad +$agus_c1;
+				}
+				$agus2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
+				foreach ($agus2 as  $values) {	
+					$agus_c2=	$values->cantidad +$agus_c2;
+				}
+				$agus3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and celulas_glandulares_atipicas!='_' or celulas_glandulares_atipicas!=  NULL " )->result();
+				foreach ($agus3 as  $values) {	
+					$agus_c3=	$values->cantidad +$agus_c3;
+				}
+				$ascus1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
+				foreach ($ascus1 as  $values) {	
+					$ascus_c1=	$values->cantidad +$ascus_c1;
+				}
+				$ascus2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
+				foreach ($ascus2 as  $values) {	
+					$ascus_c2=	$values->cantidad +$ascus_c2;
+				}
+				$ascus3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")."  and codigo_renipres=".$ipress." and celulas_escamosas_atipicas!='_' or celulas_escamosas_atipicas!=  NULL " )->result();
+				foreach ($ascus3 as  $values) {	
+					$ascus_c3=	$values->cantidad +$ascus_c3;
+				}
+				$leigb1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15 and id_mes=".$this->input->post("mes_seleccion")."  and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
+				foreach ($leigb1 as  $values) {	
+					$leibg_c1=	$values->cantidad +$leibg_c1;
+				}
+				$leigb2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
+				foreach ($leigb2 as  $values) {	
+					$leibg_c2=	$values->cantidad +$leibg_c2;
+				}
+				$leigb3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and leibg!='_' or leibg!=  NULL " )->result();
+				foreach ($leigb3 as  $values) {	
+					$leibg_c3=	$values->cantidad +$leibg_c3;
+				}
+				$leiga1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
+				foreach ($leiga1 as  $values) {	
+					$leiag_c1=	$values->cantidad +$leiag_c1;
+				}
+				$leiga2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30  and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
+				foreach ($leiga2 as  $values) {	
+					$leiag_c2=	$values->cantidad +$leiag_c2;
+				}
+				$leiga3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and leiag!='_' or leiag!=  NULL " )->result();
+				foreach ($leiga3 as  $values) {	
+					$leiag_c3=	$values->cantidad +$leiag_c3;
+				}
+				$rechazo1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where   TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and fecha_rechazo!=  '' " )->result();
+				foreach ($rechazo1 as  $values) {	
+					$rechazo_c1=	$values->cantidad +$rechazo_c1;
+				}
+				$rechazo2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30 and id_mes=".$this->input->post("mes_seleccion")." and codigo_renipres=".$ipress." and fecha_rechazo!= '' " )->result();
+				foreach ($rechazo2 as  $values) {	
+					$rechazo_c2=	$values->cantidad +$rechazo_c2;
+				}
+				$rechazo3 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50 and id_mes=".$this->input->post("mes_seleccion")."  and codigo_renipres=".$ipress." and fecha_rechazo!='' " )->result();
+				foreach ($rechazo3 as  $values) {	
+					$rechazo_c3=	$values->cantidad +$rechazo_c3;
+				}
 
 			}
 			$res = array('8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
-	 		foreach ($res as $key => $value_val) {
-	 			if($pos==$key){
-	 			$sitio=	$value_val;
-	 			}
-	 		}
-		
+			foreach ($res as $key => $value_val) {
+				if($pos==$key){
+					$sitio=	$value_val;
+				}
+			}
+
 			$objPHPExcel->getActiveSheet()->setCellValue('I'.$sitio, $i);
 			$objPHPExcel->getActiveSheet()->setCellValue('J'.$sitio, $i1);
 			$objPHPExcel->getActiveSheet()->setCellValue('K'.$sitio, $i2);
@@ -196,8 +202,55 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->setCellValue('AA'.$sitio, $rechazo_c1);
 			$objPHPExcel->getActiveSheet()->setCellValue('AB'.$sitio, $rechazo_c2);
 			$objPHPExcel->getActiveSheet()->setCellValue('AC'.$sitio, $rechazo_c3);
+			$red_total = $this->db->query("select count(datos.codigo_renipres) as cantidad FROM  datos  INNER JOIN ipress ON datos.codigo_renipres = ipress.codigo INNER JOIN microred ON microred.id_microred = ipress.microred 
+				INNER JOIN red_salud ON red_salud.id_red = microred.red where microred.red=".$val->id_red)->result();	
+			foreach ($red_total as  $value_total) {
+				$objPHPExcel->getActiveSheet()->setCellValue('B'.$sitio, $value_total->cantidad);	
+			}
 			$pos++;
 		}
+			$nombre_mes ="";
+			$mes = $fecha[5].$fecha[6];
+			if ($mes=='01'||$mes=='1') {
+			$nombre_mes = 'ENERO';
+			}
+			if ($mes=='02'||$mes=='2') {
+			$nombre_mes = 'FEBRERO';
+			}
+			if ($mes=='03'||$mes=='3') {
+			$nombre_mes	= 'MARZO';
+			}
+			if ($mes=='04'||$mes=='4') {
+			$nombre_mes = 'ABRIL';
+			}
+			if ($mes=='05'||$mes=='5') {
+			$nombre_mes = 'MAYO';
+			}
+			if ($mes=='06'||$mes=='6') {
+			$nombre_mes = 'JUNIO';
+			}
+			if ($mes=='07'||$mes=='7') {
+			$nombre_mes = 'JULIO';
+			}
+			if ($mes=='08'||$mes=='8') {
+			$nombre_mes = 'AGOSTO';
+			}
+			if ($mes=='09'||$mes=='9') {
+			$nombre_mes = 'SETIEMBRE';
+			}
+			if ($mes=='10') {
+			$nombre_mes = 'OCTUBRE';
+			}
+			if ($mes=='11') {
+			$nombre_mes = 'NOVIEMBRE';
+			}
+			if ($mes=='12') {
+			$nombre_mes = 'DICIEMBRE';
+			}
+
+ 		$annio = $fecha[0].$fecha[1].$fecha[2].$fecha[3];
+		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'MES DE '.$nombre_mes.' '.$annio);
+		$objPHPExcel->getActiveSheet()->setCellValue('B19', '=SUMA(B8:B'.$pos.')');
 		$objPHPExcel->getActiveSheet()->setCellValue('I19', '=SUMA(I8:I'.$pos.')');
 		$objPHPExcel->getActiveSheet()->setCellValue('J19', '=SUMA(J8:J'.$pos.')');
 		$objPHPExcel->getActiveSheet()->setCellValue('K19', '=SUMA(K8:K'.$pos.')');
@@ -216,6 +269,8 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('AA19', '=SUMA(AA8:AA'.$pos.')');
 		$objPHPExcel->getActiveSheet()->setCellValue('AB19', '=SUMA(AB8:AB'.$pos.')');
 		$objPHPExcel->getActiveSheet()->setCellValue('AC19', '=SUMA(AC8:AC'.$pos.')');
+
+		
 
 		$objPHPExcel->getActiveSheet()->mergeCells('A1:AC1');
 		$objPHPExcel->getActiveSheet()->mergeCells('A2:AC2');
@@ -269,7 +324,7 @@ class Exportar_c extends CI_Controller {
 				'size' =>10,
 				'color' => array(
 					'rgb' => '000000
-'
+					'
 				)
 			),
 			//fill = fondo de celda
@@ -295,7 +350,7 @@ class Exportar_c extends CI_Controller {
 				'size' => 10,
 				'color' => array(
 					'rgb' => '000000
-'
+					'
 				)
 			),
 			//fill = fondo de celda
@@ -313,6 +368,28 @@ class Exportar_c extends CI_Controller {
 				'vertical'  => PHPExcel_Style_Alignment::VERTICAL_CENTER,
 				'rotation'   => 90,
 			)
+		);
+		$numeros = array(
+			'font' => array(
+				'name'  => 'calibri',
+				'bold'  => false,
+				'size' => 11,
+				'color' => array(
+					'rgb' => '000000
+					'
+				)
+			),
+			//fill = fondo de celda
+			'fill' => array(
+				'type' => PHPExcel_Style_Fill::FILL_SOLID,
+				
+			),
+			'borders' => array(
+				'allborders' => array(
+					'style' => PHPExcel_Style_Border::BORDER_THIN	//BORDER_MEDIUM , BORDER_THIN , BORDER_NONE grosor del borde
+				)
+			),
+
 		);
 
 		$objPHPExcel->getActiveSheet()->getStyle('A1:AC1')->applyFromArray($estiloTituloReporte);
@@ -400,20 +477,20 @@ class Exportar_c extends CI_Controller {
 
 		$datos_cant= array('A','B','C' ,'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC');
 		foreach ($datos_cant as  $value) {
-		
-		$objPHPExcel->getActiveSheet()->getStyle($value.'7')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'8')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'9')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'10')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'11')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'12')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'13')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'14')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'15')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'16')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'17')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'18')->applyFromArray($estiloTitulohorizontal);
-		$objPHPExcel->getActiveSheet()->getStyle($value.'19')->applyFromArray($estiloTitulohorizontal);
+
+			$objPHPExcel->getActiveSheet()->getStyle($value.'7')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'8')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'9')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'10')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'11')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'12')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'13')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'14')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'15')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'16')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'17')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'18')->applyFromArray($numeros);
+			$objPHPExcel->getActiveSheet()->getStyle($value.'19')->applyFromArray($numeros);
 			# code...
 		}
 		/*$objPHPExcel->getActiveSheet()->getStyle('E2')->applyFromArray($estiloTitulovertical);
@@ -433,7 +510,7 @@ class Exportar_c extends CI_Controller {
 */
 		//formato XLSX
 		header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-		header('Content-Disposition: attachment;filename="Consolidado.xlsx"');
+		header('Content-Disposition: attachment;filename="CONSOLIDADO '.$nombre_mes.' '.$annio.'.xlsx"');
 		header('Cache-Control: max-age=0');
 
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');

@@ -27,7 +27,14 @@ public function agregar($cantidad,$codigo,$nombre,$establecimiento,$numero_docum
     $this->db->insert('usuarios',$actualiza);
    } 
 
-
+public function mostrar()
+  {
+   $this->db->select("id_mes,(MONTH(fecha_muestra) ) as  mes,(year(fecha_muestra) ) as annio");
+   $this->db->from("datos");
+   $this->db->group_by("id_mes");
+   $r = $this->db->get();  
+   return $r->result();
+ }
 
 
  }
