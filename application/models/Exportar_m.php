@@ -36,5 +36,13 @@ public function mostrar()
    return $r->result();
  }
 
+public function mostrar_annio()
+  {
+   $this->db->select("id_mes,(year(fecha_muestra) ) as  annio,(year(fecha_muestra) ) as annio");
+   $this->db->from("datos");
+   $this->db->group_by("annio");
+   $r = $this->db->get();  
+   return $r->result();
+ }
 
  }

@@ -47,85 +47,90 @@
             <div class="nav-tabs-custom">
               <div class="box-header with-border">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab">Exportar Excel</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Cargar Excel</a></li>
+                  <li class="active"><a href="#tab_1" data-toggle="tab">Exportar Excel Mes</a></li>
+                  <li><a href="#tab_2" data-toggle="tab">Exportar Excel Año</a></li>
                   <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
                 </ul>
               </div>
               <div class="box-body">
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
-                    <?php echo form_open_multipart('Exportar_c/exportar'); ?> 
-                    <div class="form-group">
-                      <label>Archivos Cargados</label>
-                      <select class="form-control select2" id="mes_seleccion" name="mes_seleccion" style="width: 100%;">
-                        <option ></option>
-                        <?php foreach ($mes as  $value) { 
-                          if ($value->mes=='01'||$value->mes=='1') {
-                            $nombre_mes = 'ENERO';
-                          }
-                          if ($value->mes=='02'||$value->mes=='2') {
-                            $nombre_mes = 'FEBRERO';
-                          }
-                          if ($value->mes=='03'||$value->mes=='3') {
-                            $nombre_mes = 'MARZO';
-                          }
-                          if ($value->mes=='04'||$value->mes=='4') {
-                            $nombre_mes = 'ABRIL';
-                          }
-                          if ($value->mes=='05'||$value->mes=='5') {
-                            $nombre_mes = 'MAYO';
-                          }
-                          if ($value->mes=='06'||$value->mes=='6') {
-                            $nombre_mes = 'JUNIO';
-                          }
-                          if ($value->mes=='07'||$value->mes=='7') {
-                            $nombre_mes = 'JULIO';
-                          }
-                          if ($value->mes=='08'||$value->mes=='8') {
-                            $nombre_mes = 'AGOSTO';
-                          }
-                          if ($value->mes=='09'||$value->mes=='9') {
-                            $nombre_mes = 'SETIEMBRE';
-                          }
-                          if ($value->mes=='10') {
-                            $nombre_mes = 'OCTUBRE';
-                          }
-                          if ($value->mes=='11') {
-                            $nombre_mes = 'NOVIEMBRE';
-                          }
-                          if ($value->mes=='12') {
-                            $nombre_mes = 'DICIEMBRE';
-                          }
-                          ?>
-                          <option value="<?php echo $value->id_mes ?>" ><?php echo 'CONSOLIDADO '.$nombre_mes.' '.$value->annio; ?> </option>
-                        <?php   }  ?>
-                      </select>
+                   <div class="col-md-6">
+                    <div class="box-body">
+                      <?php echo form_open_multipart('Exportar_c/exportar_mes'); ?> 
+                      <div class="form-group">
+                        <label>Archivos Cargados</label>
+                        <select class="form-control select2" id="mes_seleccion" name="mes_seleccion" style="width: 100%;">
+                          <option ></option>
+                          <?php foreach ($mes as  $value) { 
+                            if ($value->mes=='01'||$value->mes=='1') {
+                              $nombre_mes = 'ENERO';
+                            }
+                            if ($value->mes=='02'||$value->mes=='2') {
+                              $nombre_mes = 'FEBRERO';
+                            }
+                            if ($value->mes=='03'||$value->mes=='3') {
+                              $nombre_mes = 'MARZO';
+                            }
+                            if ($value->mes=='04'||$value->mes=='4') {
+                              $nombre_mes = 'ABRIL';
+                            }
+                            if ($value->mes=='05'||$value->mes=='5') {
+                              $nombre_mes = 'MAYO';
+                            }
+                            if ($value->mes=='06'||$value->mes=='6') {
+                              $nombre_mes = 'JUNIO';
+                            }
+                            if ($value->mes=='07'||$value->mes=='7') {
+                              $nombre_mes = 'JULIO';
+                            }
+                            if ($value->mes=='08'||$value->mes=='8') {
+                              $nombre_mes = 'AGOSTO';
+                            }
+                            if ($value->mes=='09'||$value->mes=='9') {
+                              $nombre_mes = 'SETIEMBRE';
+                            }
+                            if ($value->mes=='10') {
+                              $nombre_mes = 'OCTUBRE';
+                            }
+                            if ($value->mes=='11') {
+                              $nombre_mes = 'NOVIEMBRE';
+                            }
+                            if ($value->mes=='12') {
+                              $nombre_mes = 'DICIEMBRE';
+                            }
+                            ?>
+                            <option value="<?php echo $value->id_mes ?>" ><?php echo 'CONSOLIDADO '.$nombre_mes.' '.$value->annio; ?> </option>
+                          <?php   }  ?>
+                        </select>
+                      </div>
+
+                      <br>
+                      
+                      <input type="submit" name="exportar" value="Reportar Consolidado"> 
+                      <?php echo form_close(); ?>
                     </div>
-                    <br>
-                    
-                    <input type="submit" name="exportar" value="Reportar Consolidado"> 
-                    <?php echo form_close(); ?>
-
                   </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_2">
-
-                   <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-ban"></i> AVISO!</h4>
-                    Antes de cargar el archivo excel ver el formato de plantilla para evitar problemas
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                  <div class="col-md-6">
+                    <div class="box-body">
+                      <?php echo form_open_multipart('Exportar_c/exportar_annio'); ?> 
+                      <div class="form-group">
+                        <label>Archivos Cargados</label>
+                        <select class="form-control select2" id="annio_seleccion" name="annio_seleccion" style="width: 100%;">
+                          <option ></option>
+                          <?php foreach ($annio as  $value) {   ?>
+                            <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL AÑO '.$value->annio; ?> </option>
+                          <?php   }  ?>
+                        </select>
+                      </div>
+                      <br>
+                      <input type="submit" name="exportar" value="Reportar Consolidado"> 
+                      <?php echo form_close(); ?>
+                    </div>
                   </div>
-                  <?php echo form_open_multipart('Importar_c/importar'); ?>
-                  <div class="form-group">
-                    <label for="exampleInputFile">Cargar Archivo Excel</label>
-                    <input type="file" id="excel" name="excel" accept="*/ .xls,.xlsx">
-                    <input type="submit" name="Importar">
-
-                  </div>
-                  <?php echo form_close(); ?>
-
-
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3">
