@@ -18,9 +18,11 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
+    <form class="form-horizontal">
     <section class="content-header">
       <h1>
-        MODIFICAR IPRESS 
+        MODIFICAR IPRESS  <a type="submit" id="modificar" class="btn btn-info  "><i class="fa fa-upload"></i>  Modificar</a> <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
+               
         <small></small>
       </h1>
       <ol class="breadcrumb">
@@ -37,11 +39,11 @@
       <div class="box">
          <div class="box-body">  
           <div class="col-md-6">
-            <form class="form-horizontal">
+            
               <div class="box-body">
                 <div class="form-group">
                   <label for="nombres" class="col-sm-2 control-label">Ipress:</label>
-                  <input type="hidden" value="<?php echo $value->id_ipress; ?>" id="id_ipress_modificar">
+                  <input type="hidden" value="<?php echo $value->codigo; ?>" id="id_ipress_modificar">
                   <div class="col-sm-10">
                     <input type="text" class="form-control" value="<?php echo $value->ipress; ?>" id="nombres" style="text-transform: uppercase;" >
                     <div id="no_nombres"  style="color: red;display: none;" >Llenar el campo Nombre Tipo</div>
@@ -92,16 +94,10 @@
                       <option value="<?php echo $values->id_categorias;  ?>" ><?php echo $values->categorias;  ?></option>
                       <?php } } ?>
                     </select>
-                    <div id="no_categorias"  style="color: red;display: none;" >Llenar el campo Categorias</div>
+                   
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="codigo" class="col-sm-2 control-label">Codigo: </label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="codigo" value="<?php echo $value->codigo;  ?>" >
-                    <div id="no_codigo"  style="color: red;display: none;" >Llenar el campo Codigo</div>
-                  </div>
-                </div>
+
                 <div class="form-group">
                   <label for="provincias" class="col-sm-2 control-label" >Provincia </label>
                   <div class="col-sm-10">
@@ -115,7 +111,7 @@
                       <option value="<?php echo $values->id_provincias;  ?>" ><?php echo $values->provincias;  ?></option>
                       <?php } } ?>
                     </select>
-                    <div id="no_provincias"  style="color: red;display: none;" >Llenar el campo Provincias</div>
+                    
                   </div>
                 </div>
                 <div class="form-group">
@@ -131,14 +127,14 @@
                       <option value="<?php echo $values->id_distritos;  ?>" ><?php echo $values->distritos;  ?></option>
                      <?php } } ?>
                     </select>
-                    <div id="no_distritos"  style="color: red;display: none;" >Llenar el campo Distritos</div>
+                   
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="resolucion" class="col-sm-2 control-label" >Resolución: </label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="resolucion" value="<?php echo $value->resolucion; ?>" >
-                    <div id="no_resolucion"  style="color: red;display: none;" >Llenar el campo de Resolución</div>
+ 
                   </div>
                 </div>
                  <div class="form-group">
@@ -161,16 +157,16 @@
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
-                <a type="submit" id="modificar" class="btn btn-info pull-right"><i class="fa fa-upload"></i>  Modificar</a>
+               
               </div>
               <!-- /.box-footer -->
-            </form>
+            
             </div>
             </div>
       </div>
       <!-- /.box -->
     </section>
+    </form>
     <!-- /.content -->
   </div>
   <?php } ?>

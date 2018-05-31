@@ -24,13 +24,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="https://scontent.flim5-3.fna.fbcdn.net/v/t1.0-1/p160x160/29541913_516865118710902_1997069573218587901_n.jpg?_nc_cat=0&oh=bc7e373a0853493cf6ad63e5df17d5ca&oe=5B896394" class="user-image" alt="User Image">
+              <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $_SESSION['personal'];  ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="https://scontent.flim5-3.fna.fbcdn.net/v/t1.0-1/p160x160/29541913_516865118710902_1997069573218587901_n.jpg?_nc_cat=0&oh=bc7e373a0853493cf6ad63e5df17d5ca&oe=5B896394" class="img-circle" alt="User Image">
+                <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo $_SESSION['personal'];  ?> - Web Developer
@@ -79,7 +79,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="https://scontent.flim5-3.fna.fbcdn.net/v/t1.0-1/p160x160/29541913_516865118710902_1997069573218587901_n.jpg?_nc_cat=0&oh=bc7e373a0853493cf6ad63e5df17d5ca&oe=5B896394" class="img-circle" alt="User Image">
+          <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>HOLA!</p>

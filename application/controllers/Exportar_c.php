@@ -598,6 +598,9 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->setCellValue('O'.($sitio+3), 'ASCUS');
 			$objPHPExcel->getActiveSheet()->setCellValue('R'.($sitio+3), 'POSITIVOS');
 			$objPHPExcel->getActiveSheet()->setCellValue('AA'.($sitio+3), 'M INSATISFACCIÓN');
+			$objPHPExcel->getActiveSheet()->setCellValue('AD'.($sitio+3), 'POSITIVOS');
+			$objPHPExcel->getActiveSheet()->setCellValue('AE'.($sitio+3), 'NEGATIVOS');
+			$objPHPExcel->getActiveSheet()->setCellValue('AF'.($sitio+3), 'M. INSATISFACCIÓN');
 			$objPHPExcel->getActiveSheet()->setCellValue('B'.($sitio+4), 'TOTAL');
 			$objPHPExcel->getActiveSheet()->setCellValue('C'.($sitio+4), '1ERA VEZ');
 			$objPHPExcel->getActiveSheet()->setCellValue('F'.($sitio+4), 'CONTINUADOR');
@@ -649,8 +652,8 @@ class Exportar_c extends CI_Controller {
 			$mostrar_mes=$this->db->query("select id_mes,MONTH(fecha_muestra) as mes from datos WHERE YEAR(fecha_muestra)=".$this->input->post('annio_seleccion')." GROUP BY id_mes")->result();
 			foreach ($mostrar_mes as $values_general) {
 				if ($mes==$values_general->mes) {
-					$reds = $this->db->query("select id_red FROM  red_salud where id_red > 0")->result();
-					$pos=8; 
+					$reds = $this->db->query("select id_red FROM  red_salud ")->result();
+					$pos=7; 
 					$fecha="";
 					$cont_cell=$sitio;
 					foreach ($reds as  $val) {
@@ -736,9 +739,9 @@ class Exportar_c extends CI_Controller {
 								$rechazo_c3=	$values->cantidad +$rechazo_c3;
 							}
 						}
-						$pos_annio = array('8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
+						$pos_annio = array('7' => 7,'8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
 						foreach ($pos_annio as $annio_key => $val_pos) {
-							if($cont_cell+8-$sitio==$annio_key){
+							if($cont_cell+7-$sitio==$annio_key){
 								$sitio_annio=$sitio+$val_pos-1;
 							}
 						}	
@@ -760,16 +763,20 @@ class Exportar_c extends CI_Controller {
 						$objPHPExcel->getActiveSheet()->setCellValue('AA'.$sitio_annio, $rechazo_c1);
 						$objPHPExcel->getActiveSheet()->setCellValue('AB'.$sitio_annio, $rechazo_c2);
 						$objPHPExcel->getActiveSheet()->setCellValue('AC'.$sitio_annio, $rechazo_c3);
+						$objPHPExcel->getActiveSheet()->setCellValue('AD'.($sitio_annio), '=SUM(L'.($sitio_annio).':Z'.($sitio_annio).')');
+						$objPHPExcel->getActiveSheet()->setCellValue('AE'.($sitio_annio), '=SUM(I'.($sitio_annio).':K'.($sitio_annio).')');
+						$objPHPExcel->getActiveSheet()->setCellValue('AF'.($sitio_annio), '=SUM(AA'.($sitio_annio).':AC'.($sitio_annio).')');
 						$red_total = $this->db->query("select count(datos.codigo_renipres) as cantidad FROM  datos  INNER JOIN ipress ON datos.codigo_renipres = ipress.codigo INNER JOIN microred ON microred.id_microred = ipress.microred 
 							INNER JOIN red_salud ON red_salud.id_red = microred.red where id_mes=".$values_general->id_mes."  and microred.red=".$val->id_red)->result();	
 						foreach ($red_total as  $value_total) {
 							$objPHPExcel->getActiveSheet()->setCellValue('B'.$sitio_annio, (int)($value_total->cantidad));	
-							$objPHPExcel->getActiveSheet()->setCellValue('C'.$sitio_annio, (int)($value_total->cantidad*10/100));
-							$objPHPExcel->getActiveSheet()->setCellValue('D'.$sitio_annio,(int)($value_total->cantidad*15/100));
-							$objPHPExcel->getActiveSheet()->setCellValue('E'.$sitio_annio,(int)($value_total->cantidad*5/100));	
-							$objPHPExcel->getActiveSheet()->setCellValue('F'.$sitio_annio, (int)($value_total->cantidad*35/100));
-							$objPHPExcel->getActiveSheet()->setCellValue('G'.$sitio_annio, (int)($value_total->cantidad*25/100));
-							$objPHPExcel->getActiveSheet()->setCellValue('H'.$sitio_annio, (int)($value_total->cantidad*10/100));
+							$objPHPExcel->getActiveSheet()->setCellValue('C'.$sitio_annio,'='.($value_total->cantidad).'*10/100');
+							$objPHPExcel->getActiveSheet()->setCellValue('D'.$sitio_annio,'='.($value_total->cantidad).'*15/100');
+							$objPHPExcel->getActiveSheet()->setCellValue('E'.$sitio_annio,'='.($value_total->cantidad).'*5/100');	
+							$objPHPExcel->getActiveSheet()->setCellValue('F'.$sitio_annio,'='.($value_total->cantidad).'*35/100');
+							$objPHPExcel->getActiveSheet()->setCellValue('G'.$sitio_annio,'='.($value_total->cantidad).'*25/100');
+							$objPHPExcel->getActiveSheet()->setCellValue('H'.$sitio_annio,'='.($value_total->cantidad).'*10/100');
+
 						}
 						$cont_cell++;
 					}
@@ -778,31 +785,34 @@ class Exportar_c extends CI_Controller {
 				$i=0;$i1=0;$i2=0;$agus_c1=0;$agus_c2=0;$agus_c3=0;$ascus_c1=0;$ascus_c2=0;$ascus_c3=0;$leibg_c1=0;$leibg_c2=0;$leibg_c3=0;$leiag_c1=0;$leiag_c2=0;$leiag_c3=0;$rechazo_c1=0;$rechazo_c2=0;$rechazo_c3=0;
 			}
 			
-			$objPHPExcel->getActiveSheet()->setCellValue('B'.($sitio+18), '=SUM(B'.($sitio+7).':B'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('C'.($sitio+18), '=SUM(C'.($sitio+7).':C'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('D'.($sitio+18), '=SUM(D'.($sitio+7).':D'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('E'.($sitio+18), '=SUM(E'.($sitio+7).':E'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('F'.($sitio+18), '=SUM(F'.($sitio+7).':F'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('G'.($sitio+18), '=SUM(G'.($sitio+7).':G'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('H'.($sitio+18), '=SUM(H'.($sitio+7).':H'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('I'.($sitio+18), '=SUM(I'.($sitio+7).':I'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('J'.($sitio+18), '=SUM(J'.($sitio+7).':J'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('K'.($sitio+18), '=SUM(K'.($sitio+7).':K'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('L'.($sitio+18), '=SUM(L'.($sitio+7).':L'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('M'.($sitio+18), '=SUM(M'.($sitio+7).':M'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('N'.($sitio+18), '=SUM(N'.($sitio+7).':N'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('O'.($sitio+18), '=SUM(O'.($sitio+7).':O'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('P'.($sitio+18), '=SUM(P'.($sitio+7).':P'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('Q'.($sitio+18), '=SUM(Q'.($sitio+7).':Q'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('R'.($sitio+18), '=SUM(R'.($sitio+7).':R'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('S'.($sitio+18), '=SUM(S'.($sitio+7).':S'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('T'.($sitio+18), '=SUM(T'.($sitio+7).':T'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('U'.($sitio+18), '=SUM(U'.($sitio+7).':U'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('V'.($sitio+18), '=SUM(V'.($sitio+7).':V'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('W'.($sitio+18), '=SUM(W'.($sitio+7).':W'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('AA'.($sitio+18), '=SUM(AA'.($sitio+7).':AA'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('AB'.($sitio+18), '=SUM(AB'.($sitio+7).':AB'.($sitio+17).')');
-			$objPHPExcel->getActiveSheet()->setCellValue('AC'.($sitio+18), '=SUM(AC'.($sitio+7).':AC'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('B'.($sitio+18), '=SUM(B'.($sitio+6).':B'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('C'.($sitio+18), '=SUM(C'.($sitio+6).':C'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('D'.($sitio+18), '=SUM(D'.($sitio+6).':D'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('E'.($sitio+18), '=SUM(E'.($sitio+6).':E'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('F'.($sitio+18), '=SUM(F'.($sitio+6).':F'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('G'.($sitio+18), '=SUM(G'.($sitio+6).':G'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('H'.($sitio+18), '=SUM(H'.($sitio+6).':H'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('I'.($sitio+18), '=SUM(I'.($sitio+6).':I'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('J'.($sitio+18), '=SUM(J'.($sitio+6).':J'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('K'.($sitio+18), '=SUM(K'.($sitio+6).':K'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('L'.($sitio+18), '=SUM(L'.($sitio+6).':L'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('M'.($sitio+18), '=SUM(M'.($sitio+6).':M'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('N'.($sitio+18), '=SUM(N'.($sitio+6).':N'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('O'.($sitio+18), '=SUM(O'.($sitio+6).':O'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('P'.($sitio+18), '=SUM(P'.($sitio+6).':P'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('Q'.($sitio+18), '=SUM(Q'.($sitio+6).':Q'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('R'.($sitio+18), '=SUM(R'.($sitio+6).':R'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('S'.($sitio+18), '=SUM(S'.($sitio+6).':S'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('T'.($sitio+18), '=SUM(T'.($sitio+6).':T'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('U'.($sitio+18), '=SUM(U'.($sitio+6).':U'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('V'.($sitio+18), '=SUM(V'.($sitio+6).':V'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('W'.($sitio+18), '=SUM(W'.($sitio+6).':W'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AA'.($sitio+18), '=SUM(AA'.($sitio+6).':AA'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AB'.($sitio+18), '=SUM(AB'.($sitio+6).':AB'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AC'.($sitio+18), '=SUM(AC'.($sitio+6).':AC'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AD'.($sitio+18), '=SUM(AD'.($sitio+6).':AD'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AE'.($sitio+18), '=SUM(AE'.($sitio+6).':AE'.($sitio+17).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AF'.($sitio+18), '=SUM(AF'.($sitio+6).':AF'.($sitio+17).')');
 
 			$objPHPExcel->getActiveSheet()->mergeCells('A'.$sitio.':AC'.$sitio);
 			$objPHPExcel->getActiveSheet()->mergeCells('A'.($sitio+1).':AC'.($sitio+1));
@@ -828,6 +838,9 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->mergeCells('AA'.($sitio+4).':AA'.($sitio+5));
 			$objPHPExcel->getActiveSheet()->mergeCells('AB'.($sitio+4).':AB'.($sitio+5));
 			$objPHPExcel->getActiveSheet()->mergeCells('AC'.($sitio+4).':AC'.($sitio+5));
+			$objPHPExcel->getActiveSheet()->mergeCells('AD'.($sitio+3).':AD'.($sitio+5));
+			$objPHPExcel->getActiveSheet()->mergeCells('AE'.($sitio+3).':AE'.($sitio+5));
+			$objPHPExcel->getActiveSheet()->mergeCells('AF'.($sitio+3).':AF'.($sitio+5));
 			$estiloTituloReporte = array(
 				'font' => array(
 					'name'      => 'Calibri',
@@ -862,7 +875,8 @@ class Exportar_c extends CI_Controller {
 			//fill = fondo de celda
 				'fill' => array(
 					'type' => PHPExcel_Style_Fill::FILL_SOLID,
-
+					 
+					
 				),
 				'borders' => array(
 					'allborders' => array(
@@ -872,6 +886,7 @@ class Exportar_c extends CI_Controller {
 				'alignment' =>  array(
 					'horizontal'=> PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
 					'vertical'  => PHPExcel_Style_Alignment::VERTICAL_CENTER,
+
 
 				)
 			);
@@ -911,6 +926,7 @@ class Exportar_c extends CI_Controller {
 						'
 					)
 				),
+
 			//fill = fondo de celda
 				'fill' => array(
 					'type' => PHPExcel_Style_Fill::FILL_SOLID,
@@ -918,10 +934,13 @@ class Exportar_c extends CI_Controller {
 				),
 				'borders' => array(
 					'allborders' => array(
-					'style' => PHPExcel_Style_Border::BORDER_THIN	//BORDER_MEDIUM , BORDER_THIN , BORDER_NONE grosor del borde
+					'style' => PHPExcel_Style_Border::BORDER_THIN	//BORDER_MEDIUM , BORDER_THIN , BORDER_NONE grosor del b
 				)
-				),
 
+				),
+				'numberformat' => array(
+					'formatCode' => PHPExcel_Style_NumberFormat::FORMAT_NUMBER	
+				),
 			);
 			$objPHPExcel->getActiveSheet()->getStyle('A'.($sitio).':AC'.($sitio))->applyFromArray($estiloTituloReporte);
 			$objPHPExcel->getActiveSheet()->getStyle('A'.($sitio+1).':AC'.($sitio+1))->applyFromArray($estiloTituloReporte);
@@ -954,7 +973,7 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->getColumnDimension('AA')->setWidth(5);
 			$objPHPExcel->getActiveSheet()->getColumnDimension('AB')->setWidth(5);
 			$objPHPExcel->getActiveSheet()->getColumnDimension('AC')->setWidth(5);
-			$objPHPExcel->getActiveSheet()->getRowDimension($sitio+5)->setRowHeight(45);
+			$objPHPExcel->getActiveSheet()->getRowDimension($sitio+5)->setRowHeight(55);
 			$objPHPExcel->getActiveSheet()->getStyle('A'.($sitio+3).':A'.($sitio+5))->applyFromArray($estiloTitulohorizontal);
 			$objPHPExcel->getActiveSheet()->getStyle('B'.($sitio+3).':K'.($sitio+3))->applyFromArray($estiloTitulohorizontal);
 			$objPHPExcel->getActiveSheet()->getStyle('L'.($sitio+3).':N'.($sitio+3))->applyFromArray($estiloTitulohorizontal);
@@ -995,8 +1014,11 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->getStyle('AA'.($sitio+4).':AA'.($sitio+5))->applyFromArray($estiloTitulovertical);
 			$objPHPExcel->getActiveSheet()->getStyle('AB'.($sitio+4).':AB'.($sitio+5))->applyFromArray($estiloTitulovertical);
 			$objPHPExcel->getActiveSheet()->getStyle('AC'.($sitio+4).':AC'.($sitio+5))->applyFromArray($estiloTitulovertical);
+			$objPHPExcel->getActiveSheet()->getStyle('AD'.($sitio+3).':AD'.($sitio+5))->applyFromArray($estiloTitulovertical);
+			$objPHPExcel->getActiveSheet()->getStyle('AE'.($sitio+3).':AE'.($sitio+5))->applyFromArray($estiloTitulovertical);
+			$objPHPExcel->getActiveSheet()->getStyle('AF'.($sitio+3).':AF'.($sitio+5))->applyFromArray($estiloTitulovertical);
 
-			$datos_cant= array('A','B','C' ,'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC');
+			$datos_cant= array('A','B','C' ,'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF');
 			foreach ($datos_cant as  $value) {
 
 				$objPHPExcel->getActiveSheet()->getStyle($value.($sitio+6))->applyFromArray($numeros);

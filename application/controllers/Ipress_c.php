@@ -41,7 +41,7 @@ class Ipress_c extends CI_Controller {
 	{	
 		$data['microred'] = $this->Ipress_m->microred();
 		$data['ipress'] = $this->Ipress_m->ipress_editar($id);
-		$r = $this->db->query("select * from ipress where(id_ipress=".$id.")")->row();
+		$r = $this->db->query("select * from ipress where(codigo=".$id.")")->row();
 		$r1 = $this->db->query("select * from distritos where(id_distritos=".$r->distrito.")")->row();
 		$r2 = $this->db->query("select * from distritos where(id_provincias=".$r1->id_provincias.")")->result();
 		$data['distritos_m'] = $r2;
@@ -61,5 +61,6 @@ class Ipress_c extends CI_Controller {
 	{	
 		$this->Ipress_m->eliminar();
 	}
+	
 
 }

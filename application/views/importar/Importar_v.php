@@ -143,22 +143,7 @@
  }); 
 
 function showPleaseWait() {
-    var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog">\
-        <div class="modal-dialog">\
-            <div class="modal-content" style="border-radius: 10px;margin-top:160px;">\
-                <div class="modal-header">\
-                    <h3 class="modal-title">Cargando...</h3>\
-                </div>\
-                <div class="modal-body">\
-                    <div class="progress">\
-                      <div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar"\
-                      aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 70px">\
-                      </div>\
-                    </div>\
-                </div>\
-            </div>\
-        </div>\
-    </div>';
+    var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog"><div class="modal-dialog"><div class="modal-content" style="border-radius: 10px;margin-top:160px;"><div class="modal-header"><h3 class="modal-title">Cargando...</h3></div><div class="modal-body"><div class="progress"><div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 70px"></div></div></div></div></div> </div>';
     $(document.body).append(modalLoading);
     $("#pleaseWaitDialog").modal("show");
 }

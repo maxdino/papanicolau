@@ -20,7 +20,8 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          REGISTRAR NUEVO IPRESS
+          REGISTRAR NUEVO IPRESS <a type="submit" id="agregar" class="btn btn-info "><i class="fa fa-upload"></i>  Registrar</a> <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
+                
           <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -40,10 +41,16 @@
             <form class="form-horizontal">
               <div class="box-body">
                 <div class="form-group">
+                  <label for="codigo" class="col-sm-2 control-label">Codigo</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" id="codigo" onkeyup="validar_codigo()" >
+                    
+                  </div>
+                </div>
+                <div class="form-group">
                   <label for="nombres" class="col-sm-2 control-label">Nombre de Ipress</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="nombres" style="text-transform: uppercase;" >
-                    <div id="no_nombres"  style="color: red;display: none;" >Llenar el campo Nombre de Ipress</div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -66,7 +73,6 @@
                       <option value="<?php echo $value->id_tipos;  ?>" ><?php echo $value->tipos;  ?></option>
                       <?php } ?>
                     </select>
-                    <div id="no_tipos"  style="color: red;display: none;" >Llenar el campo Tipo</div>
                   </div>
                 </div>
                 <div class="form-group">
@@ -78,14 +84,7 @@
                       <option value="<?php echo $value->id_categorias;  ?>" ><?php echo $value->categorias;  ?></option>
                       <?php } ?>
                     </select>
-                    <div id="no_categorias"  style="color: red;display: none;" >Llenar el campo Categorias</div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="codigo" class="col-sm-2 control-label">Codigo</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="codigo"  >
-                    <div id="no_codigo"  style="color: red;display: none;" >Llenar el campo Codigo de Renipress</div>
+                     
                   </div>
                 </div>
                 <div class="form-group">
@@ -97,7 +96,7 @@
                       <option value="<?php echo $value->id_provincias;  ?>" ><?php echo $value->provincias;  ?></option>
                       <?php } ?>
                     </select>
-                    <div id="no_provincias"  style="color: red;display: none;" >Llenar el campo Provincias</div>
+                    
                   </div>
                 </div>
                 <div class="form-group">
@@ -106,14 +105,13 @@
                     <select class="form-control select2" id="distritos">
                      <option ></option>   
                     </select>
-                    <div id="no_distritos"  style="color: red;display: none;" >Llenar el campo Distritos</div>
+                     
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="resolucion" class="col-sm-2 control-label" >Resolución: </label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control" id="resolucion" >
-                    <div id="no_resolucion"  style="color: red;display: none;" >Llenar el campo de Resolución</div>
                   </div>
                 </div>
                  <div class="form-group">
@@ -127,15 +125,13 @@
                   <input type="text" class="form-control pull-right"  id="fecha">
                   
                   </div>
-                  <div id="no_fecha"  style="color: red;display: none;" >Llenar el campo Fecha</div>
                 </div>
                 <!-- /.input group -->
               </div>
               </div>
               <!-- /.box-body -->
               <div class="box-footer">
-                <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
-                <a type="submit" id="agregar" class="btn btn-info pull-right"><i class="fa fa-upload"></i>  Registrar</a>
+                
               </div>
               <!-- /.box-footer -->
             </form>
@@ -216,56 +212,26 @@
         window.location='../Ipress_c';
       });
    }else{
-
-    if (nombres=='') {
-      $('#no_nombres').css('display','block');
-    }else{
-      $('#no_nombres').css('display','none');
-    }
-    if (fecha==''||fecha=='Invalid date') {
-      $('#no_fecha').css('display','block');
-    }else{
-      $('#no_fecha').css('display','none');
-    }
-    if (microred=='') {
-      $('#no_microred').css('display','block');
-    }else{
-      $('#no_microred').css('display','none');
-    }
-    if (tipos=='') {
-      $('#no_tipos').css('display','block');
-    }else{
-      $('#no_tipos').css('display','none');
-    }
-    if (categorias=='') {
-      $('#no_categorias').css('display','block');
-    }else{
-      $('#no_categorias').css('display','none');
-    }
-    if (codigo=='') {
-      $('#no_codigo').css('display','block');
-    }else{
-      $('#no_codigo').css('display','none');
-    }
-    if (provincias=='') {
-      $('#no_provincias').css('display','block');
-    }else{
-      $('#no_provincias').css('display','none');
-    }
-    if (distritos=='') {
-      $('#no_distritos').css('display','block');
-    }else{
-      $('#no_distritos').css('display','none');
-    }
-    if (resolucion=='') {
-      $('#no_resolucion').css('display','block');
-    }else{
-      $('#no_resolucion').css('display','none');
-    }
-
+     swal({
+      title: "Error al registrar el Ipress",
+      text: "¡No llenaste todos los campos!",
+      type: "error",
+      showCancelButton: false,
+      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+      confirmButtonText: 'Ok!'
+    });  
   }
 
 });
+
+  function validar_codigo(){
+    var codigo = $('#codigo').val();
+$.post("<?php echo base_url();?>Ipress_c/validar_codigo",{"codigo":codigo},
+      function(data){
+        window.location='../Ipress_c';
+      });
+
+  }
 
 </script>
 </body>

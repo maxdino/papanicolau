@@ -100,7 +100,7 @@ class Ipress_m extends CI_Model {
 
 	public function eliminar()
 	{
-		$this->db->where("id_ipress",$this->input->post("id"));
+		$this->db->where("codigo",$this->input->post("id"));
 		$this->db->delete("ipress",$datos);
 	}
 }
