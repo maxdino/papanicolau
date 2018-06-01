@@ -237,8 +237,11 @@ class Importar_c extends CI_Controller {
 		$max_mes = $this->db->query("select max(id_mes) as maximo from datos ")->row();
 		$maximo= $max_mes->maximo+1;
 		for ($i = 3; $i <= $numRows; $i++) {
-			$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
+			print_r($numRows);
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
+			$vali= $this->db->query("select *  from ipress where codigo=".$codigorenipres)->row();		
+ 			if ($vali) {
+			$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
 			$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
 			$fecha_nacimiento = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
 			$timestamp1 = PHPExcel_Shared_Date::ExcelToPHP($fecha_nacimiento);
@@ -271,8 +274,11 @@ class Importar_c extends CI_Controller {
 			$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
 			$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
 			
-			
-			$import_excel = $this->Importar_m->agregar($maximo,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
+ 			
+ 		 
+			$this->Importar_m->agregar($maximo,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
+	 }
+
 		}
 
 

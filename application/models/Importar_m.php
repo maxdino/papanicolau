@@ -27,9 +27,16 @@ public function agregar($maximo,$cantidad,$codigo,$dni,$fecha_nacimiento,$muestr
         'leiag'=> $leiag, 
         );
     $this->db->insert('datos',$actualiza);
-   } 
-
-
+   }
+    
+public function validar_codigo($datos)
+  {
+   $this->db->select("*");
+   $this->db->from("ipress");
+   $this->db->where("codigo",$datos);
+   $validar = $this->db->get();  
+   return $validar->result();
+ } 
 
 
  }

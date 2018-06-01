@@ -43,6 +43,9 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('O4', 'ASCUS');
 		$objPHPExcel->getActiveSheet()->setCellValue('R4', 'POSITIVOS');
 		$objPHPExcel->getActiveSheet()->setCellValue('AA4', 'M INSATISFACCIÓN');
+		$objPHPExcel->getActiveSheet()->setCellValue('AD4', 'POSITIVOS');
+		$objPHPExcel->getActiveSheet()->setCellValue('AE4', 'NEGATIVOS');
+		$objPHPExcel->getActiveSheet()->setCellValue('AF4', 'M. INSATISFACCIÓN');
 		$objPHPExcel->getActiveSheet()->setCellValue('B5', 'TOTAL');
 		$objPHPExcel->getActiveSheet()->setCellValue('C5', '1ERA VEZ');
 		$objPHPExcel->getActiveSheet()->setCellValue('F5', 'CONTINUADOR');
@@ -91,8 +94,8 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('A18', 'ESSALUD');
 		$objPHPExcel->getActiveSheet()->setCellValue('A19', 'TOTAL');
 
-		$reds = $this->db->query("select id_red FROM  red_salud where id_red > 0")->result();
-		$pos=8; 
+		$reds = $this->db->query("select id_red FROM  red_salud")->result();
+		$pos=7; 
 		$fecha="";
 		foreach ($reds as  $val) {
 
@@ -178,7 +181,7 @@ class Exportar_c extends CI_Controller {
 				}
 
 			}
-			$res = array('8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
+			$res = array('7' => 7,'8' => 8,'9' => 17,'10' => 10,'11' => 9,'12' => 16,'13' => 15,'14' => 13,'15' => 12,'16' => 11,'17' => 14  );
 			foreach ($res as $key => $value_val) {
 				if($pos==$key){
 					$sitio=	$value_val;
@@ -203,10 +206,20 @@ class Exportar_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->setCellValue('AA'.$sitio, $rechazo_c1);
 			$objPHPExcel->getActiveSheet()->setCellValue('AB'.$sitio, $rechazo_c2);
 			$objPHPExcel->getActiveSheet()->setCellValue('AC'.$sitio, $rechazo_c3);
+			$objPHPExcel->getActiveSheet()->setCellValue('AD'.($sitio), '=SUM(L'.($sitio).':Z'.($sitio).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AE'.($sitio), '=SUM(I'.($sitio).':K'.($sitio).')');
+			$objPHPExcel->getActiveSheet()->setCellValue('AF'.($sitio), '=SUM(AA'.($sitio).':AC'.($sitio).')');
+
 			$red_total = $this->db->query("select count(datos.codigo_renipres) as cantidad FROM  datos  INNER JOIN ipress ON datos.codigo_renipres = ipress.codigo INNER JOIN microred ON microred.id_microred = ipress.microred 
 				INNER JOIN red_salud ON red_salud.id_red = microred.red where id_mes=".$this->input->post("mes_seleccion")."  and microred.red=".$val->id_red)->result();	
 			foreach ($red_total as  $value_total) {
 				$objPHPExcel->getActiveSheet()->setCellValue('B'.$sitio, $value_total->cantidad);	
+				$objPHPExcel->getActiveSheet()->setCellValue('C'.$sitio,'='.($value_total->cantidad).'*10/100');
+				$objPHPExcel->getActiveSheet()->setCellValue('D'.$sitio,'='.($value_total->cantidad).'*15/100');
+				$objPHPExcel->getActiveSheet()->setCellValue('E'.$sitio,'='.($value_total->cantidad).'*5/100');	
+				$objPHPExcel->getActiveSheet()->setCellValue('F'.$sitio,'='.($value_total->cantidad).'*35/100');
+				$objPHPExcel->getActiveSheet()->setCellValue('G'.$sitio,'='.($value_total->cantidad).'*25/100');
+				$objPHPExcel->getActiveSheet()->setCellValue('H'.$sitio,'='.($value_total->cantidad).'*10/100');
 			}
 			$pos++;
 		}
@@ -251,26 +264,34 @@ class Exportar_c extends CI_Controller {
 
 		$annio = $fecha[0].$fecha[1].$fecha[2].$fecha[3];
 		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'MES DE '.$nombre_mes.' '.$annio);
-		$objPHPExcel->getActiveSheet()->setCellValue('B19', '=SUMA(B8:B'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('I19', '=SUMA(I8:I'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('J19', '=SUMA(J8:J'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('K19', '=SUMA(K8:K'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('L19', '=SUMA(L8:L'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('M19', '=SUMA(M8:M'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('N19', '=SUMA(N8:N'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('O19', '=SUMA(O8:O'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('P19', '=SUMA(P8:P'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('Q19', '=SUMA(Q8:Q'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('R19', '=SUMA(R8:R'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('S19', '=SUMA(S8:S'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('T19', '=SUMA(T8:T'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('U19', '=SUMA(U8:U'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('V19', '=SUMA(V8:V'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('W19', '=SUMA(W8:W'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('AA19', '=SUMA(AA8:AA'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('AB19', '=SUMA(AB8:AB'.$pos.')');
-		$objPHPExcel->getActiveSheet()->setCellValue('AC19', '=SUMA(AC8:AC'.$pos.')');
-
+		$objPHPExcel->getActiveSheet()->setCellValue('B19', '=SUM(B7:B'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('C19', '=SUM(C7:C'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('D19', '=SUM(D7:D'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('E19', '=SUM(E7:E'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('F19', '=SUM(F7:F'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('G19', '=SUM(G7:G'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('H19', '=SUM(H7:H'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('I19', '=SUM(I7:I'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('J19', '=SUM(J7:J'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('K19', '=SUM(K7:K'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('L19', '=SUM(L7:L'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('M19', '=SUM(M7:M'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('N19', '=SUM(N7:N'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('O19', '=SUM(O7:O'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('P19', '=SUM(P7:P'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('Q19', '=SUM(Q7:Q'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('R19', '=SUM(R7:R'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('S19', '=SUM(S7:S'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('T19', '=SUM(T7:T'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('U19', '=SUM(U7:U'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('V19', '=SUM(V7:V'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('W19', '=SUM(W7:W'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AA19', '=SUM(AA7:AA'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AB19', '=SUM(AB7:AB'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AC19', '=SUM(AC7:AC'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AD19', '=SUM(AD7:AD'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AE19', '=SUM(AE7:AE'.$pos.')');
+		$objPHPExcel->getActiveSheet()->setCellValue('AF19', '=SUM(AF7:AF'.$pos.')');
 		
 
 		$objPHPExcel->getActiveSheet()->mergeCells('A1:AC1');
@@ -297,6 +318,9 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->mergeCells('AA5:AA6');
 		$objPHPExcel->getActiveSheet()->mergeCells('AB5:AB6');
 		$objPHPExcel->getActiveSheet()->mergeCells('AC5:AC6');
+		$objPHPExcel->getActiveSheet()->mergeCells('AD4:AD6');
+		$objPHPExcel->getActiveSheet()->mergeCells('AE4:AE6');
+		$objPHPExcel->getActiveSheet()->mergeCells('AF4:AF6');
 		$estiloTituloReporte = array(
 			'font' => array(
 				'name'      => 'Calibri',
@@ -424,7 +448,7 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AA')->setWidth(5);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AB')->setWidth(5);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AC')->setWidth(5);
-		$objPHPExcel->getActiveSheet()->getRowDimension('6')->setRowHeight(45);
+		$objPHPExcel->getActiveSheet()->getRowDimension('6')->setRowHeight(55);
 		
 
 
@@ -475,8 +499,11 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getStyle('AA5:AA6')->applyFromArray($estiloTitulovertical);
 		$objPHPExcel->getActiveSheet()->getStyle('AB5:AB6')->applyFromArray($estiloTitulovertical);
 		$objPHPExcel->getActiveSheet()->getStyle('AC5:AC6')->applyFromArray($estiloTitulovertical);
+		$objPHPExcel->getActiveSheet()->getStyle('AD4:AD6')->applyFromArray($estiloTitulovertical);
+		$objPHPExcel->getActiveSheet()->getStyle('AE4:AE6')->applyFromArray($estiloTitulovertical);
+		$objPHPExcel->getActiveSheet()->getStyle('AF4:AF6')->applyFromArray($estiloTitulovertical);
 
-		$datos_cant= array('A','B','C' ,'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC');
+		$datos_cant= array('A','B','C' ,'D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB','AC','AD','AE','AF');
 		foreach ($datos_cant as  $value) {
 
 			$objPHPExcel->getActiveSheet()->getStyle($value.'7')->applyFromArray($numeros);
@@ -875,7 +902,7 @@ class Exportar_c extends CI_Controller {
 			//fill = fondo de celda
 				'fill' => array(
 					'type' => PHPExcel_Style_Fill::FILL_SOLID,
-					 
+
 					
 				),
 				'borders' => array(
@@ -939,7 +966,7 @@ class Exportar_c extends CI_Controller {
 
 				),
 				'numberformat' => array(
-					'formatCode' => PHPExcel_Style_NumberFormat::FORMAT_NUMBER	
+
 				),
 			);
 			$objPHPExcel->getActiveSheet()->getStyle('A'.($sitio).':AC'.($sitio))->applyFromArray($estiloTituloReporte);
