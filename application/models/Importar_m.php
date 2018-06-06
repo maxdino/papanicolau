@@ -35,7 +35,7 @@ public function validar_codigo($datos)
    $this->db->from("ipress");
    $this->db->where("codigo",$datos);
    $validar = $this->db->get();  
-   return $validar->result();
+   return $validar->result(); 
  } 
 
 

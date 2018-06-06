@@ -237,9 +237,9 @@ class Importar_c extends CI_Controller {
 		$max_mes = $this->db->query("select max(id_mes) as maximo from datos ")->row();
 		$maximo= $max_mes->maximo+1;
 		for ($i = 3; $i <= $numRows; $i++) {
-			print_r($numRows);
+			 
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
-			$vali= $this->db->query("select *  from ipress where codigo=".$codigorenipres)->row();		
+			$vali = $this->Importar_m->validar_codigo($codigorenipres);		
  			if ($vali) {
 			$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
 			$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();

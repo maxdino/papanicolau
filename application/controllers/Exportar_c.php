@@ -55,7 +55,7 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('X5', 'CANCER');
 		$objPHPExcel->getActiveSheet()->setCellValue('C6', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('D6', '30-49');
-		$objPHPExcel->getActiveSheet()->setCellValue('E6', '+50');
+		$objPHPExcel->getActiveSheet()->setCellValue('E6', '+ 50');
 		$objPHPExcel->getActiveSheet()->setCellValue('F6', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('G6', '30-49');
 		$objPHPExcel->getActiveSheet()->setCellValue('H6', '+50');
@@ -64,10 +64,10 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('K6', '+50');
 		$objPHPExcel->getActiveSheet()->setCellValue('L5', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('M5', '30-49');
-		$objPHPExcel->getActiveSheet()->setCellValue('N5', '+50');
+		$objPHPExcel->getActiveSheet()->setCellValue('N5', '+ 50');
 		$objPHPExcel->getActiveSheet()->setCellValue('O5', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('P5', '30-49');
-		$objPHPExcel->getActiveSheet()->setCellValue('Q5', '"+50"');
+		$objPHPExcel->getActiveSheet()->setCellValue('Q5', '+ 50');
 		$objPHPExcel->getActiveSheet()->setCellValue('R6', '15-29');
 		$objPHPExcel->getActiveSheet()->setCellValue('S6', '30-49');
 		$objPHPExcel->getActiveSheet()->setCellValue('T6', '+ 50');
@@ -559,7 +559,7 @@ class Exportar_c extends CI_Controller {
 	{
 
 		require_once APPPATH . 'libraries/Classes/PHPExcel.php';
-
+ 
 		$objPHPExcel = new PHPExcel();	
 		$objPHPExcel->getProperties()
 		->setCreator("MDH")
@@ -693,9 +693,6 @@ class Exportar_c extends CI_Controller {
 							$nega1 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad , fecha_muestra FROM  datos where  clasificacion_general like 'Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15  and id_mes=".$values_general->id_mes." and  codigo_renipres=".$ipress )->result();
 							foreach ($nega1 as  $values) {	
 								$i=	$values->cantidad +$i;
-								if($fecha==""){
-									$fecha= $values->fecha_muestra;
-								}
 							}
 							$nega2 = $this->db->query("select COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad FROM  datos where  clasificacion_general='Negativo para lesiones epiteliales o malignidad' and  TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49 and TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30  and id_mes=".$values_general->id_mes." and codigo_renipres=".$ipress )->result();
 							foreach ($nega2 as  $values) {	

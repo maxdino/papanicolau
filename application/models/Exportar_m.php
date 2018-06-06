@@ -45,4 +45,76 @@ public function mostrar_annio()
    return $r->result();
  }
 
+ public function red_salud()
+  {
+   $this->db->select("id_red ");
+   $this->db->from("red_salud");
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
+ public function negativo_1($mes,$codigo)
+  {
+   $this->db->select("COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad");
+   $this->db->from("datos");
+   $this->db->where("clasificacion_general like 'Negativo para lesiones epiteliales o malignidad'");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15");
+   $this->db->where("id_mes",$mes);
+   $this->db->where("codigo_renipres",$codigo);
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
+ public function negativo_2($mes,$codigo)
+  {
+   $this->db->select("COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad ");
+   $this->db->from("datos");
+   $this->db->where("clasificacion_general like 'Negativo para lesiones epiteliales o malignidad'");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30");
+   $this->db->where("id_mes",$mes);
+   $this->db->where("codigo_renipres",$codigo);
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
+  public function negativo_3($mes,$codigo)
+  {
+   $this->db->select("COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad");
+   $this->db->from("datos");
+   $this->db->where("clasificacion_general like 'Negativo para lesiones epiteliales o malignidad'");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=50");
+   $this->db->where("id_mes",$mes);
+   $this->db->where("codigo_renipres",$codigo);
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
+  public function agus_1($mes,$codigo)
+  {
+   $this->db->select("COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad");
+   $this->db->from("datos");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=29");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=15");
+   $this->db->where("id_mes",$mes);
+   $this->db->where("codigo_renipres",$codigo);
+   $this->db->where("celulas_glandulares_atipicas != '_' or celulas_glandulares_atipicas !=  NULL ");
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
+  public function agus_2($mes,$codigo)
+  {
+   $this->db->select("COUNT( TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) ) as cantidad");
+   $this->db->from("datos");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())<=49");
+   $this->db->where("TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE())>=30");
+   $this->db->where("id_mes",$mes);
+   $this->db->where("codigo_renipres",$codigo);
+   $this->db->where("celulas_glandulares_atipicas != '_' or celulas_glandulares_atipicas !=  NULL ");
+   $r = $this->db->get();  
+   return $r->result();
+ }
+
  }

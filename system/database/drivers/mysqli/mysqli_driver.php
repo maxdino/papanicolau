@@ -124,7 +124,7 @@ class CI_DB_mysqli_driver extends CI_DB {
 	}
 
 	// --------------------------------------------------------------------
-
+ 
 	/**
 	 * Set client character set
 	 *
