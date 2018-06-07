@@ -137,56 +137,29 @@
                   <?php echo form_open_multipart('Exportar_c/exportar_annio'); ?>
                   <div class="col-md-4">
                     <div class="box-body">
-                       
+
+                      <div class="form-group">
+                        <label>Seleccionar año</label>  
+                        <select class="form-control select2" id="annio_s" name="annio_s" onchange="rango_annio()" style="width: 100%;">
+                          <option value="0"></option>
+                          <?php foreach ($annio as  $value) {   ?>
+                            <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL AÑO '.$value->annio; ?> </option>
+                          <?php   }  ?>
+                        </select> 
+                      </div>
+                    </div>     
+                  </div>
+                  <br><br><br><br><br>
+                  <div class="col-md-4">
+                    <div class="box-body">
+
                       <div class="form-group">
                         <label>Mes Inicial</label>
-                        <select class="form-control select2" id="rango" onchange="rango_mes()" name="rango" style="width: 100%;">
-                          <option ></option>
-                          <?php foreach ($mes as  $value) {  
-                            if ($value->mes=='01'||$value->mes=='1') {
-                              $nombre_mes = 'ENERO';
-                            }
-                            if ($value->mes=='02'||$value->mes=='2') {
-                              $nombre_mes = 'FEBRERO';
-                            }
-                            if ($value->mes=='03'||$value->mes=='3') {
-                              $nombre_mes = 'MARZO';
-                            }
-                            if ($value->mes=='04'||$value->mes=='4') {
-                              $nombre_mes = 'ABRIL';
-                            }
-                            if ($value->mes=='05'||$value->mes=='5') {
-                              $nombre_mes = 'MAYO';
-                            }
-                            if ($value->mes=='06'||$value->mes=='6') {
-                              $nombre_mes = 'JUNIO';
-                            }
-                            if ($value->mes=='07'||$value->mes=='7') {
-                              $nombre_mes = 'JULIO';
-                            }
-                            if ($value->mes=='08'||$value->mes=='8') {
-                              $nombre_mes = 'AGOSTO';
-                            }
-                            if ($value->mes=='09'||$value->mes=='9') {
-                              $nombre_mes = 'SETIEMBRE';
-                            }
-                            if ($value->mes=='10') {
-                              $nombre_mes = 'OCTUBRE';
-                            }
-                            if ($value->mes=='11') {
-                              $nombre_mes = 'NOVIEMBRE';
-                            }
-                            if ($value->mes=='12') {
-                              $nombre_mes = 'DICIEMBRE';
-                            }
-                            ?>
-                           ?>
-                            <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL '.$nombre_mes.' '.$value->annio; ?> </option>
-                          <?php   }  ?>
+                        <select class="form-control select2" id="mes_inicial" onchange="rango_mes()" disabled="disabled"  name="mes_inicial" style="width: 100%;">
                         </select>
                       </div>
                       <br>
-                      <input type="submit" name="exportar" value="Reportar Consolidado"> 
+                      <input type="submit" name="exportar" disabled="disabled"  value="Reportar Consolidado"> 
                       
                     </div>
                   </div>
@@ -194,7 +167,7 @@
                     <div class="box-body">
                       <div class="form-group">
                         <label>Mes Final</label>
-                        <select class="form-control select2" id="mes_final" name="mes_final" style="width: 100%;">
+                        <select class="form-control select2" id="mes_final" disabled="disabled" name="mes_final" style="width: 100%;">
                           <option ></option>
                         </select>
                       </div>
@@ -248,13 +221,77 @@ $('#reservation').daterangepicker();
 });
 
   function rango_mes(){
-   var id = $('#rango').val();
+   var id = $('#mes_inicial').val();
+   $('#mes_final').empty();
+   if (id!='0') {
+    $('#mes_final').removeAttr('disabled');
    $.post("<?php echo base_url();?>Exportar_c/validar_mes",{"id":id},
-      function(data){
-        $('#mes_final').append(' <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL '.$nombre_mes.' '.$value->annio; ?> </option>');
-      });
-   
+    function(data){
+      $('#mes_final').append(' <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL '.$nombre_mes.' '.$value->annio; ?> </option>');
+    });
+   }else{
+    $("#mes_inicial").prop('disabled', 'disabled');
+    $('#mes_final').empty();
+
+   }
+ }
+
+ function rango_annio(){
+   var id = $('#annio_s').val();
+   $('#mes_inicial').empty();
+   if(id!='0'){
+    $('#mes_inicial').removeAttr('disabled');
+    $.post("<?php echo base_url();?>Exportar_c/validar_annio",{"id":id},    function(data){
+      var obj =JSON.parse(data);
+      var nombre;
+       $('#mes_inicial').append(' <option value="0" ></option>');
+      for (var i = 0; obj.length > i; i++) { 
+       if (obj[i].mes=='01'||obj[i].mes=='1') {
+        nombre = 'ENERO';
+      }
+      if (obj[i].mes=='02'||obj[i].mes=='2') {
+        nombre = 'FEBRERO';
+      }
+      if (obj[i].mes=='03'||obj[i].mes=='3') {
+        nombre = 'MARZO';
+      }
+      if (obj[i].mes=='04'||obj[i].mes=='4') {
+        nombre = 'ABRIL';
+      }
+      if (obj[i].mes=='05'||obj[i].mes=='5') {
+        nombre = 'MAYO';
+      }
+      if (obj[i].mes=='06'||obj[i].mes=='6') {
+        nombre = 'JUNIO';
+      }
+      if (obj[i].mes=='07'||obj[i].mes=='7') {
+        nombre = 'JULIO';
+      }
+      if (obj[i].mes=='08'||obj[i].mes=='8') {
+        nombre = 'AGOSTO';
+      }
+      if (obj[i].mes=='09'||obj[i].mes=='9') {
+        nombre = 'SETIEMBRE';
+      }
+      if (obj[i].mes=='10') {
+        nombre = 'OCTUBRE';
+      }
+      if (obj[i].mes=='11') {
+        nombre = 'NOVIEMBRE';
+      }
+      if (obj[i].mes=='12') {
+        nombre = 'DICIEMBRE';
+      }
+      $('#mes_inicial').append(' <option value="'+obj[i].id_mes+'" >'+nombre+'</option>');
+    }
+
+  });
+  }else{
+    $("#mes_inicial").prop('disabled', 'disabled');
+    $('#mes_inicial').empty();
+    $('#mes_final').empty();
   }
+}
 </script>
 </body>
 </html>

@@ -559,7 +559,7 @@ class Exportar_c extends CI_Controller {
 	{
 
 		require_once APPPATH . 'libraries/Classes/PHPExcel.php';
- 
+
 		$objPHPExcel = new PHPExcel();	
 		$objPHPExcel->getProperties()
 		->setCreator("MDH")
@@ -1068,6 +1068,16 @@ class Exportar_c extends CI_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$objWriter->save('php://output');
 	}
+
+function validar_mes(){
+	$mes = $this->Exportar_m->validar_mes($this->input->post("id"));
+	echo json_encode($mes);
+}
+
+function validar_annio(){
+	$annio = $this->Exportar_m->validar_annio($this->input->post("id"));
+	echo json_encode($annio);
+}
 
 }
 
