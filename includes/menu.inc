@@ -137,7 +137,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo base_url();?>Usuarios_c"><i class="fa fa-users"></i> Usuarios</a></li>
-
+            <li><a href="<?php echo base_url();?>Tipos_usuarios_c"><i class="fa  fa-slideshare"></i> Tipos Usuarios</a></li>
           </ul>
         </li>
          
