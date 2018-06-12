@@ -55,12 +55,14 @@ public function mostrar_annio()
    return $r->result();
  }
 
- public function validar_mes($id)
+ public function validar_mes($id,$id_mes)
   {
-   $this->db->select("*");
+   $this->db->select("id_mes, MONTH(fecha_muestra) as mes");
    $this->db->from("datos");
-   $this->db->where("year(fecha_muestra) )",$id);
+   $this->db->where("year(fecha_muestra) ",$id); 
+   $this->db->where("MONTH(fecha_muestra)  > ".$id_mes);  
    $this->db->group_by("id_mes");
+   $this->db->order_by("MONTH(fecha_muestra)");
    $r = $this->db->get();  
    return $r->result();
  } 

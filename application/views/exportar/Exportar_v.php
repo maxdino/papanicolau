@@ -134,7 +134,7 @@
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3">
-                  <?php echo form_open_multipart('Exportar_c/exportar_annio'); ?>
+                  <?php echo form_open_multipart('Exportar_c/rango_mes'); ?>
                   <div class="col-md-4">
                     <div class="box-body">
 
@@ -143,7 +143,7 @@
                         <select class="form-control select2" id="annio_s" name="annio_s" onchange="rango_annio()" style="width: 100%;">
                           <option value="0"></option>
                           <?php foreach ($annio as  $value) {   ?>
-                            <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL AÑO '.$value->annio; ?> </option>
+                            <option value="<?php echo $value->annio; ?>" ><?php echo ' AÑO '.$value->annio; ?> </option>
                           <?php   }  ?>
                         </select> 
                       </div>
@@ -159,7 +159,7 @@
                         </select>
                       </div>
                       <br>
-                      <input type="submit" name="exportar" disabled="disabled"  value="Reportar Consolidado"> 
+                      <input type="submit" name="exportar_rango" id="exportar_rango" disabled="disabled"  value="Reportar Consolidado"> 
                       
                     </div>
                   </div>
@@ -167,8 +167,8 @@
                     <div class="box-body">
                       <div class="form-group">
                         <label>Mes Final</label>
-                        <select class="form-control select2" id="mes_final" disabled="disabled" name="mes_final" style="width: 100%;">
-                          <option ></option>
+                        <select class="form-control select2" id="mes_final" onchange="habilitar_boton()" disabled="disabled" name="mes_final" style="width: 100%;" >
+                           
                         </select>
                       </div>
                       
@@ -221,13 +221,56 @@ $('#reservation').daterangepicker();
 });
 
   function rango_mes(){
-   var id = $('#mes_inicial').val();
+   var id_mes = $('#mes_inicial').val();
+   var id = $('#annio_s').val();
    $('#mes_final').empty();
+   $("#exportar_rango").prop('disabled', 'disabled');
    if (id!='0') {
     $('#mes_final').removeAttr('disabled');
-   $.post("<?php echo base_url();?>Exportar_c/validar_mes",{"id":id},
+   $.post("<?php echo base_url();?>Exportar_c/validar_mes",{"id":id,"id_mes":id_mes},
     function(data){
-      $('#mes_final').append(' <option value="<?php echo $value->annio; ?>" ><?php echo 'CONSOLIDADO DEL '.$nombre_mes.' '.$value->annio; ?> </option>');
+      var obj =JSON.parse(data);
+      $('#mes_final').append(' <option value="0" ></option>');
+      for (var i = 0; obj.length > i; i++) { 
+
+        if (obj[i].mes=='01'||obj[i].mes=='1') {
+        nombre = 'ENERO';
+      }
+      if (obj[i].mes=='02'||obj[i].mes=='2') {
+        nombre = 'FEBRERO';
+      }
+      if (obj[i].mes=='03'||obj[i].mes=='3') {
+        nombre = 'MARZO';
+      }
+      if (obj[i].mes=='04'||obj[i].mes=='4') {
+        nombre = 'ABRIL';
+      }
+      if (obj[i].mes=='05'||obj[i].mes=='5') {
+        nombre = 'MAYO';
+      }
+      if (obj[i].mes=='06'||obj[i].mes=='6') {
+        nombre = 'JUNIO';
+      }
+      if (obj[i].mes=='07'||obj[i].mes=='7') {
+        nombre = 'JULIO';
+      }
+      if (obj[i].mes=='08'||obj[i].mes=='8') {
+        nombre = 'AGOSTO';
+      }
+      if (obj[i].mes=='09'||obj[i].mes=='9') {
+        nombre = 'SETIEMBRE';
+      }
+      if (obj[i].mes=='10') {
+        nombre = 'OCTUBRE';
+      }
+      if (obj[i].mes=='11') {
+        nombre = 'NOVIEMBRE';
+      }
+      if (obj[i].mes=='12') {
+        nombre = 'DICIEMBRE';
+      }
+      $('#mes_final').append(' <option value="'+obj[i].mes+'" >'+nombre+'</option>');
+      }
     });
    }else{
     $("#mes_inicial").prop('disabled', 'disabled');
@@ -239,6 +282,8 @@ $('#reservation').daterangepicker();
  function rango_annio(){
    var id = $('#annio_s').val();
    $('#mes_inicial').empty();
+   $("#exportar_rango").prop('disabled', 'disabled');
+   $('#mes_final').empty();
    if(id!='0'){
     $('#mes_inicial').removeAttr('disabled');
     $.post("<?php echo base_url();?>Exportar_c/validar_annio",{"id":id},    function(data){
@@ -282,7 +327,7 @@ $('#reservation').daterangepicker();
       if (obj[i].mes=='12') {
         nombre = 'DICIEMBRE';
       }
-      $('#mes_inicial').append(' <option value="'+obj[i].id_mes+'" >'+nombre+'</option>');
+      $('#mes_inicial').append(' <option value="'+obj[i].mes+'" >'+nombre+'</option>');
     }
 
   });
@@ -292,6 +337,14 @@ $('#reservation').daterangepicker();
     $('#mes_final').empty();
   }
 }
+ function habilitar_boton(){
+  var id = $('#mes_final').val();
+  if(id!='0'){
+    $('#exportar_rango').removeAttr('disabled');
+  }else{
+    $("#exportar_rango").prop('disabled', 'disabled');
+  }
+ }
 </script>
 </body>
 </html>
