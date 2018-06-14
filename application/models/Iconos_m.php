@@ -7,21 +7,21 @@ class Iconos_m extends CI_Model {
 
   }
 
-
-  public function mostrar_iconos()
+  public function iconos()
   {
    $this->db->select("*");
    $this->db->from("iconos");
-   $this->db->where("estado","1");
    $this->db->Order_by("id_iconos","desc");
    $r = $this->db->get();  
    return $r->result();
  }
 
- public function mostrar_estados()
+ public function iconos_editar($id)
  {
    $this->db->select("*");
-   $this->db->from("estados");
+   $this->db->from("iconos");
+   $this->db->where("id_iconos",$id);
+   $this->db->Order_by("id_iconos","desc");
    $r = $this->db->get();  
    return $r->result();
  }
@@ -29,9 +29,10 @@ class Iconos_m extends CI_Model {
  public function agregar()
  {
    $datos = array(
-    "iconos" => trim($this->input->post("iconos")),
-    "imagen" => '<i class="'.trim($this->input->post("iconos")).'"></i>',
-    "estado" => "1"
+    "nombres" => strtoupper(trim($this->input->post("iconos"))),
+    "codigo" => trim($this->input->post("url")), 
+    "iconos" => '<i class="'.trim($this->input->post("url")).'"></i>',
+
   );
    $this->db->insert("iconos",$datos);
  }
@@ -39,10 +40,11 @@ class Iconos_m extends CI_Model {
  public function modificar()
  {
    $datos = array(
-    "iconos" => trim($this->input->post("iconos")),
-    "imagen" => '<i class="'.trim($this->input->post("iconos")).'"></i>',
+    "nombres" => strtoupper(trim($this->input->post("iconos"))),
+    "codigo" => trim($this->input->post("url")), 
+    "iconos" => '<i class="'.trim($this->input->post("url")).'"></i>',
   );
-   $this->db->where("id_iconos",$this->input->post("id"));
+   $this->db->where("id_iconos",$this->input->post("id_iconos"));
    $this->db->update("iconos",$datos);
  }
 

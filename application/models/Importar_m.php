@@ -7,12 +7,13 @@ class Importar_m extends CI_Model {
 
   }
 
-public function agregar($maximo,$cantidad,$codigo,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado,$leibg,$leiag)
+public function agregar($maximo,$id_usuario,$cantidad,$codigo,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado,$leibg,$leiag)
    {
        
       $actualiza =array(
         'cantidad' => $cantidad, 
         'id_mes' => $maximo, 
+        'id_usuario' => $id_usuario, 
         'codigo_renipres'=> $codigo, 
         'dni'=> $dni, 
         'fecha_nacimiento'=> $fecha_nacimiento, 

@@ -138,6 +138,8 @@
           <ul class="treeview-menu">
             <li><a href="<?php echo base_url();?>Usuarios_c"><i class="fa fa-users"></i> Usuarios</a></li>
             <li><a href="<?php echo base_url();?>Tipos_usuarios_c"><i class="fa  fa-slideshare"></i> Tipos Usuarios</a></li>
+            <li><a href="<?php echo base_url();?>Modulos_c"><i class="fa  fa-file"></i> Modulos</a></li>
+            <li><a href="<?php echo base_url();?>Iconos_c"><i class="fa fa-cubes"></i> Iconos</a></li>
           </ul>
         </li>
          

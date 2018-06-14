@@ -113,10 +113,7 @@
 
 <?php include('includes/js.inc'); ?>
  <script>
-  
-  $( "#cancelar" ).click(function() {
-  window.location='Usuarios_c';
-});
+
   $( "#modificar" ).click(function() {
     var nombres = $('#nombres').val();
     var id_usuario = $('#id_usuario_modificar').val();

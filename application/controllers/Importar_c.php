@@ -8,9 +8,7 @@ class Importar_c extends CI_Controller {
 		$this->load->helper("url","form");
 		$this->load->model('Importar_m');
 		$this->load->library('form_validation');
-
 	}
-
 
 	public function index()
 	{
@@ -236,8 +234,8 @@ class Importar_c extends CI_Controller {
 		$numRows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
 		$max_mes = $this->db->query("select max(id_mes) as maximo from datos ")->row();
 		$maximo= $max_mes->maximo+1;
+		$id_usuario= $_SESSION["id_usuario"];
 		for ($i = 3; $i <= $numRows; $i++) {
-			 
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
 			$vali = $this->Importar_m->validar_codigo($codigorenipres);		
  			if ($vali) {
@@ -276,7 +274,7 @@ class Importar_c extends CI_Controller {
 			
  			
  		 
-			$this->Importar_m->agregar($maximo,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
+			$this->Importar_m->agregar($maximo,$id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
 	 }
 
 		}
