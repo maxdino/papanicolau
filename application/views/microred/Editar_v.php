@@ -41,7 +41,7 @@
               <div class="box-body">
                 <div class="form-group">
                   <label for="nombres" class="col-sm-2 control-label">Microred</label>
-                  <input type="hidden" value="<?php echo $value->id_microred; ?>" id="id_microred_modificar">
+                  <input type="hidden" autocomplete="off" value="<?php echo $value->id_microred; ?>" id="id_microred_modificar">
                   <div class="col-sm-10">
                     <input type="text" class="form-control" value="<?php echo $value->microred; ?>" id="nombres" style="text-transform: uppercase;" placeholder="Nombre Microred">
                     <div id="no_nombres"  style="color: red;display: none;" >Llenar el campo Nombre Microred</div>
@@ -79,13 +79,7 @@
   </div>
   <?php } ?>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
-
+<?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

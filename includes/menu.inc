@@ -55,7 +55,7 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                  <a href="<?php echo base_url();?>Perfil_c" class="btn btn-default btn-flat">Perfil</a>
                 </div>
                 <div class="pull-right">
                   <a href="<?php echo base_url(); ?>Principal_c/logout" class="btn btn-default btn-flat">Desconectar</a>
@@ -87,61 +87,28 @@
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      <!-- search form -->
-      <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form>
-      <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">NAVEGACIÓN PRINCIPAL</li>
+        <?php  $idhijo=0; foreach ($permisos as $value1){ 
+              $idpadre= $value1->idpadre;
+              if($idpadre != $idhijo){  ?>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-cogs"></i>
-            <span>Mantenimiento</span>
+            <i class="<?php echo $value1->ipadre;?>"></i>
+            <span><?php  echo $value1->padre ?></span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo base_url();?>Ipress_c"><i class="fa fa-hospital-o"></i> Ipress</a></li>
-            <li><a href="<?php echo base_url();?>Categorias_c"><i class="fa fa-th-list"></i> Categoria</a></li>
-            <li><a href="<?php echo base_url();?>Tipo_c"><i class="fa fa-medkit"></i> Tipos</a></li>
-            <li><a href="<?php echo base_url();?>Microred_c"><i class="fa fa-sitemap"></i> Microred</a></li>
-            <li><a href="<?php echo base_url();?>Red_c"><i class="fa fa-wifi"></i> Red</a></li>
+            <?php foreach ($permisos as $value){
+                  if($value1->idpadre == $value->idpadre){ $idhijo=$value->idpadre;?>
+            <li><a href="<?php echo base_url(). $value->url;?>"><i class="<?php echo $value->codigo;?>"></i> <?php  echo $value->hijo ?></a></li>
+            <?php } }  ?>
           </ul>
         </li>
-        <li class="treeview">
-          <a href="<?php echo base_url();?>Importar_c">
-            <i class="fa fa-cloud-upload"></i> <span>Importar Excel</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="<?php echo base_url();?>Exportar_c">
-            <i class="fa fa-cloud-download"></i> <span>Exportar Excel</span>
-          </a>
-        </li>
-        <li class="treeview">
-          <a href="#">
-            <i class="fa fa-unlock-alt"></i>
-            <span>Seguridad</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li><a href="<?php echo base_url();?>Usuarios_c"><i class="fa fa-users"></i> Usuarios</a></li>
-            <li><a href="<?php echo base_url();?>Tipos_usuarios_c"><i class="fa  fa-slideshare"></i> Tipos Usuarios</a></li>
-            <li><a href="<?php echo base_url();?>Modulos_c"><i class="fa  fa-file"></i> Modulos</a></li>
-            <li><a href="<?php echo base_url();?>Iconos_c"><i class="fa fa-cubes"></i> Iconos</a></li>
-          </ul>
-        </li>
+        <?php }} ?>
          
       </ul>
     </section>

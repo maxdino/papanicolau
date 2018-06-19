@@ -8,7 +8,7 @@
   <?php include('includes/css.inc'); ?>
 </head>
 <body class="hold-transition login-page" >
- 
+
   <div class="login-box">
 
     <div class="login-logo">
@@ -21,12 +21,12 @@
 
       <form   method="post">
         <div class="form-group has-feedback">
-          <input type="text" class="form-control" tabindex="1" placeholder="Usuario" name="usuario" id="usuario" value="<?php if(isset($_COOKIE['usuario'])){ echo  $_COOKIE['usuario'];  } ?>" >
+          <input type="text" class="form-control" tabindex="1" placeholder="Usuario" autocomplete="off" name="usuario" id="usuario" value="<?php if(isset($_COOKIE['usuario'])){ echo  $_COOKIE['usuario'];  } ?>" >
           <span class="glyphicon glyphicon-user form-control-feedback"></span>
           <div id="no_usu" style="color: red;display: none;">Llenar el campo Usuario </div>
         </div>
         <div class="form-group has-feedback">
-          <input type="password" class="form-control" tabindex="2" placeholder="Clave" name="clave" id="clave" value="" >
+          <input type="password" class="form-control" tabindex="2" autocomplete="off" placeholder="Clave" name="clave" id="clave" value="" >
           <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           <div id="no_clave" style="color: red;display: none;">Llenar el campo de la clave </div>
         </div>
@@ -35,9 +35,9 @@
             <div class="checkbox icheck">
               <label>
                 <?php if(isset($_COOKIE['recuerdo'])){  ?>
-                <input type="checkbox" tabindex="3" id="recuerdo" checked> Recordarme
+                  <input type="checkbox" tabindex="3" id="recuerdo" checked> Recordarme
                 <?php }else{ ?>
-                <input type="checkbox" id="recuerdo" > Recordarme
+                  <input type="checkbox" id="recuerdo" > Recordarme
                 <?php } ?>
               </label>
             </div>
@@ -69,7 +69,7 @@
       var usuario = $('#usuario').val();
       var recuerdo ='0';
       if ($('#recuerdo').prop('checked')) {
-      recuerdo ='1';  
+        recuerdo ='1';  
       }
       if (usuario=='') {
         $('#no_usu').css('display','block');
@@ -82,14 +82,23 @@
         $('#no_clave').css('display','none');
       }
       if(clave!='' && usuario!=''){
-      $.post("<?php echo base_url();?>Portal_c/autentificar",{"clave":clave,"usuario":usuario,"recuerdo":recuerdo},
-        function(data){
-          $json = JSON.parse(data);
-          if($json.autentificar=='1'){
-            window.location='Principal_c';
-          } 
-        });
-    }
+        $.post("<?php echo base_url();?>Portal_c/autentificar",{"clave":clave,"usuario":usuario,"recuerdo":recuerdo},
+          function(data){
+            $json = JSON.parse(data);
+            if($json.autentificar=='1'){
+              window.location='Principal_c';
+            }else{
+              swal({
+                title: "Error al ingresar",
+                text: "¡La contraseña o el usuario es incorrecto!",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+                confirmButtonText: 'Ok!'
+              });
+            }
+          });
+      }
     }
 
 

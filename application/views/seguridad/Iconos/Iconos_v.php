@@ -19,7 +19,7 @@
       <section class="content-header">
         <h1>
           BIENVENIDO AL REGISTRO DE ICONOS
-          <small><button type="button" id="agregar" class="btn btn-block btn-primary"><i class="fa fa-user-plus"></i></button></small>
+          <small><button type="button" id="agregar" class="btn btn-block btn-primary"><i class="fa fa-cubes"></i></button></small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
@@ -51,7 +51,7 @@
                   <td><?php echo $value->iconos; ?></td>
                   <td ><div class="btn-group">
                     <a class="btn btn-info" href="<?php echo base_url().'Iconos_c/editar/'.$value->id_iconos;?>" ><i class="fa fa-pencil"></i></a> 
-                    <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_iconos; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-user-times"></i></a>
+                    <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_iconos; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-trash"></i></a>
                   </div></td>
                 </tr>
               <?php  } ?>
@@ -86,12 +86,7 @@
       <!-- /.modal-dialog -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> 1.0
-      </div>
-      <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-    </footer>
+    <?php include('includes/footer.php'); ?>
     <div class="control-sidebar-bg"></div>
   </div>
   <!-- ./wrapper -->

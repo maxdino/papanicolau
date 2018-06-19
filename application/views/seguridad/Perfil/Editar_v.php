@@ -14,7 +14,7 @@
   <!-- Site wrapper -->
   <div class="wrapper">
     <?php include('includes/menu.inc'); ?>
-    <?php foreach($usuarios as $value){ ?>
+    <?php foreach($perfil as $value){ ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -25,8 +25,7 @@
           </h1>
           <ol class="breadcrumb">
             <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
-            <li><a href="#">Seguridad</a></li>
-            <li class="active">Usuarios</li>
+            <li class="active">Perfil</li>
           </ol>
         </section>
         <!-- Main content -->
@@ -91,7 +90,7 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                  <a type="submit" href="<?php echo base_url();?>Usuarios_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
+                  <a type="submit" href="<?php echo base_url();?>Perfil_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
                   <a type="submit" id="modificar" class="btn btn-info pull-right"><i class="fa fa-upload"></i>  Modificar</a>
                 </div>
                 <!-- /.box-footer -->
@@ -126,49 +125,36 @@
       if (clave==clave_con) {
        $.post("<?php echo base_url();?>Usuarios_c/modificar",{"id_usuario":id_usuario,"nombres":nombres,"clave":clave,"apellidos":apellidos,"usuario":usuario,"perfil_usuario":perfil_usuario},
         function(data){
-          $('#no_coinciden').css('display','none');
-          $('#no_coinciden_con').css('display','none');
-          window.location='../Usuarios_c';
+           swal({
+            title: "Se asignaron correctamente los permisos",
+            text: "¡Se guardo con exito!",
+            type: "success",
+            showCancelButton: false,
+            confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+            confirmButtonText: 'Ok!'
+          },function(){
+             window.location='../Usuarios_c';
+          });
         });
      }else{
-      $('#no_usuario').css('display','none');
-      $('#no_clave').css('display','none');
-      $('#no_nombres').css('display','none');
-      $('#no_apellidos').css('display','none');
-      $('#no_clave_con').css('display','none');
-      $('#no_coinciden').css('display','block');
-      $('#no_coinciden_con').css('display','block');
+      swal({
+        title: "Error",
+        text: "¡No coinciden las contraseñas!",
+        type: "error",
+        showCancelButton: false,
+        confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+        confirmButtonText: 'Ok!'
+      });
     }
   }else{
-    if (usuario=='') {
-      $('#no_usuario').css('display','block');
-    }else{
-      $('#no_usuario').css('display','none');
-    }
-    if (clave=='') {
-      $('#no_coinciden_con').css('display','none');
-      $('#no_coinciden').css('display','none');
-      $('#no_clave').css('display','block');
-    }else{
-      $('#no_clave').css('display','none');
-    } 
-    if (nombres=='') {
-      $('#no_nombres').css('display','block');
-    }else{
-      $('#no_nombres').css('display','none');
-    }
-    if (apellidos=='') {
-      $('#no_apellidos').css('display','block');
-    }else{
-      $('#no_apellidos').css('display','none');
-    } 
-    if (clave_con=='') {
-      $('#no_coinciden_con').css('display','none');
-      $('#no_coinciden').css('display','none');
-      $('#no_clave_con').css('display','block');
-    }else{
-      $('#no_clave_con').css('display','none');
-    }
+    swal({
+      title: "Error al registrar el Usuario",
+      text: "¡No llenaste todos los campos del Usuario!",
+      type: "error",
+      showCancelButton: false,
+      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+      confirmButtonText: 'Ok!'
+    });
   }
 });
 </script>

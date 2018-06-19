@@ -38,7 +38,7 @@
                 <div class="form-group">
                   <label for="modulos" class="col-sm-2 control-label">MODULO</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="modulos" style="text-transform: uppercase;" placeholder="Modulo">
+                    <input type="text" class="form-control" autocomplete="off" id="modulos" style="text-transform: uppercase;" placeholder="Modulo">
                   </div>
                 </div>
                 <div class="form-group">
@@ -55,7 +55,7 @@
                 <div class="form-group">
                   <label for="url" class="col-sm-2 control-label">Url</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="url" disabled="disabled" >
+                    <input type="text" class="form-control" autocomplete="off" id="url" disabled="disabled" >
                   </div>
                 </div>
                 <div class="form-group">
@@ -85,12 +85,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
+<?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
@@ -127,7 +122,7 @@
       $('#url').val('');
       $('#url').prop('disabled','disabled');
     }else{
-      $('#url').RemoveAttr('disabled');
+      $('#url').removeAttr('disabled');
     }
   }
 </script>

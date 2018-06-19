@@ -38,13 +38,13 @@
                 <div class="form-group">
                   <label for="tipo_usuario" class="col-sm-2 control-label">Tipo Usuario</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="tipo_usuario" style="text-transform: uppercase;" placeholder="Tipo Usuario">
+                    <input type="text" class="form-control" id="tipo_usuario" autocomplete="off" style="text-transform: uppercase;" placeholder="Tipo Usuario">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="detalle" class="col-sm-2 control-label">Detalle</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="detalle" style="text-transform: uppercase;" placeholder="Detalle">
+                    <input type="text" class="form-control" id="detalle" autocomplete="off" style="text-transform: uppercase;" placeholder="Detalle">
                   </div>
                 </div>
               </div>
@@ -63,12 +63,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.6
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
+  <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

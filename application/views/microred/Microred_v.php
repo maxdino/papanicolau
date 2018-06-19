@@ -21,7 +21,7 @@
     <section class="content-header">
       <h1>
         BIENVENIDO AL REGISTRO DE LA MICRORED
-        <small><button type="button" id="agregar" class="btn btn-block btn-primary"><i class="fa  fa-sitemap"></i><i class="fa   fa-plus"></i></button></small>
+        <small><button type="button" id="agregar" class="btn btn-block btn-primary"><i class="fa  fa-sitemap"></i></button></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
@@ -55,7 +55,7 @@
                          if($value->red==$values->id_red){  echo $values->red_salud;  }else{ echo ""; }  } ?></td>
                   <td ><div class="btn-group">
                       <a class="btn btn-info" href="<?php echo base_url().'Microred_c/editar/'.$value->id_microred;?>" ><i class="fa fa-pencil"></i></a> 
-                       <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_microred; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa  fa-sitemap"></i><i class="fa  fa-times"></i></a>
+                       <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_microred; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-trash"></i></a>
                     </div></td>
                 </tr>
                 <?php  } ?>
@@ -90,13 +90,7 @@
           <!-- /.modal-dialog -->
         </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018. </strong> Todos los derechos reservados.
-  </footer>
-
+<?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

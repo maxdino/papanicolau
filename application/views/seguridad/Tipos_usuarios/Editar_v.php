@@ -40,14 +40,14 @@
                   <label for="nombres" class="col-sm-2 control-label">Tipo Usuario</label>
                   <input type="hidden" value="<?php echo $value->id_tipos_usuarios; ?>" id="id_tipo_usuario">
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo $value->tipos_usuarios; ?>" id="tipo_usuario" style="text-transform: uppercase;" placeholder="Tipo Usuario">
+                    <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->tipos_usuarios; ?>" id="tipo_usuario" style="text-transform: uppercase;" placeholder="Tipo Usuario">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="apellidos" class="col-sm-2 control-label">Detalle</label>
 
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo $value->descripcion; ?>" id="detalle" style="text-transform: uppercase;" placeholder="Detalle">
+                    <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->descripcion; ?>" id="detalle" style="text-transform: uppercase;" placeholder="Detalle">
                   </div>
                 </div>
               </div>
@@ -67,13 +67,7 @@
   </div>
   <?php } ?>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 2.3.6
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
-
+ <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

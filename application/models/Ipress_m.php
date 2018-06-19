@@ -103,4 +103,13 @@ class Ipress_m extends CI_Model {
 		$this->db->where("codigo",$this->input->post("id"));
 		$this->db->delete("ipress",$datos);
 	}
+
+	public function validar_codigo()
+	{
+		$this->db->select("*");
+		$this->db->from("ipress");
+		$this->db->where("codigo",$this->input->post("codigo"));
+		$r = $this->db->get();  
+		return $r->result();
+	}
 }

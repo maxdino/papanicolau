@@ -10,16 +10,20 @@ class Perfil_m extends CI_Model {
 
   public function perfil()
    {
-   $this->db->select("*");
-   $this->db->from("perfil");
+   $this->db->select("u.nombre,u.id_usuario,u.apellido,t.tipos_usuarios,u.usuario,u.clave");
+   $this->db->from("usuario as u");
+   $this->db->join("tipos_usuarios as t","u.tipos_usuarios=t.id_tipos_usuarios");
+   $this->db->where("u.id_usuario",$_SESSION["id_usuario"]);
    $r = $this->db->get();  
    return $r->result();
    }
 
-   public function modulos()
+   public function editar_perfil($id)
    {
-   $this->db->select("*");
-   $this->db->from("modulo");
+   $this->db->select("u.nombre,u.id_usuario,u.apellido,t.tipos_usuarios,u.usuario,u.clave");
+   $this->db->from("usuario as u");
+   $this->db->join("tipos_usuarios as t","u.tipos_usuarios=t.id_tipos_usuarios");
+   $this->db->where("u.id_usuario",$id);
    $r = $this->db->get();  
    return $r->result();
    }

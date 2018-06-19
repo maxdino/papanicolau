@@ -6,13 +6,13 @@ class Principal_c extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Principal_m');
-		
+		$this->load->model('Permisos_m');
 	}
-
 
 	public function index()
 	{
-		$this->load->view('principal/Principal_v');
+		$data['permisos'] = $this->Permisos_m->traer_permisos();
+		$this->load->view('principal/Principal_v',$data);
 	}
  
 	public function logout()

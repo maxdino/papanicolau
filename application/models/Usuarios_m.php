@@ -21,6 +21,13 @@ class Usuarios_m extends CI_Model {
 		$r = $this->db->get();  
 		return $r->result();
 	}
+	public function perfiles()
+	{
+		$this->db->select("*");
+		$this->db->from("tipos_usuarios");
+		$r = $this->db->get();  
+		return $r->result();
+	}
 	public function agregar()
 	{	
 		$usuario = substr($this->input->post("usuario"), 0, 1);
@@ -29,6 +36,7 @@ class Usuarios_m extends CI_Model {
 		'nombre' => strtoupper(trim($this->input->post("nombres"))), 
 		'apellido' => strtoupper(trim($this->input->post("apellidos"))), 
 		'usuario' => $this->input->post("usuario"), 
+		'tipos_usuarios' => $this->input->post("perfil_usuario"), 
 		'clave' => $clave,
 		'estado' => '1',
 		);
@@ -49,6 +57,7 @@ class Usuarios_m extends CI_Model {
 		'nombre' => strtoupper(trim($this->input->post("nombres"))), 
 		'apellido' => strtoupper(trim($this->input->post("apellidos"))), 
 		'usuario' => $this->input->post("usuario"), 
+		'tipos_usuarios' => $this->input->post("perfil_usuario"), 
 		'clave' => $clave,
 		'estado' => '1',
 		);

@@ -7,14 +7,27 @@ class Exportar_c extends CI_Controller {
 		parent::__construct();
 		$this->load->helper("url","form");
 		$this->load->model('Exportar_m');
+		$this->load->model('Permisos_m');
 		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{
+		$data['permisos']= $this->Permisos_m->traer_permisos();
 		$data['mes']= $this->Exportar_m->mostrar();
 		$data['annio']= $this->Exportar_m->mostrar_annio();
+		$r = $this->Permisos_m->validar_modulos($_SESSION["tipos_usuarios"]);
+		$entra=0;
+		foreach ($r as $value) {
+			if ($value->id_modulo=='15') {
+				$entra=1;
+			}
+		}
+		if ($entra=='1') {
 		$this->load->view('exportar/Exportar_v',$data);
+		}else{
+		header('Location: Principal_c');
+	}
 	}
 
 	public function exportar_mes()
@@ -448,7 +461,6 @@ class Exportar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AC')->setWidth(5);
 		$objPHPExcel->getActiveSheet()->getRowDimension('6')->setRowHeight(55);
 		
-
 		$objPHPExcel->getActiveSheet()->getStyle('A4:A6')->applyFromArray($estiloTitulohorizontal);
 		$objPHPExcel->getActiveSheet()->getStyle('B4:K4')->applyFromArray($estiloTitulohorizontal);
 		$objPHPExcel->getActiveSheet()->getStyle('L4:N4')->applyFromArray($estiloTitulohorizontal);

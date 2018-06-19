@@ -7,12 +7,54 @@ class Importar_c extends CI_Controller {
 		parent::__construct();
 		$this->load->helper("url","form");
 		$this->load->model('Importar_m');
+		$this->load->model('Permisos_m');
 		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{
-		$this->load->view('importar/Importar_v');
+		$data['permisos']= $this->Permisos_m->traer_permisos();
+		$data['mes_subido']= $this->Importar_m->mes_subido();
+		$r = $this->Permisos_m->validar_modulos($_SESSION["tipos_usuarios"]);
+		$entra=0;
+		foreach ($r as $value) {
+			if ($value->id_modulo=='14') {
+				$entra=1;
+			}
+		}
+		if ($entra=='1') {
+			$this->load->view('importar/Importar_v',$data);
+		}else{
+			header('Location: ../Principal_c');
+		}
+	}
+
+	public function eliminar()
+	{
+		$this->Importar_m->eliminar();
+	}
+
+	public function lectura_datos(){
+		require_once APPPATH . 'libraries/Classes/PHPExcel/IOFactory.php';
+		$objReader = PHPExcel_IOFactory::createReader('Excel2007');
+		$objReader->setReadDataOnly(true);
+		$objPHPExcel = $objReader->load($this->input->post("datos"));
+		$objWorksheet = $objPHPExcel->getActiveSheet();
+		$highestRow = $objWorksheet->getHighestRow(); 
+		$highestColumn = $objWorksheet->getHighestColumn(); 
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); 
+
+		echo '<table border="1">' . "\n";
+		for ($row = 1; $row <= $highestRow; ++$row) {
+			echo '<tr>' . "\n";
+
+			for ($col = 0; $col <= $highestColumnIndex; ++$col) {
+				echo '<td>' . $objWorksheet->getCellByColumnAndRow($col, $row)->getValue() . '</td>' . "\n";
+			}
+
+			echo '</tr>' . "\n";
+		}
+		echo '</table>' . "\n";
 	}
 
 	public function exportar()
@@ -72,8 +114,8 @@ class Importar_c extends CI_Controller {
 			),
 			'borders' => array(
 				'allborders' => array(
-					'style' => PHPExcel_Style_Border::BORDER_THIN	//BORDER_MEDIUM , BORDER_THIN , BORDER_NONE grosor del borde
-				)
+		'style' => PHPExcel_Style_Border::BORDER_THIN	//BORDER_MEDIUM , BORDER_THIN , BORDER_NONE grosor del borde
+	)
 			),
 			'alignment' =>  array(
 				'horizontal'=> PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
@@ -186,7 +228,7 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getStyle('AN2')->applyFromArray($estiloTituloColumnas);
 		$objPHPExcel->getActiveSheet()->getStyle('AO2')->applyFromArray($estiloTituloColumnas);
 // Agregar en celda A1 valor string
-/*		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'PHPExcel');
+		/*		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'PHPExcel');
 
 // Agregar en celda A2 valor numerico
 		$objPHPExcel->getActiveSheet()->setCellValue('A2', 12345.6789);
@@ -238,44 +280,44 @@ class Importar_c extends CI_Controller {
 		for ($i = 3; $i <= $numRows; $i++) {
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
 			$vali = $this->Importar_m->validar_codigo($codigorenipres);		
- 			if ($vali) {
-			$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
-			$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
-			$fecha_nacimiento = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
-			$timestamp1 = PHPExcel_Shared_Date::ExcelToPHP($fecha_nacimiento);
-			$fecha_nacimiento = gmdate("Y-m-d H:i:s",$timestamp1);
-			if ($fecha_nacimiento==0) {
-			$fecha_nacimiento='1900-01-01 00:00:00';
+			if ($vali) {
+				$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
+				$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
+				$fecha_nacimiento = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
+				$timestamp1 = PHPExcel_Shared_Date::ExcelToPHP($fecha_nacimiento);
+				$fecha_nacimiento = gmdate("Y-m-d H:i:s",$timestamp1);
+				if ($fecha_nacimiento==0) {
+					$fecha_nacimiento='1900-01-01 00:00:00';
+				}
+				$muestra = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();	
+				$fecha_muestra = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
+				if ($fecha_muestra!='') {
+					$timestamp2 = PHPExcel_Shared_Date::ExcelToPHP($fecha_muestra);
+					$fecha_muestra = gmdate("Y-m-d H:i:s",$timestamp2);
+				}	
+				$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
+				if ($fecha_rechazo!='') {
+					$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
+					$timestamp7 = $timestamp7+(5*60 *60);
+					$fecha_rechazo = date("Y-m-d H:i:s",$timestamp7);
+				}
+				$celulas_escamosas_atipicas = $objPHPExcel->getActiveSheet()->getCell('AS'.$i)->getCalculatedValue();	
+				$celulas_glandulares_atipicas = $objPHPExcel->getActiveSheet()->getCell('AT'.$i)->getCalculatedValue();	
+
+				$clasificacion_general = $objPHPExcel->getActiveSheet()->getCell('AV'.$i)->getCalculatedValue();
+				$fecha_resultado = $objPHPExcel->getActiveSheet()->getCell('AW'.$i)->getCalculatedValue();
+				if ($fecha_resultado!='') {
+					$timestamp10 = PHPExcel_Shared_Date::ExcelToPHP($fecha_resultado);
+					$timestamp10 = $timestamp10+(5*60 *60);
+					$fecha_resultado = date("Y-m-d H:i:s",$timestamp10);	
+				}
+				$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
+				$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
+
+
+
+				$this->Importar_m->agregar($maximo,$id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
 			}
-			$muestra = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();	
-			$fecha_muestra = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
-			if ($fecha_muestra!='') {
-			$timestamp2 = PHPExcel_Shared_Date::ExcelToPHP($fecha_muestra);
-			$fecha_muestra = gmdate("Y-m-d H:i:s",$timestamp2);
-			}	
-			$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
-			if ($fecha_rechazo!='') {
-				$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
-				$timestamp7 = $timestamp7+(5*60 *60);
-				$fecha_rechazo = date("Y-m-d H:i:s",$timestamp7);
-			}
-			$celulas_escamosas_atipicas = $objPHPExcel->getActiveSheet()->getCell('AS'.$i)->getCalculatedValue();	
-			$celulas_glandulares_atipicas = $objPHPExcel->getActiveSheet()->getCell('AT'.$i)->getCalculatedValue();	
-			 
-			$clasificacion_general = $objPHPExcel->getActiveSheet()->getCell('AV'.$i)->getCalculatedValue();
-			$fecha_resultado = $objPHPExcel->getActiveSheet()->getCell('AW'.$i)->getCalculatedValue();
-			if ($fecha_resultado!='') {
-			$timestamp10 = PHPExcel_Shared_Date::ExcelToPHP($fecha_resultado);
-			$timestamp10 = $timestamp10+(5*60 *60);
-			$fecha_resultado = date("Y-m-d H:i:s",$timestamp10);	
-			}
-			$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
-			$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
-			
- 			
- 		 
-			$this->Importar_m->agregar($maximo,$id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
-	 }
 
 		}
 

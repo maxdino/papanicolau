@@ -41,7 +41,7 @@
                   <label for="modulos" class="col-sm-2 control-label">MODULO</label>
                   <div class="col-sm-10">
                     <input type="hidden" id="id_modulos" value="<?php echo $value->id_modulos; ?>" >
-                    <input type="text" class="form-control" id="modulos" style="text-transform: uppercase;" value="<?php echo $value->nombres; ?>" placeholder="Modulo">
+                    <input type="text" class="form-control" autocomplete="off" id="modulos" style="text-transform: uppercase;" value="<?php echo $value->nombres; ?>" placeholder="Modulo">
                   </div>
                 </div>
                 <div class="form-group">
@@ -62,7 +62,7 @@
                   <label for="url" class="col-sm-2 control-label">Url</label>
                   <div class="col-sm-10">
                    <?php if( $value->url=='#'){ $url=''; }else{ $url=$value->url; } ?>
-                    <input type="text" class="form-control" id="url" value="<?php echo $url; ?>" >
+                    <input type="text" class="form-control" autocomplete="off" id="url" value="<?php echo $url; ?>" >
                   </div>
                 </div>
                 <div class="form-group">
@@ -97,13 +97,7 @@
 </div>
 <?php } ?>
 <!-- /.content-wrapper -->
-<footer class="main-footer">
-  <div class="pull-right hidden-xs">
-    <b>Version</b> 1.0
-  </div>
-  <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-</footer>
-
+<?php include('includes/footer.php'); ?>
 <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
@@ -123,7 +117,7 @@
   if (modulos!=''&&iconos!='0') {
    $.post("<?php echo base_url();?>Modulos_c/modificar",{"modulos":modulos,"url":url,"id_modulos":id_modulos,"iconos":iconos,"padre":padre},
     function(data){
-      window.location='../Modulos_c';
+      window.location='../../Modulos_c';
     });
  }else{
    swal({

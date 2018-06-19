@@ -43,13 +43,13 @@
                   <label for="icono" class="col-sm-2 control-label">Iconos</label>
                   <input type="hidden" value="<?php echo $value->id_iconos; ?>" id="id_iconos">
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo $value->nombres; ?>" id="iconos" style="text-transform: uppercase;" placeholder="Icono">
+                    <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->nombres; ?>" id="iconos" style="text-transform: uppercase;" placeholder="Icono">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="url" class="col-sm-2 control-label">Url o Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo $value->codigo; ?>" id="url"   placeholder="url">
+                    <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->codigo; ?>" id="url"   placeholder="url">
                   </div>
                 </div>
                 </div>
@@ -70,13 +70,7 @@
   </div>
   <?php } ?>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
-
+  <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

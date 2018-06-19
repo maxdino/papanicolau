@@ -42,8 +42,7 @@
                 <div class="form-group">
                   <label for="nombres" class="col-sm-2 control-label">Nombre de la red</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nombres" style="text-transform: uppercase;" placeholder="Nombres">
-                    <div id="no_nombres"  style="color: red;display: none;" >Llenar el campo Nombres red</div>
+                    <input type="text" class="form-control" id="nombres" autocomplete="off" style="text-transform: uppercase;" placeholder="Nombres">
                   </div>
                 </div>
               </div>
@@ -62,34 +61,37 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.  </strong> Todos los derechos reservados.
-  </footer>
-
+  <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
 <?php include('includes/js.inc'); ?>
  <script>
-  
   $( "#agregar" ).click(function() {
     var nombres = $('#nombres').val().toUpperCase();
-
     if (nombres!='') {
    $.post("<?php echo base_url();?>Red_c/agregar",{"nombres":nombres},
         function(data){
+          swal({
+            title: "Se asignaron correctamente los permisos",
+            text: "¡Se guardo con exito!",
+            type: "success",
+            showCancelButton: false,
+            confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+            confirmButtonText: 'Ok!'
+          },function(){
             window.location='../Red_c';
+          });
         });
 }else{
-      if (nombres=='') {
-        $('#no_nombres').css('display','block');
-      }else{
-        $('#no_nombres').css('display','none');
-      }
+      swal({
+        title: "Error al registrar la Red",
+        text: "¡No llenaste todos los campos!",
+        type: "error",
+        showCancelButton: false,
+        confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+        confirmButtonText: 'Ok!'
+      });
 }
 });
 </script>

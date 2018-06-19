@@ -38,13 +38,13 @@
                 <div class="form-group">
                   <label for="iconos" class="col-sm-2 control-label">Iconos</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="iconos" style="text-transform: uppercase;" placeholder="Iconos">
+                    <input type="text" class="form-control" autocomplete="off" id="iconos" style="text-transform: uppercase;" placeholder="Iconos">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="url" class="col-sm-2 control-label">Url o Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="url" placeholder="fa fa-home">
+                    <input type="text" class="form-control" autocomplete="off" id="url" placeholder="fa fa-home">
                   </div>
                 </div>
               </div>
@@ -63,12 +63,7 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
+  <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

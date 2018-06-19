@@ -4,129 +4,173 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SISTEMA DE REPORTES</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
   <?php include('includes/css.inc'); ?>
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <!-- Site wrapper -->
   <div class="wrapper">
     <?php include('includes/menu.inc'); ?>
-
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
           BIENVENIDO AL IMPORTAR EXCEL  <img width="33" height="38" src="public/foto/excel_icono.png">
-          <small></small>
+          <small> <?php echo form_open_multipart('Importar_c/exportar'); ?> 
+          <input type="submit" class="btn btn-block btn-primary" name="exportar" value="Exportar plantilla Excel"> 
+          <?php echo form_close(); ?></small>
         </h1>
         <ol class="breadcrumb">
           <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
+          <li><a href="#">Reportes</a></li>
           <li class="active">Importar Excel</li>
         </ol>
       </section>
-
       <!-- Main content -->
       <section class="content">
-
         <!-- Default box -->
-        <div class="box">
-
-
-          <div class="col-md-13">
-            <!-- Custom Tabs -->
-            <div class="nav-tabs-custom">
-              <div class="box-header with-border">
-                <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab">Exportar plantilla Excel</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Cargar Excel</a></li>
-                </ul>
-              </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="box">
               <div class="box-body">
-                <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
-                    <?php echo form_open_multipart('Importar_c/exportar'); ?> 
-                    <input type="submit" name="exportar" value="Exportar plantilla Excel"> 
-                    <?php echo form_close(); ?>
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="tab_2">
-
-                   <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h4><i class="icon fa fa-ban"></i> AVISO!</h4>
-                    Antes de cargar el archivo excel ver el formato de plantilla para evitar problemas
-                  </div>
-
-                  <form   method="post" id="form_importar"   name="form_importar" enctype='multipart/form-data'  >
-                    <div class="form-group">
-                      <label for="exampleInputFile">Cargar Archivo Excel</label>
-                      <input type="file" id="excel" name="excel" accept="*/ .xls,.xlsx">
-                      <br>
-                      <button type="submit"   id="btn_importar" >Importar</button>
-                    </div>
-                     <br>
-                  </form>
-
+                <div id="excel_leer" style=" "></div> 
+                <div class="alert alert-danger alert-dismissible">
+                  <h4><i class="icon fa fa-ban"></i> AVISO!</h4>
+                  Antes de cargar el archivo excel ver el formato de plantilla para evitar problemas en la subida y verificar en la tabla si el mismo archivo a sido subido.
                 </div>
-                <!-- /.tab-pane -->
+                <form   method="post" id="form_importar"   name="form_importar" enctype='multipart/form-data'  >
+                  <div class="form-group">
+                    <label for="exampleInputFile">Cargar Archivo Excel</label>
+                    <input type="file" id="excel" name="excel" required="" accept="*/ .xls,.xlsx">
+                    <br>
+                    <div class="col-md-3">
+                      <button type="submit" id="btn_importar" class="btn btn-block btn-primary">Importar</button>
+                    </div>
+                  </div>
+                  <br>
+                </form>
               </div>
-
-            </div>    
-            
-            <!-- /.tab-content -->
+            </div>
           </div>
-          <!-- nav-tabs-custom -->
+          <div class="col-md-6">
+            <div class="box">
+              <div class="box-body">
+               <table id="importar_tabla" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>N°</th>
+                    <th>REGISTRO DEL PAP DEL MES</th>
+                    <th>FECHA IMPORTACIÓN</th>
+                    <th  ></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php  foreach($mes_subido as $value){ 
+                    if ($value->mes=='01'||$value->mes=='1') {
+                      $nombre_mes = 'ENERO';
+                    }
+                    if ($value->mes=='02'||$value->mes=='2') {
+                      $nombre_mes = 'FEBRERO';
+                    }
+                    if ($value->mes=='03'||$value->mes=='3') {
+                      $nombre_mes = 'MARZO';
+                    }
+                    if ($value->mes=='04'||$value->mes=='4') {
+                      $nombre_mes = 'ABRIL';
+                    }
+                    if ($value->mes=='05'||$value->mes=='5') {
+                      $nombre_mes = 'MAYO';
+                    }
+                    if ($value->mes=='06'||$value->mes=='6') {
+                      $nombre_mes = 'JUNIO';
+                    }
+                    if ($value->mes=='07'||$value->mes=='7') {
+                      $nombre_mes = 'JULIO';
+                    }
+                    if ($value->mes=='08'||$value->mes=='8') {
+                      $nombre_mes = 'AGOSTO';
+                    }
+                    if ($value->mes=='09'||$value->mes=='9') {
+                      $nombre_mes = 'SETIEMBRE';
+                    }
+                    if ($value->mes=='10') {
+                      $nombre_mes = 'OCTUBRE';
+                    }
+                    if ($value->mes=='11') {
+                      $nombre_mes = 'NOVIEMBRE';
+                    }
+                    if ($value->mes=='12') {
+                      $nombre_mes = 'DICIEMBRE';
+                    }
+                    ?>
+                    <tr id="<?php echo $value->id_mes; ?>">
+                      <td><?php echo $value->id_mes; ?></td>
+                      <td><?php echo $nombre_mes.'  '.$value->annio; ?></td>
+                      <td><?php echo $value->fecha_registro; ?></td>
+                      <td ><div class="btn-group">
+                        <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_mes; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa  fa-trash"></i></a>
+                      </div></td>
+                    </tr>
+                  <?php  } ?>
+                </tbody>
+              </table>
+            </div>        <!-- /.box-footer-->
+          </div><!-- /.box -->
         </div>
-
-        <!-- /.box-footer-->
       </div>
-      <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-<div id="modal_carga" class="modal fade" role="dialog" backdrop="static" keyboard="false">
- <div class="modal-dialog">
-      <div class="modal-content">
- 
-      </div> 
-   </div>          
- </div>   
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
-
+<?php include('includes/footer.php'); ?>
   <!-- Add the sidebar's background. This div must be placed
    immediately after the control sidebar -->
    <div class="control-sidebar-bg"></div>
  </div>
  <!-- ./wrapper -->
+ <!-- Modal -->
+ <div class="modal fade" id="eliminar_modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: #d33724;border-color: #c23321;border-bottom: 2px solid #c23321;" >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" style="color: #fff;">¿Estas seguro que desea eliminar este Registro del PAP?</h4>
+        </div>
+        <div class="modal-body" >
+          <p style="color: red ;font-size: 18px;"></p>
+          <input type="hidden" id="id_importar">
+        </div>
+        <div class="modal-footer" >
+          <button type="submit" class="btn btn-primary" data-dismiss="modal">Salir</button>
+          <button type="submit" id="eliminar" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <?php include('includes/js.inc'); ?>
+  <script>
+    $(function () {
+      $("#importar_tabla").dataTable();
+    }); 
+    $("#excel").change(function(){
+      alert(this.files[0].tmp_name);
+      if (this.files.length=='1') {
+        $.post("<?php echo base_url();?>Importar_c/lectura_datos",{"datos":this.files[0].name},
+          function(data){
+            $('#excel_leer').html(data);
+          });
+      }else{
 
- <?php include('includes/js.inc'); ?>
- <script>
-
-  $('#form_importar').on("submit", function(e){
+      }
+    });
+    $('#form_importar').on("submit", function(e){
     //$('#modal_carga').modal('show');
-   showPleaseWait();
+    showPleaseWait();
     e.preventDefault();
- 
     var formData = new FormData(document.getElementById("form_importar"));
     var url = "<?php echo base_url();?>Importar_c/importar";
-
     $.ajax({                        
      type: "POST",                 
      url: url,                     
@@ -134,26 +178,45 @@
      cache: false,
      contentType: false,
      processData: false
-
    }).done(function(datos){
     hidePleaseWait();
-    swal("Registrado!", "Se ha subido correctamente los datos :)", "success");
-
-   });
+    swal({
+      title: "Registrado",
+      text: "¡Se ha subido correctamente los datos!",
+      type: "success",
+      showCancelButton: false,
+      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+      confirmButtonText: 'Ok!'
+    },function(){
+      window.location='Importar_c';
+    });  
+    //swal("Registrado!", "Se ha subido correctamente los datos ", "success");
+  });
  }); 
-
-function showPleaseWait() {
-    var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog"><div class="modal-dialog"><div class="modal-content" style="border-radius: 10px;margin-top:160px;"><div class="modal-header"><h3 class="modal-title">Cargando...</h3></div><div class="modal-body"><div class="progress"><div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 70px"></div></div></div></div></div> </div>';
-    $(document.body).append(modalLoading);
-    $("#pleaseWaitDialog").modal("show");
-}
-
-/**
- * Hides "Please wait" overlay. See function showPleaseWait().
- */
-function hidePleaseWait() {
-    $("#pleaseWaitDialog").modal("hide");
-}
+    function showPleaseWait() {
+      var modalLoading = '<div class="modal" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false role="dialog"><div class="modal-dialog"><div class="modal-content" style="border-radius: 10px;margin-top:160px;"><div class="modal-header"><h3 class="modal-title">Cargando...</h3></div><div class="modal-body"><div class="progress"><div class="progress-bar progress-bar-primary progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%; height: 70px"></div></div></div></div></div> </div>';
+      $(document.body).append(modalLoading);
+      $("#pleaseWaitDialog").modal("show");
+    }
+    function hidePleaseWait() {
+      $("#pleaseWaitDialog").modal("hide");
+    }
+    function mostrar_eliminar(id){
+     $("#id_importar").val(id);
+   }
+   $( "#eliminar" ).click(function() {
+    var t = $('#importar_tabla').dataTable();
+    var id = $("#id_importar").val();
+    var nRow = $ ('#importar_tabla tr#'+ id)[0]; 
+    t.fnDeleteRow(nRow); 
+    $.ajax({
+      url : "<?php echo base_url();?>Importar_c/eliminar",
+      data : {id : id},
+      type : 'POST',
+      success : function(data) {
+      }
+    });
+  });
 </script>
 </body>
 </html>

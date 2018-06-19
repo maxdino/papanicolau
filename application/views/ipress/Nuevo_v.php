@@ -20,8 +20,8 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          REGISTRAR NUEVO IPRESS <a type="submit" id="agregar" class="btn btn-info "><i class="fa fa-upload"></i>  Registrar</a> <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
-                
+          REGISTRAR NUEVO IPRESS <a type="submit" id="agregar" class="btn btn-primary "><i class="fa fa-upload"></i>  Registrar</a> <a type="submit" href="<?php echo base_url();?>Ipress_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
+
           <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -43,23 +43,23 @@
                 <div class="form-group">
                   <label for="codigo" class="col-sm-2 control-label">Codigo</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="codigo" onkeyup="validar_codigo()" >
+                    <input type="text" class="form-control" autocomplete="off" id="codigo" onkeyup="validar_codigo()" >
                     
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="nombres" class="col-sm-2 control-label">Nombre de Ipress</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" id="nombres" style="text-transform: uppercase;" >
+                    <input type="text" class="form-control" autocomplete="off" id="nombres" style="text-transform: uppercase;" >
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="microred" class="col-sm-2 control-label" >MicroRed </label>
                   <div class="col-sm-10">
-                    <select class="form-control select2" id="microred">
+                    <select class="form-control select2" autocomplete="off" id="microred">
                       <option ></option>
                       <?php foreach($microred as $value){ ?>
-                      <option value="<?php echo $value->id_microred;  ?>" ><?php echo $value->microred;  ?></option>
+                        <option value="<?php echo $value->id_microred;  ?>" ><?php echo $value->microred;  ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -67,10 +67,10 @@
                 <div class="form-group">
                   <label for="tipos" class="col-sm-2 control-label" >Tipo </label>
                   <div class="col-sm-10">
-                    <select class="form-control select2" id="tipos">
+                    <select class="form-control select2" autocomplete="off" id="tipos">
                       <option ></option>
                       <?php foreach($tipos as $value){ ?>
-                      <option value="<?php echo $value->id_tipos;  ?>" ><?php echo $value->tipos;  ?></option>
+                        <option value="<?php echo $value->id_tipos;  ?>" ><?php echo $value->tipos;  ?></option>
                       <?php } ?>
                     </select>
                   </div>
@@ -78,22 +78,22 @@
                 <div class="form-group">
                   <label for="categorias" class="col-sm-2 control-label" >Categorias </label>
                   <div class="col-sm-10">
-                    <select class="form-control select2" id="categorias">
+                    <select class="form-control select2" autocomplete="off" id="categorias">
                       <option ></option>
                       <?php foreach($categorias as $value){ ?>
-                      <option value="<?php echo $value->id_categorias;  ?>" ><?php echo $value->categorias;  ?></option>
+                        <option value="<?php echo $value->id_categorias;  ?>" ><?php echo $value->categorias;  ?></option>
                       <?php } ?>
                     </select>
-                     
+
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="provincias" class="col-sm-2 control-label" >Provincia </label>
                   <div class="col-sm-10">
-                    <select class="form-control select2" id="provincias" onchange="cambiar_provincia()">
+                    <select class="form-control select2" autocomplete="off" id="provincias" onchange="cambiar_provincia()">
                       <option ></option>
                       <?php foreach($provincias as $value){ ?>
-                      <option value="<?php echo $value->id_provincias;  ?>" ><?php echo $value->provincias;  ?></option>
+                        <option value="<?php echo $value->id_provincias;  ?>" ><?php echo $value->provincias;  ?></option>
                       <?php } ?>
                     </select>
                     
@@ -102,55 +102,49 @@
                 <div class="form-group">
                   <label for="distritos" class="col-sm-2 control-label" >Distrito: </label>
                   <div class="col-sm-10">
-                    <select class="form-control select2" id="distritos">
+                    <select class="form-control select2" autocomplete="off" id="distritos">
                      <option ></option>   
-                    </select>
-                     
-                  </div>
+                   </select>
+
+                 </div>
+               </div>
+               <div class="form-group">
+                <label for="resolucion" class="col-sm-2 control-label" >Resolución: </label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" autocomplete="off" id="resolucion" >
                 </div>
-                <div class="form-group">
-                  <label for="resolucion" class="col-sm-2 control-label" >Resolución: </label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="resolucion" >
-                  </div>
-                </div>
-                 <div class="form-group">
-                   
+              </div>
+              <div class="form-group">
+
                 <label  for="fecha" class="col-sm-2 control-label" >Fecha:</label>
                 <div class="col-sm-10">
-                <div class="input-group date">
-                  <div class="input-group-addon">
-                    <i class="fa fa-calendar"></i>
-                  </div>
-                  <input type="text" class="form-control pull-right"  id="fecha">
-                  
+                  <div class="input-group date">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" autocomplete="off"  id="fecha">
+
                   </div>
                 </div>
                 <!-- /.input group -->
               </div>
-              </div>
-              <!-- /.box-body -->
-              <div class="box-footer">
-                
-              </div>
-              <!-- /.box-footer -->
-            </form>
-          </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+
+            </div>
+            <!-- /.box-footer -->
+          </form>
         </div>
       </div>
-      <!-- /.box -->
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
     </div>
-    <strong>MDH &copy; 2018.  </strong> Todos los derechos reservados.
-  </footer>
-
-  <div class="control-sidebar-bg"></div>
+    <!-- /.box -->
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<?php include('includes/footer.php'); ?>
+<div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -161,10 +155,10 @@
        $(".select2").select2();
        
     //Date picker
-      $('#fecha').datepicker({
-        autoclose: true,
-       });
-     });
+    $('#fecha').datepicker({
+      autoclose: true,
+    });
+  });
 
   function cambiar_provincia(){
     var id = $('#provincias').val();
@@ -177,26 +171,23 @@
         success : function(data) {
           $object = jQuery.parseJSON(data);
           var x = document.getElementById("distritos");
-            var option = document.createElement("option");
-            option.text = '';
-              option.value = '';
-              x.add(option);
+          var option = document.createElement("option");
+          option.text = '';
+          option.value = '';
+          x.add(option);
           for (var i = 0; i < $object.length; i++) {
-              var option = document.createElement("option");
-              option.text = $object[i].distritos;
-              option.value = $object[i].id_distritos;
-              x.add(option);
+            var option = document.createElement("option");
+            option.text = $object[i].distritos;
+            option.value = $object[i].id_distritos;
+            x.add(option);
           }
         }
       });
-
   }
 
 
   $( "#agregar" ).click(function() {
     var fecha = $('#fecha').val();
-    var fecha1= moment(fecha);
-    var fecha = fecha1.format('YYYY-MM-DD');
     var nombres = $('#nombres').val().toUpperCase();
     var microred = $('#microred').val();
     var tipos = $('#tipos').val();
@@ -206,7 +197,6 @@
     var distritos = $('#distritos').val();
     var resolucion = $('#resolucion').val();
     if (nombres!=''&&fecha!=''&&microred!=''&&tipos!=''&&categorias!=''&&codigo!=''&&provincias!=''&&distritos!=''&&resolucion!='') {
-
      $.post("<?php echo base_url();?>Ipress_c/agregar",{"nombres":nombres,"microred":microred,"fecha":fecha,"tipos":tipos,"categorias":categorias,"codigo":codigo,"provincias":provincias,"distritos":distritos,"resolucion":resolucion},
       function(data){
         window.location='../Ipress_c';
@@ -220,18 +210,28 @@
       confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
       confirmButtonText: 'Ok!'
     });  
-  }
-
-});
+   }
+ });
 
   function validar_codigo(){
     var codigo = $('#codigo').val();
-$.post("<?php echo base_url();?>Ipress_c/validar_codigo",{"codigo":codigo},
-      function(data){
-        window.location='../Ipress_c';
-      });
-
+    $.post("<?php echo base_url();?>Ipress_c/validar_codigo",{"codigo":codigo},function(data){
+      $object = jQuery.parseJSON(data);
+      if ($object!='1') {
+        $('#codigo').val('');
+        swal({
+          title: "Error en el campo Codigo",
+          text: "¡El codigo ingresado ya existe!",
+          type: "error",
+          showCancelButton: false,
+          confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+          confirmButtonText: 'Ok!'
+        });    
+      }         
+    });
   }
+
+  
 
 </script>
 </body>

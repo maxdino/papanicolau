@@ -43,8 +43,7 @@
                   <label for="nombres" class="col-sm-2 control-label">Nombre del Ipress</label>
                   <input type="hidden" value="<?php echo $value->id_red; ?>" id="id_red_modificar">
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" value="<?php echo $value->red_salud; ?>" id="nombres" style="text-transform: uppercase;" placeholder="Nombres">
-                    <div id="no_nombres"  style="color: red;display: none;" >Llenar el campo Nombre Ipress</div>
+                    <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->red_salud; ?>" id="nombres" style="text-transform: uppercase;" placeholder="Nombres">
                   </div>
                 </div>
               </div>
@@ -64,23 +63,12 @@
   </div>
   <?php } ?>
   <!-- /.content-wrapper -->
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      <b>Version</b> 1.0
-    </div>
-    <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-  </footer>
-
+  <?php include('includes/footer.php'); ?>
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
-
 <?php include('includes/js.inc'); ?>
  <script>
-  
-  $( "#cancelar" ).click(function() {
-  window.location='Usuarios_c';
-});
   $( "#modificar" ).click(function() {
     var nombres = $('#nombres').val().toUpperCase();
     var id_red_modificar = $('#id_red_modificar').val();

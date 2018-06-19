@@ -49,7 +49,7 @@
                   <td><?php echo $value->id_modulos; ?></td>
                   <td><?php echo $value->nombres; ?></td>
                   <td><?php echo $value->url; ?></td>
-                  <td><?php echo $value->padre; ?></td>
+                  <td><?php echo $value->modulo_padre; ?></td>
                   <td><?php echo $value->iconos; ?></td>
                   <td ><div class="btn-group">
                     <a class="btn btn-info" href="<?php echo base_url().'Modulos_c/editar/'.$value->id_modulos;?>" ><i class="fa fa-pencil"></i></a> 
@@ -88,12 +88,7 @@
       <!-- /.modal-dialog -->
     </div>
     <!-- /.content-wrapper -->
-    <footer class="main-footer">
-      <div class="pull-right hidden-xs">
-        <b>Version</b> 1.0
-      </div>
-      <strong>MDH &copy; 2018.</strong> Todos los derechos reservados.
-    </footer>
+    <?php include('includes/footer.php'); ?>
     <div class="control-sidebar-bg"></div>
   </div>
   <!-- ./wrapper -->
