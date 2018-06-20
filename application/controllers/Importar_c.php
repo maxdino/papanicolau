@@ -132,6 +132,34 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AC')->setWidth(20);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AD')->setWidth(20);
 		$objPHPExcel->getActiveSheet()->getColumnDimension('AE')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AF')->setWidth(10);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AG')->setWidth(15);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AH')->setWidth(15);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AI')->setWidth(30);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AJ')->setWidth(65);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AK')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AL')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AM')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AN')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AO')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AP')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AQ')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AR')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AS')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AT')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AU')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AV')->setWidth(65);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AW')->setWidth(65);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AX')->setWidth(60);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AY')->setWidth(65);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('AZ')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BA')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BB')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BC')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BD')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BE')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BF')->setWidth(50);
+		$objPHPExcel->getActiveSheet()->getColumnDimension('BG')->setWidth(50);
 		$objPHPExcel->getActiveSheet()->setCellValue('A2', 'Item');
 		$objPHPExcel->getActiveSheet()->setCellValue('B2', 'CodigoRenipress');
 		$objPHPExcel->getActiveSheet()->setCellValue('C2', 'NombreRenipress');
@@ -163,6 +191,34 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->setCellValue('AC2', 'Latitud');
 		$objPHPExcel->getActiveSheet()->setCellValue('AD2', 'Longitud');
 		$objPHPExcel->getActiveSheet()->setCellValue('AE2', 'sClasificacion');
+		$objPHPExcel->getActiveSheet()->setCellValue('AF2', 'sCategoria');
+		$objPHPExcel->getActiveSheet()->setCellValue('AG2', 'iNumProceso');
+		$objPHPExcel->getActiveSheet()->setCellValue('AH2', 'FechaIngresoMuestra');
+		$objPHPExcel->getActiveSheet()->setCellValue('AI2', 'FechaIngresoPrueba');
+		$objPHPExcel->getActiveSheet()->setCellValue('AJ2', 'Adenocarcinoma endovervical in situ');
+		$objPHPExcel->getActiveSheet()->setCellValue('AK2', 'Adenocarcinoma');
+		$objPHPExcel->getActiveSheet()->setCellValue('AL2', 'Calidad Espécimen');
+		$objPHPExcel->getActiveSheet()->setCellValue('AM2', 'Cambios reactivos asociados a Atrofia con infla.');
+		$objPHPExcel->getActiveSheet()->setCellValue('AN2', 'Cambios reactivos asociados a Atrofia sin infla.');
+		$objPHPExcel->getActiveSheet()->setCellValue('AO2', 'Cambios reactivos asociados a DIU');
+		$objPHPExcel->getActiveSheet()->setCellValue('AP2', 'Cambios reactivos asociados a inflamación');
+		$objPHPExcel->getActiveSheet()->setCellValue('AQ2', 'Cambios reactivos asociados a Radiación');
+		$objPHPExcel->getActiveSheet()->setCellValue('AR2', 'Carcinoma de Células Escamosas');
+		$objPHPExcel->getActiveSheet()->setCellValue('AS2', 'Células Escamosas atípicas (ASC)');
+		$objPHPExcel->getActiveSheet()->setCellValue('AT2', 'Células glandulares atipicas (AGC)');
+		$objPHPExcel->getActiveSheet()->setCellValue('AU2', 'Células Glandulares Atípicas, favorecen neoplasia');
+		$objPHPExcel->getActiveSheet()->setCellValue('AV2', 'Clasificación General');
+		$objPHPExcel->getActiveSheet()->setCellValue('AW2', 'Fecha de resultado');
+		$objPHPExcel->getActiveSheet()->setCellValue('AX2', 'Lesión esc. Intraep. bajo grado (LEIBG)');
+		$objPHPExcel->getActiveSheet()->setCellValue('AY2', 'Lesión Esc.Intraep. Alto Grado (LEIAG)');
+		$objPHPExcel->getActiveSheet()->setCellValue('AZ2', 'Microorganismo');
+		$objPHPExcel->getActiveSheet()->setCellValue('BA2', 'Negativo para lesiones intraepitelial o malignidad');
+		$objPHPExcel->getActiveSheet()->setCellValue('BB2', 'Observaciones');
+		$objPHPExcel->getActiveSheet()->setCellValue('BC2', 'Obtener Nueva Muestra');	
+		$objPHPExcel->getActiveSheet()->setCellValue('BD2', 'Otras Neoplasias Malignas (Especifique)');
+		$objPHPExcel->getActiveSheet()->setCellValue('BE2', 'Patrón Horm. compatible con la Edad y al inf. Clin');
+		$objPHPExcel->getActiveSheet()->setCellValue('BF2', 'Patrón Horm. discrepancia con Edad y al inf. Clin');	
+		$objPHPExcel->getActiveSheet()->setCellValue('BG2', 'Valoración hormonal no posible por');
 		$objPHPExcel->getActiveSheet()->getStyle('A2')->applyFromArray($estiloTituloColumnas);
 		$objPHPExcel->getActiveSheet()->getStyle('B2')->applyFromArray($estiloTituloColumnas);
 		$objPHPExcel->getActiveSheet()->getStyle('C2')->applyFromArray($estiloTituloColumnas);
@@ -204,18 +260,24 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->getActiveSheet()->getStyle('AM2')->applyFromArray($estiloTituloColumnas);
 		$objPHPExcel->getActiveSheet()->getStyle('AN2')->applyFromArray($estiloTituloColumnas);
 		$objPHPExcel->getActiveSheet()->getStyle('AO2')->applyFromArray($estiloTituloColumnas);
-// Agregar en celda A1 valor string
-		/*		$objPHPExcel->getActiveSheet()->setCellValue('A1', 'PHPExcel');
-
-// Agregar en celda A2 valor numerico
-		$objPHPExcel->getActiveSheet()->setCellValue('A2', 12345.6789);
-
-// Agregar en celda A3 valor boleano
-		$objPHPExcel->getActiveSheet()->setCellValue('A3', TRUE);
-
-// Agregar a Celda A4 una formula
-		$objPHPExcel->getActiveSheet()->setCellValue('A4', '=CONCATENATE(A1, " ", A2)');
-*/
+		$objPHPExcel->getActiveSheet()->getStyle('AP2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AQ2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AR2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AS2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AT2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AU2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AV2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AW2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AX2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AY2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('AZ2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BA2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BB2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BC2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BD2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BE2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BF2')->applyFromArray($estiloTituloColumnas);
+		$objPHPExcel->getActiveSheet()->getStyle('BG2')->applyFromArray($estiloTituloColumnas);
 		//formato XLSX
 		header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 		header('Content-Disposition: attachment;filename="Excel.xlsx"');
@@ -224,14 +286,6 @@ class Importar_c extends CI_Controller {
 		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$objWriter->save('php://output');
 
-		//FORMATO XLS
-
-		/*header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="Excel.xls"');
-		header('Cache-Control: max-age=0');
-		
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
-		$objWriter->save('php://output');*/
 
 	}
 
