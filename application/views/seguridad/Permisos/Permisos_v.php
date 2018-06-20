@@ -50,60 +50,77 @@
        <section class="content">
         <!-- Default box -->
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <div class="box ">
              <div class="box-body">
+              <div class="col-md-6">
               <div class="form-group">
                 <label for="modulos" class="col-sm-2 control-label">Perfil de Usuario</label>
                 <div class="col-sm-10">
                   <select class="form-control select2" id="perfil_usuario" name="perfil_usuario" onchange="traer_permisos(this.value)">
                     <option value="0"></option>
                     <?php foreach($perfiles as $value){ ?>
-                    <option value="<?php echo $value->id_tipos_usuarios;  ?>" ><?php echo $value->tipos_usuarios;  ?></option>
+                      <option value="<?php echo $value->id_tipos_usuarios;  ?>" ><?php echo $value->tipos_usuarios;  ?></option>
                     <?php } ?>
                   </select>
                 </div>
               </div>
+             </div> 
             </div>
           </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="box ">
-            <div class="box-body">
-              <div class="form-group">
-                <fieldset>
-                  <legend>Modulos</legend>    
-                  <div class="col-sm-10">
-                   <div class="form-group" id="permisos">
-                    <ul class="checktree">
-                      <?php $i=0; $encontrados = array(); ?>
-                      <?php foreach ($permisos2 as $value) { ?>
-                      <?php if(!in_array($value->padre, $encontrados)){ ?>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box ">
+        <div class="box-body">
+          <div class="form-group">
+            <fieldset>
+              <legend>Modulos</legend>    
+              <div class="col-sm-10">
+               <div class="form-group" id="permisos">
+                <ul class="checktree">
+                  <?php $i=0; $encontrados = array(); ?>
+                  <?php foreach ($permisos2 as $value) { ?>
+                    <?php if(!in_array($value->padre, $encontrados)){ ?>
                       <?php $encontrados[] = $value->padre; $i++; ?>
                       <li>
                         <label for="padre"><?php echo $value->padre; ?></label>
-                        <?php } ?>
-                        <ul>
-                          <li>
-                            <input id="<?php echo $value->idhijo; ?>" type="checkbox" name="modulos[]"  value="<?php echo $value->idhijo; ?>" /><label for="hijo"><?php echo ' '.$value->hijo; ?></label>
-                          </li>
-                        </ul>
-                        <?php } ?>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </fieldset>
-              <a type="submit" onclick="agregar()" class="btn btn-primary pull-right"><i class="fa fa-upload"></i>Guardar</a>
+                      <?php } ?>
+                      <ul>
+                        <li>
+                          <input id="<?php echo $value->idhijo; ?>" type="checkbox" name="modulos[]"  value="<?php echo $value->idhijo; ?>" /><label for="hijo"><?php echo ' '.$value->hijo; ?></label>
+                        </li>
+                      </ul>
+                    <?php } ?>
+                  </li>
+                </ul>
+              </div>
             </div>
+          </fieldset>
+          <a type="submit" onclick="agregar()" class="btn btn-primary pull-right"><i class="fa fa-upload"></i>Guardar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+          <div class="box box-primary ">
+           <div class="box-body">
+            <div class="form-group">
+             <fieldset>
+              <legend style="color:#3c8dbc;">Aviso!</legend>   
+              <div class="col-md-1"> <b>1.-</b></div><div class="col-md-11"> Seleccionar el Perfil de Usuario que va dar permisos a ciertos modulos.  </div>
+              <div class="col-md-1"> <b>2.-</b></div><div class="col-md-11"> Seleccionar los cuadros de los modulos que usted dara permiso.  </div>
+              <div class="col-md-1"> <b>3.-</b></div><div class="col-md-11"> Dar un click en el boton "Guardar" para que el perfil de usuario tenga sus permisos que usted selecciono.  </div>
+            </fieldset>
           </div>
         </div>
       </div>
     </div>
-    <!-- /.box -->
-  </section>
+
+</div>
+<!-- /.box -->
+</section>
 </form> 
 <!-- /.content -->
 </div>
@@ -127,39 +144,39 @@
        $object = jQuery.parseJSON(data);
        for (var i =0  ; i< $object.length; i++) {
         $('#'+$object[i].id_modulo).prop('checked', true);
-       }
-     });
+      }
+    });
    }
  }
  function agregar(){
   var id = $('#perfil_usuario').val();
   if (id!='0') {
-  $.ajax({                        
-   type: "POST",                 
-   url: "<?php echo base_url();?>Permisos_c/agregar",                     
-   data: $("#formulario").serialize(), 
-   success: function(data)             
-   {
-    swal({
-      title: "Se asignaron correctamente los permisos",
-      text: "¡Se guardo con exito!",
-      type: "success",
-      showCancelButton: false,
-      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
-      confirmButtonText: 'Ok!'
-    });                  
-  }
-});
-}else{
+    $.ajax({                        
+     type: "POST",                 
+     url: "<?php echo base_url();?>Permisos_c/agregar",                     
+     data: $("#formulario").serialize(), 
+     success: function(data)             
+     {
+      swal({
+        title: "Se asignaron correctamente los permisos",
+        text: "¡Se guardo con exito!",
+        type: "success",
+        showCancelButton: false,
+        confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+        confirmButtonText: 'Ok!'
+      });                  
+    }
+  });
+  }else{
    swal({
-      title: "Error al asignar Permisos",
-      text: "¡No seleccionaste el Perfil de Usuario!",
-      type: "error",
-      showCancelButton: false,
-      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
-      confirmButtonText: 'Ok!'
-    }); 
-}
+    title: "Error al asignar Permisos",
+    text: "¡No seleccionaste el Perfil de Usuario!",
+    type: "error",
+    showCancelButton: false,
+    confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+    confirmButtonText: 'Ok!'
+  }); 
+ }
 }
 </script>
 </body>
