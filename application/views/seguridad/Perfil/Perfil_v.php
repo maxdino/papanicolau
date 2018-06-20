@@ -19,7 +19,7 @@
       <section class="content-header">
         <h1><small></small></h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
+          <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-home"></i> Principal</a></li>
           <li class="active">Perfil</li>
         </ol>
       </section>

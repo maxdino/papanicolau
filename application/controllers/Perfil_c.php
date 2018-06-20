@@ -67,7 +67,6 @@ class Perfil_c extends CI_Controller {
 			$ruta=$_FILES["foto"]["tmp_name"];
 			$destino= "public/foto/".$foto;
 			copy($ruta, $destino);
-			print_r($destino);
 		}else{
 			$destino=$this->input->post("src_imagen");
 		}

@@ -24,7 +24,7 @@
             <small></small>
           </h1>
           <ol class="breadcrumb">
-            <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
+            <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-home"></i> Principal</a></li>
             <li><a href="#">Seguridad</a></li>
             <li class="active">Usuarios</li>
           </ol>
@@ -35,27 +35,26 @@
           <div class="box">
            <div class="box-body">  
             <div class="col-md-6">
-              <form class="form-horizontal">
+              <form class="form-horizontal" id="formulario_modificar" name="formulario_modificar">
                 <div class="box-body">
                   <div class="form-group">
                     <label for="nombres" class="col-sm-2 control-label">Nombres</label>
-                    <input type="hidden" value="<?php echo $value->id_usuario; ?>" id="id_usuario_modificar">
+                    <input type="hidden" value="<?php echo $value->id_usuario; ?>" name="id_usuario_modificar" id="id_usuario_modificar">
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->nombre; ?>" id="nombres" style="text-transform: uppercase;" placeholder="Nombres">
+                      <input type="text" class="form-control" autocomplete="off" name="nombres" value="<?php echo $value->nombre; ?>" id="nombres" style="text-transform: uppercase;" placeholder="Nombres">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="apellidos" class="col-sm-2 control-label">Apellidos</label>
-
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->apellido; ?>" id="apellidos" style="text-transform: uppercase;" placeholder="Apellidos">
+                      <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->apellido; ?>" id="apellidos" name="apellidos" style="text-transform: uppercase;" placeholder="Apellidos">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="usuario" class="col-sm-2 control-label">Usuario</label>
 
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->usuario; ?>" id="usuario" placeholder="USUARIO">
+                      <input type="text" class="form-control" autocomplete="off" value="<?php echo $value->usuario; ?>" id="usuario" name="usuario" placeholder="USUARIO">
                     </div>
                   </div>
                   <div class="form-group">
@@ -64,14 +63,14 @@
                     $usuario = substr($value->clave, 32, $longitud);         
                     ?>
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" autocomplete="off" value="<?php echo base64_decode($usuario); ?>" id="clave" placeholder="CONTRASEÑA">
+                      <input type="password" class="form-control" name="clave" autocomplete="off" value="<?php echo base64_decode($usuario); ?>" id="clave" placeholder="CONTRASEÑA">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="clave_con" class="col-sm-2 control-label">Confirmar Contraseña</label>
 
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" autocomplete="off" value="<?php echo base64_decode($usuario); ?>" id="clave_con" placeholder="CONFIRMAR CONTRASEÑA">
+                      <input type="password" class="form-control" name="clave_con" autocomplete="off" value="<?php echo base64_decode($usuario); ?>" id="clave_con" placeholder="CONFIRMAR CONTRASEÑA">
                     </div>
                   </div>
                   <div class="form-group">
@@ -88,11 +87,21 @@
                       </select>
                     </div>
                   </div>
+                  <div class="form-group">
+                  <label for="clave_con" class="col-sm-2 control-label">Foto de Perfil</label>
+                  <div class="col-sm-10">
+                    <input type="file" class="form-control" accept="*/ .png,.jpg,.jpeg" id="foto" name="foto"  onchange="ver_imagen()">
+                    <input type="hidden" name="mostrar_imagen"  id="mostrar_imagen" value="<?php echo $value->foto; ?>" >
+                    <input type="hidden" name="src_imagen"  id="src_imagen" value="<?php echo $value->foto; ?>" >
+                    <input type="hidden" name="valida_imagen" id="valida_imagen" value="1">
+                    
+                  </div>
+                </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
                   <a type="submit" href="<?php echo base_url();?>Usuarios_c" class="btn btn-danger"><i class="fa fa-sign-out"></i> Cancelar</a>
-                  <a type="submit" id="modificar" class="btn btn-info pull-right"><i class="fa fa-upload"></i>  Modificar</a>
+                  <button type="submit"  class="btn btn-info pull-right"><i class="fa fa-upload"></i>  Modificar</button>
                 </div>
                 <!-- /.box-footer -->
               </form>
@@ -114,63 +123,71 @@
   $(function () {
     $(".select2").select2();
   });
-  $( "#modificar" ).click(function() {
+  function ver_imagen(){
+    var file = $('#foto')[0].files[0].name;
+    $('#mostrar_imagen').val(file);
+    var f2 =  $('#mostrar_imagen').val();
+    var f1 = $('#src_imagen').val();
+    if('public/foto/'+f2==f1){
+      $("#valida_imagen").val('1');
+    }else{
+      $("#valida_imagen").val('0');
+    }
+  }
+  $('#formulario_modificar').on("submit", function(e){
+    e.preventDefault();
     var nombres = $('#nombres').val();
-    var id_usuario = $('#id_usuario_modificar').val();
     var apellidos = $('#apellidos').val();
     var usuario = $('#usuario').val();
     var clave = $('#clave').val();
     var clave_con = $('#clave_con').val();
     var perfil_usuario = $('#perfil_usuario').val();
-    if (nombres!=''&&apellidos!=''&&usuario!=''&&clave!=''&&clave_con!=''&&perfil_usuario!='0') {
+     if (nombres!=''&&apellidos!=''&&usuario!=''&&clave!=''&&clave_con!=''&&perfil_usuario!='0') {
       if (clave==clave_con) {
-       $.post("<?php echo base_url();?>Usuarios_c/modificar",{"id_usuario":id_usuario,"nombres":nombres,"clave":clave,"apellidos":apellidos,"usuario":usuario,"perfil_usuario":perfil_usuario},
-        function(data){
-          $('#no_coinciden').css('display','none');
-          $('#no_coinciden_con').css('display','none');
-          window.location='../Usuarios_c';
-        });
-     }else{
-      $('#no_usuario').css('display','none');
-      $('#no_clave').css('display','none');
-      $('#no_nombres').css('display','none');
-      $('#no_apellidos').css('display','none');
-      $('#no_clave_con').css('display','none');
-      $('#no_coinciden').css('display','block');
-      $('#no_coinciden_con').css('display','block');
+        var formData = new FormData(document.getElementById("formulario_modificar"));
+        var url = "<?php echo base_url();?>Usuarios_c/modificar";
+        $.ajax({                        
+         type: "POST",                 
+         url: url,                     
+         data: formData,
+         cache: false,
+         contentType: false,
+         processData: false
+       }).done(function(data){
+        swal({
+          title: "Se cambiaron correctamente",
+          text: "¡Se guardo con exito!",
+          type: "success",
+          showCancelButton: false,
+          confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+          confirmButtonText: 'Ok!'
+        },function(){
+         window.location='../Usuarios_c';
+       });
+      });
+       }else{
+      swal({
+        title: "Error",
+        text: "¡No coinciden las contraseñas!",
+        type: "error",
+        showCancelButton: false,
+        confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+        confirmButtonText: 'Ok!'
+      });
     }
   }else{
-    if (usuario=='') {
-      $('#no_usuario').css('display','block');
-    }else{
-      $('#no_usuario').css('display','none');
-    }
-    if (clave=='') {
-      $('#no_coinciden_con').css('display','none');
-      $('#no_coinciden').css('display','none');
-      $('#no_clave').css('display','block');
-    }else{
-      $('#no_clave').css('display','none');
-    } 
-    if (nombres=='') {
-      $('#no_nombres').css('display','block');
-    }else{
-      $('#no_nombres').css('display','none');
-    }
-    if (apellidos=='') {
-      $('#no_apellidos').css('display','block');
-    }else{
-      $('#no_apellidos').css('display','none');
-    } 
-    if (clave_con=='') {
-      $('#no_coinciden_con').css('display','none');
-      $('#no_coinciden').css('display','none');
-      $('#no_clave_con').css('display','block');
-    }else{
-      $('#no_clave_con').css('display','none');
-    }
+    swal({
+      title: "Error al registrar el Usuario",
+      text: "¡No llenaste todos los campos del Usuario!",
+      type: "error",
+      showCancelButton: false,
+      confirmButtonClass: 'btn-danger btn-md waves-effect waves-light',
+      confirmButtonText: 'Ok!'
+    });
   }
-});
+     
+}); 
+
 </script>
 </body>
 </html>

@@ -48,7 +48,26 @@ public function nuevo()
 
 public function agregar()
 	{
-		$this->Usuarios_m->agregar();
+		if ($this->input->post("valida_imagen")!=1) {
+			$foto=$_FILES["foto"]["name"];
+			$ruta=$_FILES["foto"]["tmp_name"];
+			$destino= "public/foto/".$foto;
+			copy($ruta, $destino);
+		}else{
+			$destino='public/foto/user_1.jpg';
+		}
+		$usuario = substr($this->input->post("usuario"), 0, 1);
+		$clave = md5($usuario).''.base64_encode($this->input->post("clave"));
+		$agregar = array(
+		'nombre' => strtoupper(trim($this->input->post("nombres"))), 
+		'apellido' => strtoupper(trim($this->input->post("apellidos"))), 
+		'usuario' => $this->input->post("usuario"), 
+		'foto' => $destino, 
+		'tipos_usuarios' => $this->input->post("perfil_usuario"), 
+		'clave' => $clave,
+		'estado' => '1',
+		);
+		$this->db->insert("usuario",$agregar);
 	}
 
 public function eliminar()
@@ -75,10 +94,29 @@ public function editar($id)
 	}
 	}
 
-
 public function modificar()
 	{
-		$this->Usuarios_m->modificar();
+		if ($this->input->post("valida_imagen")!=1) {
+			$foto=$_FILES["foto"]["name"];
+			$ruta=$_FILES["foto"]["tmp_name"];
+			$destino= "public/foto/".$foto;
+			copy($ruta, $destino);
+		}else{
+			$destino= $this->input->post("src_imagen");
+		}
+		$usuario = substr($this->input->post("usuario"), 0, 1);
+		$clave = md5($usuario).''.base64_encode($this->input->post("clave"));
+		$modificar = array(
+		'nombre' => strtoupper(trim($this->input->post("nombres"))), 
+		'apellido' => strtoupper(trim($this->input->post("apellidos"))), 
+		'usuario' => $this->input->post("usuario"), 
+		'tipos_usuarios' => $this->input->post("perfil_usuario"), 
+		'foto' => $destino, 
+		'clave' => $clave,
+		'estado' => '1',
+		);
+		$this->db->where("id_usuario",$this->input->post("id_usuario_modificar"));
+		$this->db->update("usuario",$modificar);
 	}
 }
 

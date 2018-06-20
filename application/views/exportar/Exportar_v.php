@@ -30,7 +30,7 @@
           <small></small>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-dashboard"></i> Principal</a></li>
+          <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-home"></i> Principal</a></li>
           <li><a href="#">Reportes</a></li>
           <li class="active">Exportal Excel</li>
         </ol>
@@ -183,18 +183,14 @@
                 </div>
                 <!-- /.tab-pane -->
               </div>
-
             </div>    
-            
             <!-- /.tab-content -->
           </div>
           <!-- nav-tabs-custom -->
         </div>
-
         <!-- /.box-footer-->
       </div>
       <!-- /.box -->
-
     </section>
     <!-- /.content -->
   </div>
@@ -267,7 +263,6 @@ $('#reservation').daterangepicker();
   }else{
     $("#mes_inicial").prop('disabled', 'disabled');
     $('#mes_final').empty();
-
   }
 }
 
@@ -321,7 +316,6 @@ function rango_annio(){
     }
     $('#mes_inicial').append(' <option value="'+obj[i].mes+'" >'+nombre+'</option>');
   }
-
 });
 }else{
   $("#mes_inicial").prop('disabled', 'disabled');
@@ -329,6 +323,7 @@ function rango_annio(){
   $('#mes_final').empty();
 }
 }
+
 function habilitar_boton(){
   var id = $('#mes_final').val();
   if(id!='0'){
