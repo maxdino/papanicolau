@@ -20,10 +20,13 @@ class Portal_c extends CI_Controller {
 	{
 		$r = $this->Portal_m->comprobar();
 		if($r)
-		{
+		{ 
 			$_SESSION["personal"] = $r[0]->nombre;
+			$_SESSION["usuario"] = $r[0]->usuario;
 			$_SESSION["id_usuario"] = $r[0]->id_usuario;
 			$_SESSION["tipos_usuarios"] = $r[0]->tipos_usuarios;
+			$_SESSION["nombre_tipo_usuario"] = $r[0]->nombre_tipo;
+			$_SESSION["foto"] = $r[0]->foto;
 			$_SESSION["recuerdo"] =	$this->input->post("recuerdo");
 			if($this->input->post("recuerdo")=='1'){
 				setcookie('usuario',$r[0]->usuario, time()+ 3600,"/");

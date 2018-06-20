@@ -33,33 +33,14 @@
           <!-- Profile Image -->
           <div class="box box-primary">
             <div class="box-body box-profile">
-              <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+              <img class="profile-user-img img-responsive img-circle" src="<?php echo base_url().$value->foto; ?>" alt="User profile picture">
               <h3 class="profile-username text-center"></h3>
               <p class="text-muted text-center"><?php echo $value->tipos_usuarios; ?></p>
-              <a href="<?php echo base_url().'Perfil_c/editar/'.$value->id_usuario;?>"  class="btn btn-primary btn-block"><b>Editar</b></a>
+              <a href="<?php echo base_url().'Perfil_c/editar'?>"  class="btn btn-primary btn-block"><b>Editar Foto</b></a>
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-
-          <!-- About Me Box -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">About Me</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <strong><i class="fa fa-book margin-r-5"></i> Educación</strong>
-              <p class="text-muted">
-                B.S. in Computer Science from the University of Tennessee at Knoxville
-              </p>
-              <hr>
-              <strong><i class="fa fa-map-marker margin-r-5"></i> Localidad</strong>
-              <p class="text-muted">Malibu, California</p>
-              <hr>
-            </div>
-            <!-- /.box-body -->
-          </div>
           <!-- /.box -->
         </div>
         <!-- /.col -->
@@ -69,7 +50,7 @@
                 <!-- Post -->
                 <div class="post">
                   <div class="user-block">
-                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                    <img class="img-circle img-bordered-sm" src="<?php echo base_url().$value->foto; ?>" alt="user image">
                         <span class="username">
                           <a href="#"><?php echo $value->nombre.' '.$value->apellido; ?></a>
                         </span>
@@ -77,9 +58,17 @@
                   </div>
                   <!-- /.user-block -->
                   <label for="iconos" class="col-sm-2 control-label">Usuario</label>
-                  <p class="text-muted "><?php echo $value->usuario; ?></p>
+                  <p class="text-muted "><?php echo $value->usuario; ?> <a  href="<?php echo base_url().'Perfil_c/editar_usuario'?>"  class="btn btn-primary btn-xs" style="margin-left: 160px;"><b>Editar Usuario</b></a></p>
+                  <?php $longitud = strlen($value->clave);
+                    $usuario = substr($value->clave, 32, $longitud); 
+                    $cantidad=strlen(base64_decode($usuario));        
+                    $pas='';
+                    for ($i=0; $i <$cantidad ; $i++) { 
+                      $pas=$pas.'*';
+                    }
+                    ?>
                   <label for="iconos" class="col-sm-2 control-label">Contraseña</label>
-                  <p class="text-muted "><?php echo $value->clave; ?></p>
+                  <p class="text-muted "><?php echo  $pas; ?><a  href="<?php echo base_url().'Perfil_c/editar_clave'?>"  class="btn btn-primary btn-xs" style="margin-left: 160px;"><b>Editar Contraseña</b></a></p>
 
                 </div>
                 <!-- /.post -->
@@ -96,27 +85,6 @@
     <!-- /.content -->
   </div>
   <!-- Modal -->
-  <div class="modal fade" id="eliminar_modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: #d33724;border-color: #c23321;border-bottom: 2px solid #c23321;" >
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" style="color: #fff;">¿Estas seguro que desea eliminar este Icono?</h4>
-          </div>
-          <div class="modal-body" >
-            <p style="color: red ;font-size: 18px;">Si elimina, tambien eliminara a los modulos que esten vinculados con este Icono</p>
-            <input type="hidden" id="id_iconos">
-          </div>
-          <div class="modal-footer" >
-            <button type="submit" class="btn btn-primary" data-dismiss="modal">Salir</button>
-            <button type="submit" id="eliminar" class="btn btn-danger" data-dismiss="modal">Eliminar</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
     <!-- /.content-wrapper -->
     <?php include('includes/footer.php'); ?>
     <div class="control-sidebar-bg"></div>

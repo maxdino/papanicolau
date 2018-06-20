@@ -26,7 +26,7 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          BIENVENIDO AL EXPORTAR EXCEL  <img width="33" height="38" src="public/foto/excel_icono.png">
+          BIENVENIDO AL EXPORTAR EXCEL  <img width="40" height="40" src="public/foto/office_excel.png">
           <small></small>
         </h1>
         <ol class="breadcrumb">

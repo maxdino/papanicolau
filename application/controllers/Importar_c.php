@@ -34,29 +34,6 @@ class Importar_c extends CI_Controller {
 		$this->Importar_m->eliminar();
 	}
 
-	public function lectura_datos(){
-		require_once APPPATH . 'libraries/Classes/PHPExcel/IOFactory.php';
-		$objReader = PHPExcel_IOFactory::createReader('Excel2007');
-		$objReader->setReadDataOnly(true);
-		$objPHPExcel = $objReader->load($this->input->post("datos"));
-		$objWorksheet = $objPHPExcel->getActiveSheet();
-		$highestRow = $objWorksheet->getHighestRow(); 
-		$highestColumn = $objWorksheet->getHighestColumn(); 
-		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); 
-
-		echo '<table border="1">' . "\n";
-		for ($row = 1; $row <= $highestRow; ++$row) {
-			echo '<tr>' . "\n";
-
-			for ($col = 0; $col <= $highestColumnIndex; ++$col) {
-				echo '<td>' . $objWorksheet->getCellByColumnAndRow($col, $row)->getValue() . '</td>' . "\n";
-			}
-
-			echo '</tr>' . "\n";
-		}
-		echo '</table>' . "\n";
-	}
-
 	public function exportar()
 	{
 		require_once APPPATH . 'libraries/Classes/PHPExcel.php';

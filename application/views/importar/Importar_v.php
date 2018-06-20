@@ -14,7 +14,7 @@
     <div class="content-wrapper">
       <section class="content-header">
         <h1>
-          BIENVENIDO AL IMPORTAR EXCEL  <img width="33" height="38" src="public/foto/excel_icono.png">
+          BIENVENIDO AL IMPORTAR EXCEL  <img width="40" height="40" src="public/foto/office_excel.png">
           <small> <?php echo form_open_multipart('Importar_c/exportar'); ?> 
           <input type="submit" class="btn btn-block btn-primary" name="exportar" value="Exportar plantilla Excel"> 
           <?php echo form_close(); ?></small>
@@ -154,17 +154,7 @@
     $(function () {
       $("#importar_tabla").dataTable();
     }); 
-    $("#excel").change(function(){
-      alert(this.files[0].tmp_name);
-      if (this.files.length=='1') {
-        $.post("<?php echo base_url();?>Importar_c/lectura_datos",{"datos":this.files[0].name},
-          function(data){
-            $('#excel_leer').html(data);
-          });
-      }else{
-
-      }
-    });
+     
     $('#form_importar').on("submit", function(e){
     //$('#modal_carga').modal('show');
     showPleaseWait();

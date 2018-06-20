@@ -42,7 +42,9 @@
                   <th>NOMBRES</th>
                   <th>APELLIDOS</th>
                   <th>USUARIO</th>
-                  <th>CLAVE</th>
+                  <th>TIPOS USUARIOS</th>
+                  <th>CAMBIOS</th>
+                  
                   <th style="width:60px;"></th>
                 </tr>
                 </thead>
@@ -52,7 +54,8 @@
                   <td><?php echo $value->nombre; ?></td>
                   <td><?php echo $value->apellido; ?></td>
                   <td><?php echo $value->usuario; ?></td>
-                  <td><?php echo $value->clave; ?></td>
+                  <td><?php echo $value->tipos_usuarios; ?></td>
+                  <td><?php echo $value->cambios; ?></td>
                   <td ><div class="btn-group">
                       <a class="btn btn-info" href="<?php echo base_url().'Usuarios_c/editar/'.$value->id_usuario;?>" ><i class="fa fa-pencil"></i></a> 
                        <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_usuario; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-user-times"></i></a>

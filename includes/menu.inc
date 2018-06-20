@@ -3,11 +3,11 @@
     } ?>
   <header class="main-header">
     <!-- Logo -->
-    <a href="../../index2.html" class="logo">
+    <a href="<?php echo base_url(); ?>Principal_c" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini"><img src="<?php echo base_url().'Public/foto/logo_1.png';  ?>" width="50" heigth="50"></span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg">LRRSPT <img src="<?php echo base_url().'Public/foto/logo_1.png';  ?>" width="50" heigth="50"></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -24,34 +24,20 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="user-image" alt="User Image">
+              <img src="<?php echo base_url().$_SESSION['foto'];  ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"><?php echo $_SESSION['personal'];  ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="img-circle" alt="User Image">
+                <img src="<?php echo base_url().$_SESSION['foto'];  ?>" class="img-circle" alt="User Image">
 
                 <p>
-                  <?php echo $_SESSION['personal'];  ?> - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <?php echo $_SESSION["nombre_tipo_usuario"];  ?>
+                  <small></small>
                 </p>
               </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
+ 
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
@@ -79,7 +65,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/24774781_939237826231205_7207010486429044126_n.jpg?_nc_cat=0&oh=3190d7adefb9aa2718e40e44b4f44a71&oe=5B76A425" class="img-circle" alt="User Image">
+          <img src="<?php echo base_url().$_SESSION['foto'];  ?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>HOLA!</p>
