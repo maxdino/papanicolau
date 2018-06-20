@@ -107,8 +107,9 @@
                       </div>
 
                       <br>
-                      
-                      <input type="submit" name="exportar" value="Reportar Consolidado"> 
+                      <div class="col-md-6">
+                      <input type="submit" name="exportar" class="tn btn-block btn-primary" value="Reportar Consolidado"> 
+                      </div>
                       <?php echo form_close(); ?>
                     </div>
                   </div>
@@ -128,7 +129,9 @@
                         </select>
                       </div>
                       <br>
-                      <input type="submit" name="exportar" value="Reportar Consolidado"> 
+                      <div class="col-md-6">
+                      <input type="submit" name="exportar" class="tn btn-block btn-primary"  value="Reportar Consolidado"> 
+                       </div>
                       <?php echo form_close(); ?>
                     </div>
                   </div>
@@ -160,8 +163,9 @@
                         </select>
                       </div>
                       <br>
-                      <input type="submit" name="exportar_rango" id="exportar_rango" disabled="disabled"  value="Reportar Consolidado"> 
-                      
+                      <div class="col-md-8">
+                      <input type="submit" name="exportar_rango" class="tn btn-block btn-primary" id="exportar_rango" disabled="disabled"  value="Reportar Consolidado"> 
+                       </div>
                     </div>
                   </div>
                   <div class="col-md-4">
