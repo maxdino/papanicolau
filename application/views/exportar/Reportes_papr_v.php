@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SISTEMA DE REPORTES</title>
-  <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <!-- Bootstrap 3.3.6 -->
   <?php include('includes/css.inc'); ?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -17,7 +15,7 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          BIENVENIDO AL REPORTE PAP POR RECEPCION  <img width="40" height="40" src="public/foto/office_excel.png">
+          BIENVENIDO AL REPORTE PAP POR RESULTADO <img width="40" height="40" src="public/foto/office_excel.png">
           <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -26,6 +24,7 @@
           <li class="active">Exportal Excel</li>
         </ol>
       </section>
+
       <!-- Main content -->
       <section class="content">
         <!-- Default box -->
@@ -45,7 +44,7 @@
                   <div class="tab-pane active" id="tab_1">
                    <div class="col-md-6">
                     <div class="box-body">
-                      <?php echo form_open_multipart('Exportar_c/exportar_mes'); ?> 
+                      <?php echo form_open_multipart('Reportes_papr_c/exportar_mes'); ?> 
                       <div class="form-group">
                         <label>Archivos Cargados</label>
                         <select class="form-control select2" id="mes_seleccion" name="mes_seleccion" style="width: 100%;">
@@ -88,7 +87,7 @@
                               $nombre_mes = 'DICIEMBRE';
                             }
                             ?>
-                            <option value="<?php echo $value->id_mes ?>" ><?php echo 'CONSOLIDADO '.$nombre_mes.' '.$value->annio; ?> </option>
+                            <option value="<?php echo $value->id_mesr ?>" ><?php echo 'CONSOLIDADO '.$nombre_mes.' '.$value->annio; ?> </option>
                           <?php   }  ?>
                         </select>
                       </div>
@@ -105,7 +104,7 @@
                 <div class="tab-pane" id="tab_2">
                   <div class="col-md-6">
                     <div class="box-body">
-                      <?php echo form_open_multipart('Exportar_c/exportar_annio'); ?> 
+                      <?php echo form_open_multipart('Reportes_papr_c/exportar_annio'); ?> 
                       <div class="form-group">
                         <label>Archivos Cargados</label>
                         <select class="form-control select2" id="annio_seleccion" name="annio_seleccion" style="width: 100%;">
@@ -125,7 +124,7 @@
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3">
-                  <?php echo form_open_multipart('Exportar_c/rango_mes'); ?>
+                  <?php echo form_open_multipart('Reportes_papr_c/rango_mes'); ?>
                   <div class="col-md-4">
                     <div class="box-body">
 
@@ -202,7 +201,7 @@ $('#reservation').daterangepicker();
    $("#exportar_rango").prop('disabled', 'disabled');
    if (id!='0') {
     $('#mes_final').removeAttr('disabled');
-    $.post("<?php echo base_url();?>Exportar_c/validar_mes",{"id":id,"id_mes":id_mes},
+    $.post("<?php echo base_url();?>Reportes_papr_c/validar_mes",{"id":id,"id_mes":id_mes},
       function(data){
         var obj =JSON.parse(data);
         $('#mes_final').append(' <option value="0" ></option>');
@@ -260,7 +259,7 @@ function rango_annio(){
  $('#mes_final').empty();
  if(id!='0'){
   $('#mes_inicial').removeAttr('disabled');
-  $.post("<?php echo base_url();?>Exportar_c/validar_annio",{"id":id},    function(data){
+  $.post("<?php echo base_url();?>Reportes_papr_c/validar_annio",{"id":id},    function(data){
     var obj =JSON.parse(data);
     var nombre;
     $('#mes_inicial').append(' <option value="0" ></option>');

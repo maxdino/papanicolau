@@ -7,11 +7,12 @@ class Importar_m extends CI_Model {
 
   }
 
-  public function agregar($maximo,$id_usuario,$cantidad,$codigo,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado,$leibg,$leiag)
+  public function agregar($id_usuario,$cantidad,$codigo,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado,$leibg,$leiag,$fecha_1,$fecha_2,$fecha_r1,$fecha_r2)
   {
     $actualiza =array(
       'cantidad' => $cantidad, 
-      'id_mes' => $maximo, 
+      'id_mes' => $fecha_1.''.$fecha_2,
+      'id_mesr' => $fecha_r1.''.$fecha_r2,
       'id_usuario' => $id_usuario,
       'fecha_registro' => date('Y-m-d H:i:s'), 
       'codigo_renipres'=> $codigo, 
@@ -35,6 +36,15 @@ class Importar_m extends CI_Model {
    $this->db->select("*");
    $this->db->from("ipress");
    $this->db->where("codigo",$datos);
+   $validar = $this->db->get();  
+   return $validar->result(); 
+ } 
+
+ public function validar_lami($datos)
+ {
+   $this->db->select("*");
+   $this->db->from("datos");
+   $this->db->where("muestra",$datos);
    $validar = $this->db->get();  
    return $validar->result(); 
  } 

@@ -52,8 +52,8 @@
                   <td><?php echo $value->modulo_padre; ?></td>
                   <td><?php echo $value->iconos; ?></td>
                   <td ><div class="btn-group">
-                    <a class="btn btn-info" href="<?php echo base_url().'Modulos_c/editar/'.$value->id_modulos;?>" ><i class="fa fa-pencil"></i></a> 
-                    <a class="btn btn-danger" onclick="mostrar_eliminar(<?php echo $value->id_modulos; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-info btn-xs" href="<?php echo base_url().'Modulos_c/editar/'.$value->id_modulos;?>" ><i class="fa fa-pencil"></i></a> 
+                    <a class="btn btn-danger btn-xs" onclick="mostrar_eliminar(<?php echo $value->id_modulos; ?>)" data-toggle="modal" data-target="#eliminar_modal"><i class="fa fa-trash"></i></a>
                   </div></td>
                 </tr>
               <?php  } ?>

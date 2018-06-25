@@ -305,14 +305,13 @@ class Importar_c extends CI_Controller {
 		$objPHPExcel->setActiveSheetIndex(0);
 	//Obtengo el numero de filas del archivo
 		$numRows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();
+		$max_mes = $this->db->query("select max(id_mes) as maximo from datos ")->row();
+		$maximo= $max_mes->maximo+1;
 		$id_usuario= $_SESSION["id_usuario"];
 		for ($i = 3; $i <= $numRows; $i++) {
 			$codigorenipres = $objPHPExcel->getActiveSheet()->getCell('B'.$i)->getCalculatedValue();
 			$vali = $this->Importar_m->validar_codigo($codigorenipres);		
 			if ($vali) {
-				$muestra = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();
-				$vali_lami = $this->Importar_m->validar_lami($muestra);
-				if (!$vali_lami) {
 				$cantidad = $objPHPExcel->getActiveSheet()->getCell('A'.$i)->getCalculatedValue();
 				$dni = $objPHPExcel->getActiveSheet()->getCell('G'.$i)->getCalculatedValue();
 				$fecha_nacimiento = $objPHPExcel->getActiveSheet()->getCell('H'.$i)->getCalculatedValue();
@@ -321,22 +320,17 @@ class Importar_c extends CI_Controller {
 				if ($fecha_nacimiento==0) {
 					$fecha_nacimiento='1900-01-01 00:00:00';
 				}
-					
+				$muestra = $objPHPExcel->getActiveSheet()->getCell('M'.$i)->getCalculatedValue();	
 				$fecha_muestra = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
 				if ($fecha_muestra!='') {
 					$timestamp2 = PHPExcel_Shared_Date::ExcelToPHP($fecha_muestra);
 					$fecha_muestra = gmdate("Y-m-d H:i:s",$timestamp2);
-					$fecha_id_1=date("Y", strtotime($fecha_muestra)); 
-					$fecha_id_2=date("m", strtotime($fecha_muestra));  
 				}	
 				$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
 				if ($fecha_rechazo!='') {
 					$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
-					$fecha_rechazo = gmdate("Y-m-d H:i:s",$timestamp7);
-					if ($fecha_rechazo!='') {
-					$fecha_r1=date("Y", strtotime($fecha_rechazo)); 
-					$fecha_r2=date("m", strtotime($fecha_rechazo));  
-					}
+					$timestamp7 = $timestamp7+(5*60 *60);
+					$fecha_rechazo = date("Y-m-d H:i:s",$timestamp7);
 				}
 				$celulas_escamosas_atipicas = $objPHPExcel->getActiveSheet()->getCell('AS'.$i)->getCalculatedValue();	
 				$celulas_glandulares_atipicas = $objPHPExcel->getActiveSheet()->getCell('AT'.$i)->getCalculatedValue();	
@@ -345,20 +339,17 @@ class Importar_c extends CI_Controller {
 				$fecha_resultado = $objPHPExcel->getActiveSheet()->getCell('AW'.$i)->getCalculatedValue();
 				if ($fecha_resultado!='') {
 					$timestamp10 = PHPExcel_Shared_Date::ExcelToPHP($fecha_resultado);
-					$fecha_resultado = gmdate("Y-m-d H:i:s",$timestamp10);
-					if ($fecha_resultado!='') {
-					$fecha_r1=date("Y", strtotime($fecha_resultado)); 
-					$fecha_r2=date("m", strtotime($fecha_resultado));  
-					}
+					$timestamp10 = $timestamp10+(5*60 *60);
+					$fecha_resultado = date("Y-m-d H:i:s",$timestamp10);	
 				}
 				$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
 				$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
-				
-					
-				$this->Importar_m->agregar($id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag,$fecha_id_1,$fecha_id_2,$fecha_r1,$fecha_r2);
-			
+
+
+
+				$this->Importar_m->agregar($maximo,$id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag);
 			}
-		}
+
 		}
 
 

@@ -54,70 +54,69 @@
             <div class="box ">
              <div class="box-body">
               <div class="col-md-6">
-              <div class="form-group">
-                <label for="modulos" class="col-sm-2 control-label">Perfil de Usuario</label>
-                <div class="col-sm-10">
-                  <select class="form-control select2" id="perfil_usuario" name="perfil_usuario" onchange="traer_permisos(this.value)">
-                    <option value="0"></option>
-                    <?php foreach($perfiles as $value){ ?>
-                      <option value="<?php echo $value->id_tipos_usuarios;  ?>" ><?php echo $value->tipos_usuarios;  ?></option>
-                    <?php } ?>
-                  </select>
+                <div class="form-group">
+                  <label for="modulos" class="col-sm-2 control-label">Perfil de Usuario</label>
+                  <div class="col-sm-10">
+                    <select class="form-control select2" id="perfil_usuario" name="perfil_usuario" onchange="traer_permisos(this.value)">
+                      <option value="0"></option>
+                      <?php foreach($perfiles as $value){ ?>
+                        <option value="<?php echo $value->id_tipos_usuarios;  ?>" ><?php echo $value->tipos_usuarios;  ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
                 </div>
-              </div>
-             </div> 
+              </div> 
             </div>
           </div>
         </div>
       </div>
-  <div class="row">
-    <div class="col-md-6">
-      <div class="box ">
-        <div class="box-body">
-          <div class="form-group">
-            <fieldset>
-              <legend>Modulos</legend>    
-              <div class="col-sm-10">
-               <div class="form-group" id="permisos">
-                <ul class="checktree">
-                  <?php $i=0; $encontrados = array(); ?>
-                  <?php foreach ($permisos2 as $value) { ?>
-                    <?php if(!in_array($value->padre, $encontrados)){ ?>
-                      <?php $encontrados[] = $value->padre; $i++; ?>
-                      <li>
-                        <label for="padre"><?php echo $value->padre; ?></label>
-                      <?php } ?>
-                      <ul>
-                        <li>
-                          <input id="<?php echo $value->idhijo; ?>" type="checkbox" name="modulos[]"  value="<?php echo $value->idhijo; ?>" /><label for="hijo"><?php echo ' '.$value->hijo; ?></label>
-                        </li>
-                      </ul>
-                    <?php } ?>
-                  </li>
-                </ul>
-              </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="box ">
+            <div class="box-body">
+              <div class="form-group">
+                <fieldset>
+                  <legend>Modulos</legend>    
+                  <div class="col-sm-10">
+                   <div class="form-group" id="permisos">
+                    <ul class="checktree">
+                      <?php $i=0; $encontrados = array(); ?>
+                      <?php foreach ($permisos2 as $value) { ?>
+                        <?php if(!in_array($value->padre, $encontrados)){ ?>
+                          <?php $encontrados[] = $value->padre; $i++; ?>
+                          <li>
+                            <label for="padre"><?php echo $value->padre; ?></label>
+                          <?php } ?>
+                          <ul>
+                            <li>
+                              <input id="<?php echo $value->idhijo; ?>" type="checkbox" name="modulos[]"  value="<?php echo $value->idhijo; ?>" /><label for="hijo"><?php echo ' '.$value->hijo; ?></label>
+                            </li>
+                          </ul>
+                        <?php } ?>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </fieldset>
+              <a type="submit" onclick="agregar()" class="btn btn-primary pull-right"><i class="fa fa-upload"></i>Guardar</a>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box box-primary ">
+         <div class="box-body">
+          <div class="form-group">
+           <fieldset>
+            <legend style="color:#3c8dbc;">Aviso!</legend>   
+            <div class="col-md-1"> <b>1.-</b></div><div class="col-md-11"> Seleccionar el Perfil de Usuario que va dar permisos a ciertos modulos.  </div>
+            <div class="col-md-1"> <b>2.-</b></div><div class="col-md-11"> Seleccionar los cuadros de los modulos que usted dara permiso.  </div>
+            <div class="col-md-1"> <b>3.-</b></div><div class="col-md-11"> Dar un click en el boton "Guardar" para que el perfil de usuario tenga sus permisos que usted selecciono.  </div>
           </fieldset>
-          <a type="submit" onclick="agregar()" class="btn btn-primary pull-right"><i class="fa fa-upload"></i>Guardar</a>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-md-6">
-          <div class="box box-primary ">
-           <div class="box-body">
-            <div class="form-group">
-             <fieldset>
-              <legend style="color:#3c8dbc;">Aviso!</legend>   
-              <div class="col-md-1"> <b>1.-</b></div><div class="col-md-11"> Seleccionar el Perfil de Usuario que va dar permisos a ciertos modulos.  </div>
-              <div class="col-md-1"> <b>2.-</b></div><div class="col-md-11"> Seleccionar los cuadros de los modulos que usted dara permiso.  </div>
-              <div class="col-md-1"> <b>3.-</b></div><div class="col-md-11"> Dar un click en el boton "Guardar" para que el perfil de usuario tenga sus permisos que usted selecciono.  </div>
-            </fieldset>
-          </div>
-        </div>
-      </div>
-    </div>
-
 </div>
 <!-- /.box -->
 </section>

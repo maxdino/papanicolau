@@ -12,7 +12,7 @@
   <div class="login-box">
 
     <div class="login-logo">
-      <a href="#"><b>SISTEMA DE REPORTES DE CONSOLIDACIÓN DEL PAPANICOLAOU</b></a>
+      <a href="#"><b style="color: #fff;">SISTEMA DE REPORTES DE CONSOLIDACIÓN DEL PAPANICOLAOU</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
