@@ -5,6 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>SISTEMA DE REPORTES</title>
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" type="image/png" href="<?php echo base_url();?>public/foto/logo_1.png" sizes="16x16" />
+ 
   <?php include('includes/css.inc'); ?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">

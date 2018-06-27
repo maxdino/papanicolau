@@ -320,8 +320,7 @@ class Importar_c extends CI_Controller {
 				$fecha_nacimiento = gmdate("Y-m-d H:i:s",$timestamp1);
 				if ($fecha_nacimiento==0) {
 					$fecha_nacimiento='1900-01-01 00:00:00';
-				}
-					
+				}	
 				$fecha_muestra = $objPHPExcel->getActiveSheet()->getCell('N'.$i)->getCalculatedValue();
 				if ($fecha_muestra!='') {
 					$timestamp2 = PHPExcel_Shared_Date::ExcelToPHP($fecha_muestra);
@@ -329,33 +328,36 @@ class Importar_c extends CI_Controller {
 					$fecha_id_1=date("Y", strtotime($fecha_muestra)); 
 					$fecha_id_2=date("m", strtotime($fecha_muestra));  
 				}	
-				$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
-				if ($fecha_rechazo!='') {
-					$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
-					$fecha_rechazo = gmdate("Y-m-d H:i:s",$timestamp7);
-					if ($fecha_rechazo!='') {
-					$fecha_r1=date("Y", strtotime($fecha_rechazo)); 
-					$fecha_r2=date("m", strtotime($fecha_rechazo));  
-					}
-				}
 				$celulas_escamosas_atipicas = $objPHPExcel->getActiveSheet()->getCell('AS'.$i)->getCalculatedValue();	
 				$celulas_glandulares_atipicas = $objPHPExcel->getActiveSheet()->getCell('AT'.$i)->getCalculatedValue();	
-
 				$clasificacion_general = $objPHPExcel->getActiveSheet()->getCell('AV'.$i)->getCalculatedValue();
+				$fecha_rechazo = $objPHPExcel->getActiveSheet()->getCell('Z'.$i)->getCalculatedValue();
+				if ($fecha_rechazo!=''   ) {
+					$timestamp7 = PHPExcel_Shared_Date::ExcelToPHP($fecha_rechazo);
+					$fecha_rechazo = gmdate("Y-m-d H:i:s",$timestamp7);
+				}
 				$fecha_resultado = $objPHPExcel->getActiveSheet()->getCell('AW'.$i)->getCalculatedValue();
-				if ($fecha_resultado!='') {
+				if ($fecha_resultado!=''  ) {
 					$timestamp10 = PHPExcel_Shared_Date::ExcelToPHP($fecha_resultado);
 					$fecha_resultado = gmdate("Y-m-d H:i:s",$timestamp10);
-					if ($fecha_resultado!='') {
+					 
+				}
+				if ($fecha_rechazo!='' && $clasificacion_general=='') {
+					$fecha_r1=date("Y", strtotime($fecha_rechazo)); 
+					$fecha_r2=date("m", strtotime($fecha_rechazo));  
+				}else{
+					if ($fecha_resultado!='' && $clasificacion_general!='') {
 					$fecha_r1=date("Y", strtotime($fecha_resultado)); 
 					$fecha_r2=date("m", strtotime($fecha_resultado));  
-					}
 				}
+				}
+
 				$leibg = $objPHPExcel->getActiveSheet()->getCell('AX'.$i)->getCalculatedValue();
 				$leiag = $objPHPExcel->getActiveSheet()->getCell('AY'.$i)->getCalculatedValue();
 				
 					
 				$this->Importar_m->agregar($id_usuario,$cantidad,$codigorenipres,$dni,$fecha_nacimiento,$muestra,$fecha_muestra,$fecha_rechazo,$celulas_escamosas_atipicas,$celulas_glandulares_atipicas,$clasificacion_general,$fecha_resultado ,$leibg,$leiag,$fecha_id_1,$fecha_id_2,$fecha_r1,$fecha_r2);
+				$fecha_r1='';$fecha_r2='';
 			
 			}
 		}
