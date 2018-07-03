@@ -677,7 +677,7 @@ class Reportes_papr_c extends CI_Controller {
 			$objPHPExcel->getActiveSheet()->setCellValue('A'.($sitio+17), 'ESSALUD');
 			$objPHPExcel->getActiveSheet()->setCellValue('A'.($sitio+18), 'TOTAL');
 			if ($mes<='12') {
-				$mostrar_mes=$this->db->query("(SELECT  id_mesr,date_format(fecha_rechazo, '%m')  as mes from datos WHERE fecha_rechazo!='' and  year(fecha_rechazo)=".$this->input->post('annio_seleccion')." GROUP BY id_mesr  ) UNION  (SELECT id_mesr,date_format(fecha_resultado, '%m') as mes from datos WHERE fecha_resultado!=''  and  year(fecha_resultado)=".$this->input->post('annio_seleccion')." GROUP BY id_mesr  ) ORDER BY mes asc")->result();
+				$mostrar_mes=$this->db->query("(SELECT  id_mesr,date_format(fecha_rechazo, '%m')  as mes from datos WHERE fecha_rechazo!='' and  year(fecha_rechazo)=".$this->input->post('annio_seleccion')." GROUP BY id_mesr  ) UNION  (SELECT id_mesr,date_format(fecha_resultado, '%m') as mes from datos WHERE fecha_resultado!=''  and  year(fecha_resultado)=".$this->input->post('annio_seleccion')." GROUP BY id_mesr ) ORDER BY mes asc")->result();
 
 				foreach ($mostrar_mes as $values_general) {
 					if ($mes==$values_general->mes) {
