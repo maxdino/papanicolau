@@ -17,7 +17,7 @@
       <!-- Content Header (Page header) -->
       <section class="content-header">
         <h1>
-          BIENVENIDO AL REPORTE DE ESTABLECIMIENTOS PAP POR RECEPCION <img width="40" height="40" src="public/foto/office_excel.png">
+          BIENVENIDO AL REPORTE DE MICRORED PAP POR RECEPCION <img width="40" height="40" src="public/foto/office_excel.png">
           <small></small>
         </h1>
         <ol class="breadcrumb">
@@ -44,25 +44,16 @@
               <div class="box-body">
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
-                    <?php echo form_open_multipart('Reportes_papm_c/exportar_mes'); ?>
+                    <?php echo form_open_multipart('Reportes_papmc_c/exportar_mes'); ?>
                     <div class="col-md-4">
                     <div class="box-body">
                       <div class="form-group">
                         <label>Red</label>
-                        <select class="form-control select2" id="red" onchange="traer_microred()"  name="red" style="width: 100%;">
+                        <select class="form-control select2" id="red" onchange="habilitar_mes()"  name="red" style="width: 100%;">
                           <option value="-1" ></option>
                           <?php foreach ($red as  $value) {   ?>
                             <option value="<?php echo $value->id_red; ?>" ><?php echo $value->red_salud; ?> </option>
                           <?php   }  ?>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label>Microred</label>
-                        <select class="form-control select2" id="microred" onchange="habilitar_mes()" name="microred" style="width: 100%;" >
                         </select>
                       </div>
                     </div>
@@ -72,45 +63,15 @@
                       
                       <div class="form-group">
                         <label>Archivos Cargados</label>
-                        <select class="form-control select2" id="mes_seleccion" disabled="disabled" name="mes_seleccion" style="width: 100%;">
-                          <option ></option>
+                        <select class="form-control select2" id="mes_seleccion" disabled="disabled" onchange="habilita_button_mes()" name="mes_seleccion" style="width: 100%;">
+                          <option value="-1"></option>
                           <?php foreach ($mes as  $value) { 
-                            if ($value->mes=='01'||$value->mes=='1') {
-                              $nombre_mes = 'ENERO';
-                            }
-                            if ($value->mes=='02'||$value->mes=='2') {
-                              $nombre_mes = 'FEBRERO';
-                            }
-                            if ($value->mes=='03'||$value->mes=='3') {
-                              $nombre_mes = 'MARZO';
-                            }
-                            if ($value->mes=='04'||$value->mes=='4') {
-                              $nombre_mes = 'ABRIL';
-                            }
-                            if ($value->mes=='05'||$value->mes=='5') {
-                              $nombre_mes = 'MAYO';
-                            }
-                            if ($value->mes=='06'||$value->mes=='6') {
-                              $nombre_mes = 'JUNIO';
-                            }
-                            if ($value->mes=='07'||$value->mes=='7') {
-                              $nombre_mes = 'JULIO';
-                            }
-                            if ($value->mes=='08'||$value->mes=='8') {
-                              $nombre_mes = 'AGOSTO';
-                            }
-                            if ($value->mes=='09'||$value->mes=='9') {
-                              $nombre_mes = 'SETIEMBRE';
-                            }
-                            if ($value->mes=='10') {
-                              $nombre_mes = 'OCTUBRE';
-                            }
-                            if ($value->mes=='11') {
-                              $nombre_mes = 'NOVIEMBRE';
-                            }
-                            if ($value->mes=='12') {
-                              $nombre_mes = 'DICIEMBRE';
-                            }
+                            $mes_nombre = array("01" =>"ENERO","02" => "FEBRERO","03" => "MARZO","04" => "ABRIL","05" =>"MAYO","06" => "JUNIO","07" => "JULIO","08" => "AGOSTO","09" =>"SETIEMBRE","10" => "OCTUBRE","11" => "NOVIEMBRE","12" => "DICIEMBRE");
+                            foreach ($mes_nombre as $key => $val) {
+                            if ($value->mes==$key) {
+                            $nombre_mes = $val;
+                          }
+                        }
                             ?>
                             <option value="<?php echo $value->id_mes ?>" ><?php echo 'CONSOLIDADO '.$nombre_mes.' '.$value->annio; ?> </option>
                           <?php   }  ?>
@@ -119,7 +80,7 @@
 
                       <br>
                       <div class="col-md-6">
-                      <input type="submit" name="exportar" class="tn btn-block btn-primary" value="Reportar Consolidado"> 
+                      <input type="submit" name="exportar" id="exportar" class="tn btn-block btn-primary" disabled="disabled" value="Reportar Consolidado"> 
                       </div>    
                     </div>
                   </div>
@@ -127,25 +88,16 @@
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_2">
-                  <?php echo form_open_multipart('Reportes_papm_c/exportar_annio'); ?> 
+                  <?php echo form_open_multipart('Reportes_papmc_c/exportar_annio'); ?> 
                   <div class="col-md-4">
                     <div class="box-body">
                       <div class="form-group">
                         <label>Red</label>
-                        <select class="form-control select2" id="red_a" onchange="traer_microred_a()"  name="red_a" style="width: 100%;">
+                        <select class="form-control select2" id="red_a" onchange="habilitar_annio()"  name="red_a" style="width: 100%;">
                           <option value="-1" ></option>
                           <?php foreach ($red as  $value) {   ?>
                             <option value="<?php echo $value->id_red; ?>" ><?php echo $value->red_salud; ?> </option>
                           <?php   }  ?>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label>Microred</label>
-                        <select class="form-control select2" id="microred_a" onchange="habilitar_annio()" name="microred_a" style="width: 100%;" >
                         </select>
                       </div>
                     </div>
@@ -171,12 +123,12 @@
                 </div>
                 <!-- /.tab-pane -->
                 <div class="tab-pane" id="tab_3">
-                  <?php echo form_open_multipart('Reportes_papm_c/rango_mes'); ?>
+                  <?php echo form_open_multipart('Reportes_papmc_c/rango_mes'); ?>
                   <div class="col-md-5">
                     <div class="box-body">
                       <div class="form-group">
                         <label>Red</label>
-                        <select class="form-control select2" id="red_r" onchange="traer_microred_r()"  name="red_r" style="width: 100%;">
+                       <select class="form-control select2" id="red_r" onchange="habilitar_annio_r()"  name="red_r" style="width: 100%;">
                           <option value="-1" ></option>
                           <?php foreach ($red as  $value) {   ?>
                             <option value="<?php echo $value->id_red; ?>" ><?php echo $value->red_salud; ?> </option>
@@ -185,21 +137,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="col-md-5">
-                    <div class="box-body">
-                      <div class="form-group">
-                        <label>Microred</label>
-                        <select class="form-control select2" id="microred_r"  name="microred_r" style="width: 100%;" >
-                        </select>
-                      </div>
-                    </div>
-                  </div>
                   <div class="col-md-4">
                     <div class="box-body">
-
                       <div class="form-group">
                         <label>Seleccionar año</label>  
-                        <select class="form-control select2" id="annio_r" name="annio_r" onchange="rango_annio()" style="width: 100%;">
+                        <select class="form-control select2" id="annio_r" name="annio_r" disabled="disabled" onchange="rango_annio()" style="width: 100%;">
                           <option value="0"></option>
                           <?php foreach ($annio as  $value) {   ?>
                             <option value="<?php echo $value->annio; ?>" ><?php echo ' AÑO '.$value->annio; ?> </option>
@@ -227,10 +169,8 @@
                       <div class="form-group">
                         <label>Mes Final</label>
                         <select class="form-control select2" id="mes_final" onchange="habilitar_boton()" disabled="disabled" name="mes_final" style="width: 100%;" >
-
                         </select>
                       </div>
-                      
                     </div>
                   </div>
                   <?php echo form_close(); ?>
@@ -262,51 +202,6 @@
 $('#reservation').daterangepicker();
 });
 
-  function traer_microred(){
-   var id = $('#red').val();
-   $('#microred').empty();
-   if (id!='-1') {
-    $.post("<?php echo base_url();?>Reportes_papm_c/microred",{"id":id},
-      function(data){
-        var obj =JSON.parse(data);
-        $('#microred').append(' <option value="-1" ></option>');
-        for (var i = 0; obj.length > i; i++) { 
-          $('#microred').append(' <option value="'+obj[i].id_microred+'" >'+obj[i].microred+'</option>');
-        }
-      });
-  }
-}
-
-  function traer_microred_a(){
-   var id = $('#red_a').val();
-   $('#microred_a').empty();
-   if (id!='-1') {
-    $.post("<?php echo base_url();?>Reportes_papm_c/microred",{"id":id},
-      function(data){
-        var obj =JSON.parse(data);
-        $('#microred_a').append(' <option value="-1" ></option>');
-        for (var i = 0; obj.length > i; i++) { 
-          $('#microred_a').append(' <option value="'+obj[i].id_microred+'" >'+obj[i].microred+'</option>');
-        }
-      });
-  }
-}
-
-function traer_microred_r(){
-   var id = $('#red_r').val();
-   $('#microred_r').empty();
-   if (id!='-1') {
-    $.post("<?php echo base_url();?>Reportes_papm_c/microred",{"id":id},
-      function(data){
-        var obj =JSON.parse(data);
-        $('#microred_r').append(' <option value="-1" ></option>');
-        for (var i = 0; obj.length > i; i++) { 
-          $('#microred_r').append(' <option value="'+obj[i].id_microred+'" >'+obj[i].microred+'</option>');
-        }
-      });
-  }
-}
-
   function rango_mes(){
    var id_mes = $('#mes_inicial').val();
    var id = $('#annio_r').val();
@@ -314,7 +209,7 @@ function traer_microred_r(){
    $("#exportar_rango").prop('disabled', 'disabled');
    if (id!='0') {
     $('#mes_final').removeAttr('disabled');
-    $.post("<?php echo base_url();?>Reportes_papm_c/validar_mes",{"id":id,"id_mes":id_mes},
+    $.post("<?php echo base_url();?>Reportes_papmc_c/validar_mes",{"id":id,"id_mes":id_mes},
       function(data){
         var obj =JSON.parse(data);
         $('#mes_final').append(' <option value="0" ></option>');
@@ -370,7 +265,7 @@ function rango_annio(){
  $('#mes_inicial').empty();
  if(id!='-1'){
   $('#mes_inicial').removeAttr('disabled');
-  $.post("<?php echo base_url();?>Reportes_papm_c/validar_annio",{"id":id},    function(data){
+  $.post("<?php echo base_url();?>Reportes_papmc_c/validar_annio",{"id":id},    function(data){
     var obj =JSON.parse(data);
     var nombre;
     $('#mes_inicial').append(' <option value="-1" ></option>');
@@ -431,20 +326,37 @@ function habilitar_boton(){
 }
 
 function habilitar_mes(){
-  var id = $('#microred').val();
+  var id = $('#red').val();
   if(id!='-1'){
     $('#mes_seleccion').removeAttr('disabled');
   }else{
     $("#mes_seleccion").prop('disabled', 'disabled');
   }
 }
+function habilita_button_mes(){
+  var id = $('#mes_seleccion').val();
+  if(id!='-1'){
+    $('#exportar').removeAttr('disabled');
+  }else{
+    $("#exportar").prop('disabled', 'disabled');
+  }
+}
 
 function habilitar_annio(){
-  var id = $('#microred_a').val();
+  var id = $('#red_a').val();
   if(id!='-1'){
     $('#annio_seleccion').removeAttr('disabled');
   }else{
     $("#annio_seleccion").prop('disabled', 'disabled');
+  }
+}
+
+function habilitar_annio_r(){
+  var id = $('#red_r').val();
+  if(id!='-1'){
+    $('#annio_r').removeAttr('disabled');
+  }else{
+    $("#annio_r").prop('disabled', 'disabled');
   }
 }
 

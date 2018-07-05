@@ -23,7 +23,7 @@
         <ol class="breadcrumb">
           <li><a href="<?php echo base_url();?>Principal_c"><i class="fa fa-home"></i> Principal</a></li>
           <li><a href="#">Reportes</a></li>
-          <li class="active">Exportal Excel</li>
+          <li class="active">Exportar Excel</li>
         </ol>
       </section>
 
